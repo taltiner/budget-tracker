@@ -1,3 +1,54 @@
-<mat-card>
+<form [formGroup]="transaktionForm" class="example-form">
+  <mat-card>
+    <mat-card-header>
+      <h2>Transaktion</h2>
+    </mat-card-header>
 
-</mat-card>
+    <mat-card-content>
+
+      <fieldset>
+        <legend>Datum der Transaktion</legend>
+        <mat-form-field>
+          <mat-label>Wähle ein Datum</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="datumEinnahme">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </fieldset>
+
+      <fieldset class="transaktion">
+        <legend>Art der Transaktion</legend>
+        <mat-radio-group formControlName="tranksaktionsArt"
+        >
+          <mat-radio-button value="einnahme">Einnahme</mat-radio-button>
+          <mat-radio-button value="ausgabe">Ausgabe</mat-radio-button>
+        </mat-radio-group>
+      </fieldset>
+
+      <fieldset>
+        <legend>Einnahme</legend>
+        <mat-form-field class="example-full-width">
+          <mat-label>Netto Einnahme</mat-label>
+          <input matInput formControlName="einnahme"
+          (change)="einnahmeChange()">
+        </mat-form-field>
+      </fieldset>
+
+      <fieldset>
+        <legend>Notiz</legend>
+        <mat-form-field>
+          <mat-label>Notiz</mat-label>
+          <textarea matInput formControlName="notiz"
+          (change)="notizChange()"></textarea>
+        </mat-form-field>
+      </fieldset>
+
+    </mat-card-content>
+
+    <div>
+      <button mat-flat-button>Speichern</button>
+      <button mat-stroked-button>Abbrechen</button>
+    </div>
+  </mat-card>
+</form>
