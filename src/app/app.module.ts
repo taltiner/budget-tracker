@@ -11,10 +11,11 @@ import {MatInput} from "@angular/material/input";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import { MatIconModule } from '@angular/material/icon';
-import { MatNativeDateModule } from '@angular/material/core';
+import {MatNativeDateModule, MatOption} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButton} from "@angular/material/button";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
+import {MatSelect} from "@angular/material/select";
 
 const appRoutes: Routes = [
   { path: '', component: TransaktionComponent },
@@ -45,7 +46,9 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatButton,
     MatRadioGroup,
-    MatRadioButton
+    MatRadioButton,
+    MatSelect,
+    MatOption
   ],
   providers: [],
   bootstrap: [AppComponent]

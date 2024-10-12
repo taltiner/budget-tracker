@@ -10,7 +10,9 @@
         <legend>Datum der Transaktion</legend>
         <mat-form-field>
           <mat-label>Wähle ein Datum</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="datumEinnahme">
+          <input matInput [matDatepicker]="picker"
+                 formControlName="datumTransaktion"
+                 (change)="onDatumTransaktionChange()">
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -19,35 +21,64 @@
 
       <fieldset class="transaktion">
         <legend>Art der Transaktion</legend>
-        <mat-radio-group formControlName="tranksaktionsArt"
-        >
+        <mat-radio-group
+          formControlName="tranksaktionsArt"
+          (change)="onTransaktonArtChange($event)">
           <mat-radio-button value="einnahme">Einnahme</mat-radio-button>
           <mat-radio-button value="ausgabe">Ausgabe</mat-radio-button>
         </mat-radio-group>
       </fieldset>
 
-      <fieldset>
-        <legend>Einnahme</legend>
-        <mat-form-field class="example-full-width">
-          <mat-label>Netto Einnahme</mat-label>
-          <input matInput formControlName="einnahme"
-          (change)="einnahmeChange()">
-        </mat-form-field>
-      </fieldset>
+      <ng-container *ngIf="transaktionsArt === 'einnahme'">
+        <fieldset>
+          <legend>Einnahme</legend>
+          <mat-form-field>
+            <mat-label>Netto Einnahme</mat-label>
+            <input matInput formControlName="betragEinnahme"
+                   (change)="onBetragEinnahmeChange($event)">
+          </mat-form-field>
+        </fieldset>
 
-      <fieldset>
-        <legend>Notiz</legend>
-        <mat-form-field>
-          <mat-label>Notiz</mat-label>
-          <textarea matInput formControlName="notiz"
-          (change)="notizChange()"></textarea>
-        </mat-form-field>
-      </fieldset>
+        <fieldset>
+          <legend>Notiz</legend>
+          <mat-form-field>
+            <mat-label>Notiz</mat-label>
+            <textarea matInput formControlName="notiz"
+                      (change)="onNotizChange($event)"></textarea>
+          </mat-form-field>
+        </fieldset>
+      </ng-container>
+
+      <ng-container *ngIf="transaktionsArt === 'ausgabe'">
+        <fieldset>
+          <legend>Kategorie</legend>
+          <mat-form-field>
+            <mat-label>Kategorie</mat-label>
+            <mat-select
+              formControlName="kategorie"
+              (selectionChange)="onKategorieChange($event)">
+              <mat-option *ngFor="let kategorie of kategorieOptions"
+                          [value]="kategorie.value">{{kategorie.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </fieldset>
+
+        <fieldset>
+          <legend>Ausgabe Betrag</legend>
+          <mat-form-field>
+            <mat-label>Ausgabe Betrag</mat-label>
+            <input matInput formControlName="betragAusgabe"
+                   (change)="onBetragAusgabeChange($event)">
+          </mat-form-field>
+        </fieldset>
+
+      </ng-container>
 
     </mat-card-content>
 
     <div>
-      <button mat-flat-button>Speichern</button>
+      <button mat-flat-button
+        (click)="onSpeichern()">Speichern</button>
       <button mat-stroked-button>Abbrechen</button>
     </div>
   </mat-card>
