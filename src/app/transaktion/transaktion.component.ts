@@ -1,8 +1,10 @@
-import {  Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatRadioChange} from "@angular/material/radio";
 import {KATEGORIE_AUSGABE, SelectOptions} from "../common/select-options";
-import {MatSelectChange} from "@angular/material/select";
+import {TransaktionAusgabe, TransaktionEinnahme} from "../models/transaktion.model";
+import {Store} from "@ngrx/store";
+import {createTransaktionAusgabe, createTransaktionEinnahme} from "../state/transaktion.actions";
 
 @Component({
   selector: 'app-transaktion',
@@ -11,6 +13,10 @@ import {MatSelectChange} from "@angular/material/select";
 })
 
 export class TransaktionComponent {
+
+  constructor(private store: Store<any>) {
+  }
+
   kategorieOptions: SelectOptions[] = KATEGORIE_AUSGABE;
 
   transaktionForm = new FormGroup({
@@ -22,38 +28,34 @@ export class TransaktionComponent {
     'betragAusgabe': new FormControl('', Validators.required),
   })
 
+  get datumTransaktion(): string {
+    return this.transaktionForm.controls.datumTransaktion.value ?? '';
+  }
+
   get transaktionsArt(): string {
     return this.transaktionForm.controls.tranksaktionsArt?.value ?? '';
   }
 
-  onDatumTransaktionChange() {
+  get betragEinnahme(): string {
+    return this.transaktionForm.controls.betragEinnahme.value ?? '';
+  }
 
+  get notiz(): string {
+    return this.transaktionForm.controls.notiz.value ?? '';
+  }
+
+  get kategorie(): string {
+    return this.transaktionForm.controls.kategorie.value ?? '';
+  }
+
+  get betragAusgabe(): string {
+    return this.transaktionForm.controls.betragAusgabe.value ?? '';
   }
 
   onTransaktonArtChange(art: MatRadioChange) {
     const artValue = art.value;
     this.transaktionForm.get('tranksaktionsArt')?.setValue(artValue);
     this.handleValidators(artValue);
-  }
-
-  onBetragEinnahmeChange(einnahmeEvent: Event): void {
-    const einnahmeValue = (einnahmeEvent.target as HTMLInputElement).value;
-    this.transaktionForm.get('betragEinnahme')?.setValue(einnahmeValue);
-  }
-
-  onNotizChange(notizEvent: Event): void {
-   const notizValue = (notizEvent.target as HTMLInputElement).value;
-   this.transaktionForm.get('notiz')?.setValue(notizValue);
-  }
-
-  onKategorieChange(kategorieEvent: MatSelectChange): void {
-    const kategorieValue = kategorieEvent.value;
-    this.transaktionForm.get('kategorie')?.setValue(kategorieValue);
-  }
-
-  onBetragAusgabeChange(ausgabeEvent: Event) {
-    const ausgabeValue = (ausgabeEvent.target as HTMLInputElement).value;
-    this.transaktionForm.get('betragAusgabe')?.setValue(ausgabeValue);
   }
 
   onSpeichern() {
@@ -63,6 +65,13 @@ export class TransaktionComponent {
     }
 
     console.log('valid ', this.transaktionForm);
+    if(this.transaktionsArt === 'einnahme') {
+      const transaktionEinnahme = this.createPayloadEinnahme();
+      this.store.dispatch(createTransaktionEinnahme({transaktionEinnahme}));
+    } else {
+      const transaktionAusgabe = this.createPayloadAusgabe();
+      this.store.dispatch(createTransaktionAusgabe({transaktionAusgabe}));
+    }
 
   }
 
@@ -91,5 +100,28 @@ export class TransaktionComponent {
   private setValidatorsRequired(feld: string) {
     this.transaktionForm.get(feld)?.setValidators([Validators.required]);
     this.transaktionForm.get(feld)?.updateValueAndValidity();
+  }
+
+
+  private createPayloadEinnahme(): TransaktionEinnahme {
+    const payload: TransaktionEinnahme = {
+      datumTransaktion: this.datumTransaktion,
+      tranksaktionsArt: this.transaktionsArt,
+      betragEinnahme: this.betragEinnahme,
+      notiz: this.notiz
+    }
+
+    return payload;
+  }
+
+  private createPayloadAusgabe(): TransaktionAusgabe {
+    const payload: TransaktionAusgabe = {
+      datumTransaktion: this.datumTransaktion,
+      tranksaktionsArt: this.transaktionsArt,
+      kategorie: this.kategorie,
+      betragAusgabe: this.betragAusgabe
+    }
+
+    return payload;
   }
 }
