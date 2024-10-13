@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { Routes, RouterModule } from '@angular/router';
+import {Routes, RouterModule, RouterOutlet} from '@angular/router';
 import { AppComponent } from './app.component';
 import {TransaktionComponent} from "./transaktion/transaktion.component";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
@@ -16,6 +16,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButton} from "@angular/material/button";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatSelect} from "@angular/material/select";
+import {StoreModule} from "@ngrx/store";
+import {transaktionReducer} from "./state/transaktion.reducer";
+import {EffectsModule} from "@ngrx/effects";
 
 const appRoutes: Routes = [
   { path: '', component: TransaktionComponent },
@@ -29,7 +32,9 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    StoreModule.forRoot({transaktionen: transaktionReducer}),
     RouterModule.forRoot(appRoutes),
+    EffectsModule.forRoot([]),
     MatCard,
     ReactiveFormsModule,
     MatCardHeader,
@@ -48,7 +53,8 @@ const appRoutes: Routes = [
     MatRadioGroup,
     MatRadioButton,
     MatSelect,
-    MatOption
+    MatOption,
+    RouterOutlet
   ],
   providers: [],
   bootstrap: [AppComponent]

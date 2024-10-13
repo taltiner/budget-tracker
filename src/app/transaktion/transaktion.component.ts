@@ -5,6 +5,7 @@ import {KATEGORIE_AUSGABE, SelectOptions} from "../common/select-options";
 import {TransaktionAusgabe, TransaktionEinnahme} from "../models/transaktion.model";
 import {Store} from "@ngrx/store";
 import {createTransaktionAusgabe, createTransaktionEinnahme} from "../state/transaktion.actions";
+import {TransaktionState} from "../state/transaktion.state";
 
 @Component({
   selector: 'app-transaktion',
@@ -14,7 +15,7 @@ import {createTransaktionAusgabe, createTransaktionEinnahme} from "../state/tran
 
 export class TransaktionComponent {
 
-  constructor(private store: Store<any>) {
+  constructor(private store: Store<TransaktionState>) {
   }
 
   kategorieOptions: SelectOptions[] = KATEGORIE_AUSGABE;
