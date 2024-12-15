@@ -1,0 +1,21 @@
+{
+  "transaktionen": {
+    "einnahmen": [
+      {
+        "jahrTransaktion": "2023",
+        "monatTransaktion": "januar",
+        "tranksaktionsArt": "einnahme",
+        "betragEinnahme": "200",
+        "notiz": "tet"
+      },
+      {
+        "jahrTransaktion": "2023",
+        "monatTransaktion": "januar",
+        "tranksaktionsArt": "einnahme",
+        "betragEinnahme": "200",
+        "notiz": "tet"
+      }
+    ],
+    "ausgaben": []
+  }
+}

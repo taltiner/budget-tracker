@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {Routes, RouterModule, RouterOutlet} from '@angular/router';
 import { AppComponent } from './app.component';
@@ -19,16 +19,23 @@ import {MatSelect} from "@angular/material/select";
 import {StoreModule} from "@ngrx/store";
 import {transaktionReducer} from "./state/transaktion.reducer";
 import {EffectsModule} from "@ngrx/effects";
+import { HttpClientModule } from '@angular/common/http';
+import {TransaktionService} from "./service/transaktion.service";
+import {TransaktionUebersichtComponent} from "./transaktion-uebersicht/transaktion-uebersicht.component";
+import {MatTable} from "@angular/material/table";
+import {MatTableModule} from '@angular/material/table';
+import {MatCardModule} from '@angular/material/card';
 
 const appRoutes: Routes = [
-  { path: '', component: TransaktionComponent },
-
+  { path: '', component: TransaktionUebersichtComponent},
+  { path: 'neu', component: TransaktionComponent },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    TransaktionComponent
+    TransaktionComponent,
+    TransaktionUebersichtComponent
   ],
   imports: [
     BrowserModule,
@@ -54,9 +61,13 @@ const appRoutes: Routes = [
     MatRadioButton,
     MatSelect,
     MatOption,
-    RouterOutlet
+    RouterOutlet,
+    HttpClientModule,
+    MatTable,
+    MatTableModule,
+    MatCardModule
   ],
-  providers: [],
+  providers: [TransaktionService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

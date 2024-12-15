@@ -1,11 +1,13 @@
-import {Component} from '@angular/core';
+import {Component, Injectable} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatRadioChange} from "@angular/material/radio";
-import {KATEGORIE_AUSGABE, SelectOptions} from "../common/select-options";
+import {KATEGORIE_AUSGABE, SelectOptions, TRANSAKTION_JAHR, TRANSAKTION_MONAT} from "../common/select-options";
 import {TransaktionAusgabe, TransaktionEinnahme} from "../models/transaktion.model";
 import {Store} from "@ngrx/store";
 import {createTransaktionAusgabe, createTransaktionEinnahme} from "../state/transaktion.actions";
 import {TransaktionState} from "../state/transaktion.state";
+import {TransaktionService} from "../service/transaktion.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-transaktion',
@@ -15,13 +17,19 @@ import {TransaktionState} from "../state/transaktion.state";
 
 export class TransaktionComponent {
 
-  constructor(private store: Store<TransaktionState>) {
+  constructor(private store: Store<TransaktionState>,
+              private transaktionService: TransaktionService,
+              private router: Router) {
   }
 
   kategorieOptions: SelectOptions[] = KATEGORIE_AUSGABE;
+  jahrOptions: SelectOptions[] = TRANSAKTION_JAHR;
+  monatOptions: SelectOptions[] = TRANSAKTION_MONAT;
 
   transaktionForm = new FormGroup({
     'datumTransaktion': new FormControl('', Validators.required),
+    'jahr': new FormControl('', Validators.required),
+    'monat': new FormControl('', Validators.required),
     'tranksaktionsArt': new FormControl('', Validators.required),
     'betragEinnahme': new FormControl('', Validators.required),
     'notiz': new FormControl(''),
@@ -31,6 +39,14 @@ export class TransaktionComponent {
 
   get datumTransaktion(): string {
     return this.transaktionForm.controls.datumTransaktion.value ?? '';
+  }
+
+  get jahrTransaktion(): string {
+    return this.transaktionForm.controls.jahr.value ?? '';
+  }
+
+  get monatTransaktion(): string {
+    return this.transaktionForm.controls.monat.value ?? '';
   }
 
   get transaktionsArt(): string {
@@ -65,15 +81,19 @@ export class TransaktionComponent {
       return;
     }
 
-    console.log('valid ', this.transaktionForm);
     if(this.transaktionsArt === 'einnahme') {
       const transaktionEinnahme = this.createPayloadEinnahme();
-      this.store.dispatch(createTransaktionEinnahme({transaktionEinnahme}));
+
+      this.transaktionService.createTransaktion(transaktionEinnahme);
     } else {
       const transaktionAusgabe = this.createPayloadAusgabe();
       this.store.dispatch(createTransaktionAusgabe({transaktionAusgabe}));
     }
+  }
 
+  onAbbrechen() {
+    this.router.navigate(['/'], {
+      queryParams: {} });
   }
 
   private handleValidators(artValue: string) {
@@ -81,17 +101,16 @@ export class TransaktionComponent {
     let felderToSet: string[] = [];
 
     if(artValue === 'einnahme') {
-      felderToReset = ['kategorie', 'betragAusgabe'];
-      felderToSet = ['datumTransaktion', 'betragEinnahme'];
+      felderToReset = ['kategorie', 'betragAusgabe', 'datumTransaktion'];
+      felderToSet = ['jahr', 'monat'];
     } else {
-      felderToReset = ['betragEinnahme'];
+      felderToReset = ['betragEinnahme', 'jahr', 'monat'];
       felderToSet = ['datumTransaktion', 'kategorie', 'betragAusgabe'];
     }
 
     felderToReset.forEach(feld => { this.clearValidators(feld) });
     felderToSet.forEach(feld => { this.setValidatorsRequired(feld) });
   }
-
 
   private clearValidators(feld: string) {
     this.transaktionForm.get(feld)?.clearValidators();
@@ -103,10 +122,10 @@ export class TransaktionComponent {
     this.transaktionForm.get(feld)?.updateValueAndValidity();
   }
 
-
   private createPayloadEinnahme(): TransaktionEinnahme {
     const payload: TransaktionEinnahme = {
-      datumTransaktion: this.datumTransaktion,
+      jahrTransaktion: this.jahrTransaktion,
+      monatTransaktion: this.monatTransaktion,
       tranksaktionsArt: this.transaktionsArt,
       betragEinnahme: this.betragEinnahme,
       notiz: this.notiz

@@ -1,0 +1,41 @@
+<mat-card class="uebersicht__table">
+  <mat-card-header class="uebersicht__table--title">
+    <mat-card-title>Transaktion Übersicht</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+
+    <fieldset>
+      <legend hidden>Datum der Transaktion</legend>
+      <mat-form-field>
+        <mat-label>Wähle das Jahr</mat-label>
+        <mat-select (selectionChange)="onJahrChange($event.value)">
+          <mat-option *ngFor="let jahr of jahrOptions"
+                      [value]="jahr.value">{{jahr.label}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </fieldset>
+
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="monat">
+        <th mat-header-cell *matHeaderCellDef>Monat</th>
+        <td mat-cell *matCellDef="let element">{{element.monat}}</td>
+      </ng-container>
+      <ng-container matColumnDef="einnahmen">
+        <th mat-header-cell *matHeaderCellDef>Einnahmen</th>
+        <td mat-cell *matCellDef="let element">{{element.einnahmen}}</td>
+      </ng-container>
+      <ng-container matColumnDef="ausgaben">
+        <th mat-header-cell *matHeaderCellDef>Ausgaben</th>
+        <td mat-cell *matCellDef="let element">{{element.ausgaben}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
+
+<button mat-stroked-button
+        class="uebersicht__button"
+        (click)="onNeuErfassen()">Transaktion Erfassen</button>
