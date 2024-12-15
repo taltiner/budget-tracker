@@ -14,8 +14,22 @@
         "tranksaktionsArt": "einnahme",
         "betragEinnahme": "200",
         "notiz": "tet"
+      },
+      {
+        "jahrTransaktion": "",
+        "monatTransaktion": "februar",
+        "tranksaktionsArt": "einnahme",
+        "betragEinnahme": "5000",
+        "notiz": "test"
       }
     ],
-    "ausgaben": []
+    "ausgaben": [
+      {
+        "datumTransaktion": "24.10.2023",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "miete",
+        "betragAusgabe": "900"
+      }
+    ]
   }
 }

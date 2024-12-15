@@ -1,13 +1,13 @@
-import {Component, Injectable} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatRadioChange} from "@angular/material/radio";
 import {KATEGORIE_AUSGABE, SelectOptions, TRANSAKTION_JAHR, TRANSAKTION_MONAT} from "../common/select-options";
 import {TransaktionAusgabe, TransaktionEinnahme} from "../models/transaktion.model";
 import {Store} from "@ngrx/store";
-import {createTransaktionAusgabe, createTransaktionEinnahme} from "../state/transaktion.actions";
 import {TransaktionState} from "../state/transaktion.state";
 import {TransaktionService} from "../service/transaktion.service";
 import {Router} from "@angular/router";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-transaktion',
@@ -87,7 +87,8 @@ export class TransaktionComponent {
       this.transaktionService.createTransaktion(transaktionEinnahme);
     } else {
       const transaktionAusgabe = this.createPayloadAusgabe();
-      this.store.dispatch(createTransaktionAusgabe({transaktionAusgabe}));
+      this.transaktionService.createTransaktion(transaktionAusgabe);
+
     }
   }
 
@@ -135,8 +136,10 @@ export class TransaktionComponent {
   }
 
   private createPayloadAusgabe(): TransaktionAusgabe {
+    const datePipe = new DatePipe('en-US');
+    const formattedDate = datePipe.transform(this.datumTransaktion, 'dd.MM.yyyy');
     const payload: TransaktionAusgabe = {
-      datumTransaktion: this.datumTransaktion,
+      datumTransaktion: formattedDate || '',
       tranksaktionsArt: this.transaktionsArt,
       kategorie: this.kategorie,
       betragAusgabe: this.betragAusgabe

@@ -17,7 +17,7 @@ export interface TransaktionAusgabe extends Transaktion {
 
 export interface TransaktionUebersicht {
   einnahmen: TransaktionEinnahme[],
-  ausgaben: TransaktionEinnahme[]
+  ausgaben: TransaktionAusgabe[],
 }
 
 export const initialTransaktionUebersicht = {

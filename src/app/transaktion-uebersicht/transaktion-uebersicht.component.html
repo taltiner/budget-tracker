@@ -19,15 +19,15 @@
 
       <ng-container matColumnDef="monat">
         <th mat-header-cell *matHeaderCellDef>Monat</th>
-        <td mat-cell *matCellDef="let element">{{element.monat}}</td>
+        <td mat-cell *matCellDef="let element">{{element.monatTransaktion}}</td>
       </ng-container>
       <ng-container matColumnDef="einnahmen">
         <th mat-header-cell *matHeaderCellDef>Einnahmen</th>
-        <td mat-cell *matCellDef="let element">{{element.einnahmen}}</td>
+        <td mat-cell *matCellDef="let element">{{element.betragEinnahme}}</td>
       </ng-container>
       <ng-container matColumnDef="ausgaben">
         <th mat-header-cell *matHeaderCellDef>Ausgaben</th>
-        <td mat-cell *matCellDef="let element">{{element.ausgaben}}</td>
+        <td mat-cell *matCellDef="let element">{{element.betragAusgabe}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

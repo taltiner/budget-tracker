@@ -6,39 +6,6 @@
 
     <mat-card-content>
 
-<!--      <fieldset>
-        <legend>Datum der Transaktion</legend>
-        <mat-form-field>
-          <mat-label>Wähle ein Datum</mat-label>
-          <input matInput [matDatepicker]="picker"
-                 formControlName="datumTransaktion">
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </fieldset>-->
-
-      <fieldset>
-        <legend>Datum der Transaktion</legend>
-        <mat-form-field>
-          <mat-label>Wähle das Jahr</mat-label>
-          <mat-select
-            formControlName="jahr">
-            <mat-option *ngFor="let jahr of jahrOptions"
-                        [value]="jahr.value">{{jahr.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Wähle den Monat</mat-label>
-          <mat-select
-            formControlName="monat">
-            <mat-option *ngFor="let monat of monatOptions"
-                        [value]="monat.value">{{monat.label}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </fieldset>
-
       <fieldset class="transaktion">
         <legend>Art der Transaktion</legend>
         <mat-radio-group
@@ -48,6 +15,43 @@
           <mat-radio-button value="ausgabe">Ausgabe</mat-radio-button>
         </mat-radio-group>
       </fieldset>
+
+      <ng-container *ngIf="transaktionsArt === 'ausgabe'">
+        <fieldset>
+          <legend>Datum der Transaktion</legend>
+          <mat-form-field>
+            <mat-label>Wähle ein Datum</mat-label>
+            <input matInput [matDatepicker]="picker"
+                   formControlName="datumTransaktion">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </fieldset>
+      </ng-container>
+
+      <ng-container *ngIf="transaktionsArt === 'einnahme'">
+        <fieldset>
+          <legend>Datum der Transaktion</legend>
+          <mat-form-field>
+            <mat-label>Wähle das Jahr</mat-label>
+            <mat-select
+              formControlName="jahr">
+              <mat-option *ngFor="let jahr of jahrOptions"
+                          [value]="jahr.value">{{jahr.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Wähle den Monat</mat-label>
+            <mat-select
+              formControlName="monat">
+              <mat-option *ngFor="let monat of monatOptions"
+                          [value]="monat.value">{{monat.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </fieldset>
+      </ng-container>
 
       <ng-container *ngIf="transaktionsArt === 'einnahme'">
         <fieldset>

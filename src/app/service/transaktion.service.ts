@@ -12,13 +12,13 @@ export class TransaktionService {
 
   constructor(private http: HttpClient) { }
 
-  createTransaktion(transaktion: TransaktionEinnahme): void {
+  createTransaktion(transaktion: TransaktionEinnahme | TransaktionAusgabe): void {
     this.getAllTransaktionen().subscribe(alleTransaktionen => {
       if(transaktion.tranksaktionsArt === 'einnahme') {
         console.log('einnahme')
-        alleTransaktionen.einnahmen.push(transaktion);
+        alleTransaktionen.einnahmen.push(transaktion as TransaktionEinnahme);
       } else if (transaktion.tranksaktionsArt === 'ausgabe') {
-        alleTransaktionen.ausgaben.push(transaktion);
+        alleTransaktionen.ausgaben.push(transaktion as TransaktionAusgabe);
       }
 
       this.http.put<TransaktionUebersicht>(this.apiUrl, alleTransaktionen).pipe(
