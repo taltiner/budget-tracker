@@ -28,3 +28,9 @@ export const TRANSAKTION_MONAT: SelectOptions[] = [
   {value: 'november', label: 'November'},
   {value: 'dezember', label: 'Dezember'},
 ];
+
+export function getMonatLabel(value: string): string {
+  const monaltLabel = TRANSAKTION_MONAT.find((m) => m.value === value)?.label;
+
+  return monaltLabel ?? '';
+}

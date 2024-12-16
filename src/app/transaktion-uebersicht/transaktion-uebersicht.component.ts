@@ -1,9 +1,14 @@
 import {Component, DestroyRef, OnInit} from '@angular/core';
-import {initialTransaktionUebersicht, TransaktionUebersicht} from "../models/transaktion.model";
+import {
+  initialTransaktionUebersicht,
+  TransaktionAusgabe,
+  TransaktionEinnahme,
+  TransaktionUebersicht
+} from "../models/transaktion.model";
 import {TransaktionService} from "../service/transaktion.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Router} from "@angular/router";
-import {TRANSAKTION_JAHR} from "../common/select-options";
+import {getMonatLabel, TRANSAKTION_JAHR, TRANSAKTION_MONAT} from "../common/select-options";
 import {BehaviorSubject} from "rxjs";
 
 @Component({
@@ -12,7 +17,9 @@ import {BehaviorSubject} from "rxjs";
   styleUrl: './transaktion-uebersicht.component.scss'
 })
 export class TransaktionUebersichtComponent implements OnInit {
-  displayedColumns: string[] = ['monat', 'einnahmen', 'ausgaben'];
+  monate = ['januar', 'februar', 'märz', 'april', 'mai', 'juni',
+    'juli', 'august', 'september', 'oktober', 'november', 'dezember'];
+  displayedColumns: string[] = ['monat', 'einnahmen', 'miete', 'strom', 'lebensmittel'];
   transaktionen: TransaktionUebersicht = initialTransaktionUebersicht;
   dataSource:any = [];
   jahrAuswahl$ = new BehaviorSubject<string | null>(null);
@@ -33,21 +40,34 @@ export class TransaktionUebersichtComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(jahr => {
         if(jahr !== null) {
-          const einnahmenFiltered = this.transaktionen.einnahmen.filter(transaktion => {
+          const einnahmen = this.transaktionen.einnahmen;
+          const ausgabenMapped = this.mapTransaktionAusgabe();
 
-            return transaktion.jahrTransaktion === jahr;
-          });
-          const ausgabenFiltered = this.transaktionen.ausgaben.filter(transaktion => {
-            const datumString = transaktion.datumTransaktion;
-            const [tagAusgabe, monatAusgabe, jahrAusgabe] = datumString.split('.');
-
-            return jahrAusgabe === jahr;
-          });
-          this.dataSource = [...einnahmenFiltered, ...ausgabenFiltered];
+          this.dataSource = [...einnahmen, ...ausgabenMapped];
+          this.transformDataSource(jahr);
         }
-
     })
   }
+
+  mapTransaktionAusgabe(): TransaktionAusgabe[] {
+    return this.transaktionen.ausgaben.map(transaktion => {
+      const datumString = transaktion.datumTransaktion;
+      const [tagTransaktion, monatNummer, jahrTransaktion] = datumString.split('.');
+      const monatTransaktion = this.monate[parseInt(monatNummer, 10) - 1];
+
+      return {...transaktion, tagTransaktion, monatTransaktion, jahrTransaktion};
+    });
+  }
+
+  transformDataSource(jahr: string) {
+    this.dataSource = this.dataSource.filter((transaktion: any) => {
+      return transaktion.jahrTransaktion === jahr
+    });
+    this.dataSource.forEach((data: any) => {
+      data.monatTransaktion = getMonatLabel(data.monatTransaktion);
+    })
+  }
+
 
   onJahrChange(selectedJahr: string) {
     this.jahrAuswahl$.next(selectedJahr);

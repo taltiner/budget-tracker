@@ -2,33 +2,34 @@
   "transaktionen": {
     "einnahmen": [
       {
-        "jahrTransaktion": "2023",
+        "jahrTransaktion": "2024",
         "monatTransaktion": "januar",
         "tranksaktionsArt": "einnahme",
-        "betragEinnahme": "200",
-        "notiz": "tet"
-      },
-      {
-        "jahrTransaktion": "2023",
-        "monatTransaktion": "januar",
-        "tranksaktionsArt": "einnahme",
-        "betragEinnahme": "200",
-        "notiz": "tet"
-      },
-      {
-        "jahrTransaktion": "",
-        "monatTransaktion": "februar",
-        "tranksaktionsArt": "einnahme",
-        "betragEinnahme": "5000",
-        "notiz": "test"
+        "betragEinnahme": {
+          "hoehe": "3300",
+          "waehrung": "€"
+        },
+        "notiz": "Test"
       }
     ],
     "ausgaben": [
       {
-        "datumTransaktion": "24.10.2023",
+        "datumTransaktion": "11.01.2024",
         "tranksaktionsArt": "ausgabe",
         "kategorie": "miete",
-        "betragAusgabe": "900"
+        "betragAusgabe": {
+          "hoehe": "990",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "15.01.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "strom",
+        "betragAusgabe": {
+          "hoehe": "65",
+          "waehrung": "€"
+        }
       }
     ]
   }

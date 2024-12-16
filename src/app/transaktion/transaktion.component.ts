@@ -128,7 +128,7 @@ export class TransaktionComponent {
       jahrTransaktion: this.jahrTransaktion,
       monatTransaktion: this.monatTransaktion,
       tranksaktionsArt: this.transaktionsArt,
-      betragEinnahme: this.betragEinnahme,
+      betragEinnahme: {hoehe: this.betragEinnahme, waehrung: '€'},
       notiz: this.notiz
     }
 
@@ -142,7 +142,7 @@ export class TransaktionComponent {
       datumTransaktion: formattedDate || '',
       tranksaktionsArt: this.transaktionsArt,
       kategorie: this.kategorie,
-      betragAusgabe: this.betragAusgabe
+      betragAusgabe: {hoehe: this.betragAusgabe, waehrung: '€'}
     }
 
     return payload;

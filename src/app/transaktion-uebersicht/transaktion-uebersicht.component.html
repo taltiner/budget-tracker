@@ -23,11 +23,35 @@
       </ng-container>
       <ng-container matColumnDef="einnahmen">
         <th mat-header-cell *matHeaderCellDef>Einnahmen</th>
-        <td mat-cell *matCellDef="let element">{{element.betragEinnahme}}</td>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.betragEinnahme">
+            {{element.betragEinnahme.hoehe}} {{element.betragEinnahme.waehrung}}
+          </ng-container>
+        </td>
       </ng-container>
-      <ng-container matColumnDef="ausgaben">
-        <th mat-header-cell *matHeaderCellDef>Ausgaben</th>
-        <td mat-cell *matCellDef="let element">{{element.betragAusgabe}}</td>
+      <ng-container matColumnDef="miete">
+        <th mat-header-cell *matHeaderCellDef>Miete</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.tranksaktionsArt === 'ausgabe' && element.kategorie === 'miete'">
+            {{element.betragAusgabe.hoehe}} {{element.betragAusgabe.waehrung}}
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="strom">
+        <th mat-header-cell *matHeaderCellDef>Strom</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.tranksaktionsArt === 'ausgabe' && element.kategorie === 'strom'">
+            {{element.betragAusgabe.hoehe}} {{element.betragAusgabe.waehrung}}
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="lebensmittel">
+        <th mat-header-cell *matHeaderCellDef>Lebensmittel</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.tranksaktionsArt === 'ausgabe' && element.kategorie === 'lebensmittel'">
+            {{element.betragAusgabe.heohe}} {{element.betragAusgabe.waehrung}}
+          </ng-container>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

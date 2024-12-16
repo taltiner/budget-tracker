@@ -15,7 +15,6 @@ export class TransaktionService {
   createTransaktion(transaktion: TransaktionEinnahme | TransaktionAusgabe): void {
     this.getAllTransaktionen().subscribe(alleTransaktionen => {
       if(transaktion.tranksaktionsArt === 'einnahme') {
-        console.log('einnahme')
         alleTransaktionen.einnahmen.push(transaktion as TransaktionEinnahme);
       } else if (transaktion.tranksaktionsArt === 'ausgabe') {
         alleTransaktionen.ausgaben.push(transaktion as TransaktionAusgabe);

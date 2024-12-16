@@ -1,3 +1,5 @@
+import {Geldbetrag} from "./geldbetrag.model";
+
 export interface Transaktion {
   tranksaktionsArt: string
 }
@@ -5,14 +7,14 @@ export interface Transaktion {
 export interface TransaktionEinnahme extends Transaktion {
   jahrTransaktion: string,
   monatTransaktion: string,
-  betragEinnahme: string,
+  betragEinnahme: Geldbetrag,
   notiz?: string
 }
 
 export interface TransaktionAusgabe extends Transaktion {
   datumTransaktion: string,
   kategorie: string,
-  betragAusgabe: string
+  betragAusgabe: Geldbetrag
 }
 
 export interface TransaktionUebersicht {
