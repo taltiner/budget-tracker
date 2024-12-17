@@ -65,7 +65,8 @@ export class TransaktionUebersichtComponent implements OnInit {
     });
     this.dataSource.forEach((data: any) => {
       data.monatTransaktion = getMonatLabel(data.monatTransaktion);
-    })
+    });
+    console.log('dataSource', this.dataSource)
   }
 
 

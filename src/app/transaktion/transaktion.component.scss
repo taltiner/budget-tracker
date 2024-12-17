@@ -1,3 +1,45 @@
+.transaktion {
+
+  &__abschnitt {
+    border: solid;
+    border-radius: 10px;
+    border-color: darkblue;
+    padding: 15px;
+    margin-bottom: 30px;
+  }
+
+  &__ausgabe {
+    display: flex;
+
+    &--inputs {
+      width: 90%;
+    }
+
+    &--loeschen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & mat-icon {
+        display: block;
+        width: 40px;
+        height: 40px;
+        font-size: 40px;
+        text-align: center;
+        cursor: pointer;
+        color: #bf0048;
+        border-radius: 50%;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+          background-color: #ffd4f4;
+          color: #bf0048;
+        }
+      }
+    }
+  }
+}
+
 .example-form {
   min-width: 150px;
   max-width: 800px;
@@ -12,7 +54,7 @@ mat-card {
 
 mat-card-header,
 mat-card-content,
-.transaktion{
+{
   margin-bottom: 20px;
 }
 
@@ -25,11 +67,4 @@ mat-radio-group{
   width: 70%;
 }
 
-fieldset {
-  border: solid;
-  border-radius: 10px;
-  border-color: darkblue;
-  padding: 15px;
-  margin-bottom: 30px;
-}
 

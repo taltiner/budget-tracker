@@ -25,6 +25,7 @@ import {TransaktionUebersichtComponent} from "./transaktion-uebersicht/transakti
 import {MatTable} from "@angular/material/table";
 import {MatTableModule} from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 const appRoutes: Routes = [
   { path: '', component: TransaktionUebersichtComponent},
@@ -67,7 +68,7 @@ const appRoutes: Routes = [
     MatTableModule,
     MatCardModule
   ],
-  providers: [TransaktionService],
+  providers: [TransaktionService, provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })
 export class AppModule {

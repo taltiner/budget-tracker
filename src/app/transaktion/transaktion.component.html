@@ -6,7 +6,7 @@
 
     <mat-card-content>
 
-      <fieldset class="transaktion">
+      <fieldset class="transaktion__abschnitt">
         <legend>Art der Transaktion</legend>
         <mat-radio-group
           formControlName="tranksaktionsArt"
@@ -16,22 +16,8 @@
         </mat-radio-group>
       </fieldset>
 
-      <ng-container *ngIf="transaktionsArt === 'ausgabe'">
-        <fieldset>
-          <legend>Datum der Transaktion</legend>
-          <mat-form-field>
-            <mat-label>Wähle ein Datum</mat-label>
-            <input matInput [matDatepicker]="picker"
-                   formControlName="datumTransaktion">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </fieldset>
-      </ng-container>
-
       <ng-container *ngIf="transaktionsArt === 'einnahme'">
-        <fieldset>
+        <fieldset class="transaktion__abschnitt">
           <legend>Datum der Transaktion</legend>
           <mat-form-field>
             <mat-label>Wähle das Jahr</mat-label>
@@ -51,10 +37,8 @@
             </mat-select>
           </mat-form-field>
         </fieldset>
-      </ng-container>
 
-      <ng-container *ngIf="transaktionsArt === 'einnahme'">
-        <fieldset>
+        <fieldset class="transaktion__abschnitt">
           <legend>Einnahme</legend>
           <mat-form-field>
             <mat-label>Netto Einnahme</mat-label>
@@ -62,7 +46,7 @@
           </mat-form-field>
         </fieldset>
 
-        <fieldset>
+        <fieldset class="transaktion__abschnitt">
           <legend>Notiz</legend>
           <mat-form-field>
             <mat-label>Notiz</mat-label>
@@ -72,25 +56,53 @@
       </ng-container>
 
       <ng-container *ngIf="transaktionsArt === 'ausgabe'">
-        <fieldset>
-          <legend>Kategorie</legend>
-          <mat-form-field>
-            <mat-label>Kategorie</mat-label>
-            <mat-select
-              formControlName="kategorie">
-              <mat-option *ngFor="let kategorie of kategorieOptions"
-                          [value]="kategorie.value">{{kategorie.label}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </fieldset>
+        <div formArrayName="ausgabeAbschnitte">
+          <div *ngFor="let abschnitt of ausgabeAbschnitte.controls; let i = index"
+               [formGroupName]="i" class="transaktion__abschnitt transaktion__ausgabe">
 
-        <fieldset>
-          <legend>Ausgabe Betrag</legend>
-          <mat-form-field>
-            <mat-label>Ausgabe Betrag</mat-label>
-            <input matInput formControlName="betragAusgabe">
-          </mat-form-field>
-        </fieldset>
+            <div class="transaktion__ausgabe--inputs">
+              <fieldset>
+                <legend>Kategorie</legend>
+                <mat-form-field>
+                  <mat-label>Kategorie</mat-label>
+                  <mat-select
+                    formControlName="kategorie">
+                    <mat-option *ngFor="let kategorie of kategorieOptions"
+                                [value]="kategorie.value">{{kategorie.label}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </fieldset>
+
+              <fieldset>
+                <legend>Datum der Transaktion</legend>
+                <mat-form-field>
+                  <mat-label>Wähle ein Datum</mat-label>
+                  <input matInput [matDatepicker]="picker"
+                         formControlName="datumTransaktion">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </fieldset>
+
+              <fieldset>
+                <legend>Ausgabe</legend>
+                <mat-form-field>
+                  <mat-label>Ausgabe Betrag</mat-label>
+                  <input matInput formControlName="betragAusgabe">
+                </mat-form-field>
+              </fieldset>
+            </div>
+
+            <div class="transaktion__ausgabe--loeschen" *ngIf="i > 0">
+              <mat-icon (click)="onAusgabeLoeschen(i)">close</mat-icon>
+            </div>
+
+          </div>
+        </div>
+
+
+        <button mat-stroked-button
+                (click)="onAusgabeHinzufuegen()">Weitere Ausgabe hinzufügen</button>
 
       </ng-container>
 

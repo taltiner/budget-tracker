@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatRadioChange} from "@angular/material/radio";
 import {KATEGORIE_AUSGABE, SelectOptions, TRANSAKTION_JAHR, TRANSAKTION_MONAT} from "../common/select-options";
 import {TransaktionAusgabe, TransaktionEinnahme} from "../models/transaktion.model";
@@ -27,48 +27,42 @@ export class TransaktionComponent {
   monatOptions: SelectOptions[] = TRANSAKTION_MONAT;
 
   transaktionForm = new FormGroup({
-    'datumTransaktion': new FormControl('', Validators.required),
+    'tranksaktionsArt': new FormControl('', Validators.required),
     'jahr': new FormControl('', Validators.required),
     'monat': new FormControl('', Validators.required),
-    'tranksaktionsArt': new FormControl('', Validators.required),
     'betragEinnahme': new FormControl('', Validators.required),
     'notiz': new FormControl(''),
-    'kategorie': new FormControl('', Validators.required),
-    'betragAusgabe': new FormControl('', Validators.required),
-  })
 
-  get datumTransaktion(): string {
-    return this.transaktionForm.controls.datumTransaktion.value ?? '';
-  }
+    'ausgabeAbschnitte': new FormArray([this.createAusgabeFormGroup()]),
+  })
 
   get jahrTransaktion(): string {
     return this.transaktionForm.controls.jahr.value ?? '';
   }
-
   get monatTransaktion(): string {
     return this.transaktionForm.controls.monat.value ?? '';
   }
-
   get transaktionsArt(): string {
     return this.transaktionForm.controls.tranksaktionsArt?.value ?? '';
   }
-
   get betragEinnahme(): string {
     return this.transaktionForm.controls.betragEinnahme.value ?? '';
   }
-
   get notiz(): string {
     return this.transaktionForm.controls.notiz.value ?? '';
   }
-
+/*  get datumTransaktion(): string {
+    return this.transaktionForm.controls.datumTransaktion.value ?? '';
+  }
   get kategorie(): string {
     return this.transaktionForm.controls.kategorie.value ?? '';
   }
-
   get betragAusgabe(): string {
     return this.transaktionForm.controls.betragAusgabe.value ?? '';
+  }*/
+  get ausgabeAbschnitte() {
+    return this.transaktionForm.get('ausgabeAbschnitte') as FormArray ?? [];
   }
-
   onTransaktonArtChange(art: MatRadioChange) {
     const artValue = art.value;
     this.transaktionForm.get('tranksaktionsArt')?.setValue(artValue);
@@ -86,8 +80,8 @@ export class TransaktionComponent {
 
       this.transaktionService.createTransaktion(transaktionEinnahme);
     } else {
-      const transaktionAusgabe = this.createPayloadAusgabe();
-      this.transaktionService.createTransaktion(transaktionAusgabe);
+      //const transaktionAusgabe = this.createPayloadAusgabe();
+      //this.transaktionService.createTransaktion(transaktionAusgabe);
 
     }
   }
@@ -95,6 +89,15 @@ export class TransaktionComponent {
   onAbbrechen() {
     this.router.navigate(['/'], {
       queryParams: {} });
+  }
+
+  onAusgabeHinzufuegen() {
+    const ausgabeAbschnitte = this.transaktionForm.get('ausgabeAbschnitte') as FormArray;
+    ausgabeAbschnitte.push(this.createAusgabeFormGroup());
+  }
+
+  onAusgabeLoeschen(index: number) {
+    this.ausgabeAbschnitte.removeAt(index);
   }
 
   private handleValidators(artValue: string) {
@@ -135,7 +138,7 @@ export class TransaktionComponent {
     return payload;
   }
 
-  private createPayloadAusgabe(): TransaktionAusgabe {
+/*  private createPayloadAusgabe(): TransaktionAusgabe {
     const datePipe = new DatePipe('en-US');
     const formattedDate = datePipe.transform(this.datumTransaktion, 'dd.MM.yyyy');
     const payload: TransaktionAusgabe = {
@@ -146,5 +149,13 @@ export class TransaktionComponent {
     }
 
     return payload;
+  }*/
+
+  private createAusgabeFormGroup():FormGroup {
+    return new FormGroup({
+      'kategorie': new FormControl('', Validators.required),
+      'datumTransaktion': new FormControl('', Validators.required),
+      'betragAusgabe': new FormControl('', Validators.required),
+    });
   }
 }
