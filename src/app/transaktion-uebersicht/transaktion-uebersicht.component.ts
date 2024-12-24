@@ -1,4 +1,4 @@
-import {Component, DestroyRef, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, DestroyRef, OnInit} from '@angular/core';
 import {
   initialTransaktionUebersicht,
   TransaktionAusgabe,
@@ -19,14 +19,20 @@ import {BehaviorSubject} from "rxjs";
 export class TransaktionUebersichtComponent implements OnInit {
   monate = ['januar', 'februar', 'märz', 'april', 'mai', 'juni',
     'juli', 'august', 'september', 'oktober', 'november', 'dezember'];
-  displayedColumns: string[] = ['monat', 'einnahmen', 'miete', 'strom', 'lebensmittel'];
   transaktionen: TransaktionUebersicht = initialTransaktionUebersicht;
   dataSource:any = [];
   jahrAuswahl$ = new BehaviorSubject<string | null>(null);
+  kategorienSet: string[] = [];
+  //displayedColumns: string[] = ['monat', 'einnahmen', ...this.kategorienSet];
+  get displayedColumns() {
+    return ['monat', 'einnahmen', ...this.kategorienSet];
+  }
+  isLoading: boolean = false;
 
   constructor(private transaktionService: TransaktionService,
               private destroyRef: DestroyRef,
-              private router: Router) {}
+              private router: Router,
+              private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.transaktionService.getAllTransaktionen()
@@ -40,11 +46,16 @@ export class TransaktionUebersichtComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(jahr => {
         if(jahr !== null) {
+          this.isLoading = true;
           const einnahmen = this.transaktionen.einnahmen;
           const ausgabenMapped = this.mapTransaktionAusgabe();
 
           this.dataSource = [...einnahmen, ...ausgabenMapped];
           this.transformDataSource(jahr);
+          this.getAusgabeKategorien();
+          console.log('kategorienSet', this.kategorienSet)
+          this.cdr.detectChanges();
+          this.isLoading = false;
         }
     })
   }
@@ -72,6 +83,8 @@ export class TransaktionUebersichtComponent implements OnInit {
     // @ts-ignore
     this.dataSource = this.sortiereDaten(this.dataSource);
     console.log('dataSource sortiert ', this.dataSource);
+/*    this.getAusgabeKategorien();
+    console.log('kategorienSet', this.kategorienSet);*/
   }
 
 
@@ -123,6 +136,18 @@ export class TransaktionUebersichtComponent implements OnInit {
       const indexB = this.monate.indexOf(b.monatTransaktion);
       return indexB - indexA;
     })
+  }
+
+  getAusgabeKategorien() {
+    const kategorienSet = new Set<string>();
+    // @ts-ignore
+    this.dataSource.forEach(transaktion => {
+      Object.keys(transaktion.ausgaben).forEach(kategorie => {
+        kategorienSet.add(kategorie);
+      });
+    });
+
+    this.kategorienSet = Array.from(kategorienSet);
   }
 
 

@@ -26,6 +26,7 @@ import {MatTable} from "@angular/material/table";
 import {MatTableModule} from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 const appRoutes: Routes = [
   { path: '', component: TransaktionUebersichtComponent},
@@ -38,36 +39,37 @@ const appRoutes: Routes = [
     TransaktionComponent,
     TransaktionUebersichtComponent
   ],
-  imports: [
-    BrowserModule,
-    StoreModule.forRoot({transaktionen: transaktionReducer}),
-    RouterModule.forRoot(appRoutes),
-    EffectsModule.forRoot([]),
-    MatCard,
-    ReactiveFormsModule,
-    MatCardHeader,
-    MatCardContent,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    BrowserAnimationsModule,
-    MatDatepickerToggle,
-    MatDatepicker,
-    MatDatepickerInput,
-    MatIconModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
-    MatButton,
-    MatRadioGroup,
-    MatRadioButton,
-    MatSelect,
-    MatOption,
-    RouterOutlet,
-    HttpClientModule,
-    MatTable,
-    MatTableModule,
-    MatCardModule
-  ],
+    imports: [
+        BrowserModule,
+        StoreModule.forRoot({transaktionen: transaktionReducer}),
+        RouterModule.forRoot(appRoutes),
+        EffectsModule.forRoot([]),
+        MatCard,
+        ReactiveFormsModule,
+        MatCardHeader,
+        MatCardContent,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        BrowserAnimationsModule,
+        MatDatepickerToggle,
+        MatDatepicker,
+        MatDatepickerInput,
+        MatIconModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        MatButton,
+        MatRadioGroup,
+        MatRadioButton,
+        MatSelect,
+        MatOption,
+        RouterOutlet,
+        HttpClientModule,
+        MatTable,
+        MatTableModule,
+        MatCardModule,
+        MatProgressSpinner
+    ],
   providers: [TransaktionService, provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })

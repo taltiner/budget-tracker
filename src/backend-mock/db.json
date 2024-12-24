@@ -10,38 +10,39 @@
           "waehrung": "€"
         },
         "notiz": ""
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "tranksaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "2000",
+          "waehrung": "€"
+        },
+        "notiz": ""
       }
     ],
     "ausgaben": [
       {
-        "datumTransaktion": "13.12.2024",
+        "datumTransaktion": "12.12.2024",
         "tranksaktionsArt": "ausgabe",
-        "kategorie": "strom",
+        "kategorie": "miete",
         "betragAusgabe": {
-          "hoehe": "60",
-          "waehrung": "€"
-        }
-      },
-      {
-        "datumTransaktion": "04.12.2024",
-        "tranksaktionsArt": "ausgabe",
-        "kategorie": "lebensmittel",
-        "betragAusgabe": {
-          "hoehe": "20",
+          "hoehe": "990",
           "waehrung": "€"
         }
       },
       {
         "datumTransaktion": "09.12.2024",
         "tranksaktionsArt": "ausgabe",
-        "kategorie": "lebensmittel",
+        "kategorie": "Test",
         "betragAusgabe": {
-          "hoehe": "20",
+          "hoehe": "200",
           "waehrung": "€"
         }
       },
       {
-        "datumTransaktion": "02.12.2024",
+        "datumTransaktion": "10.12.2024",
         "tranksaktionsArt": "ausgabe",
         "kategorie": "strom",
         "betragAusgabe": {
@@ -50,18 +51,36 @@
         }
       },
       {
-        "datumTransaktion": "01.12.2024",
+        "datumTransaktion": "10.12.2024",
         "tranksaktionsArt": "ausgabe",
         "kategorie": "miete",
         "betragAusgabe": {
-          "hoehe": "900",
+          "hoehe": "990",
           "waehrung": "€"
         }
       },
       {
         "datumTransaktion": "12.11.2024",
         "tranksaktionsArt": "ausgabe",
-        "kategorie": "lebensmittel",
+        "kategorie": "miete",
+        "betragAusgabe": {
+          "hoehe": "990",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "12.11.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "Test",
+        "betragAusgabe": {
+          "hoehe": "20",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "14.11.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "Test2",
         "betragAusgabe": {
           "hoehe": "50",
           "waehrung": "€"

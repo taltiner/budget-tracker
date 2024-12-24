@@ -68,8 +68,15 @@
                   <mat-select
                     formControlName="kategorie">
                     <mat-option *ngFor="let kategorie of kategorieOptions"
-                                [value]="kategorie.value">{{kategorie.label}}</mat-option>
+                                [value]="kategorie.value"
+                                (onSelectionChange)="onKategorieChange(i)">{{kategorie.label}}</mat-option>
+                    <mat-option value="benutzerdefiniert">Benutzerdefiniert</mat-option>
                   </mat-select>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="abschnitt.get('kategorie')?.value === 'benutzerdefiniert'">
+                  <mat-label>Gib eine neue Kategorie ein</mat-label>
+                  <input matInput formControlName="benutzerdefinierteKategorie">
                 </mat-form-field>
               </fieldset>
 

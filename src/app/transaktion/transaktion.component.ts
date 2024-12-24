@@ -51,15 +51,7 @@ export class TransaktionComponent {
   get notiz(): string {
     return this.transaktionForm.controls.notiz.value ?? '';
   }
-/*  get datumTransaktion(): string {
-    return this.transaktionForm.controls.datumTransaktion.value ?? '';
-  }
-  get kategorie(): string {
-    return this.transaktionForm.controls.kategorie.value ?? '';
-  }
-  get betragAusgabe(): string {
-    return this.transaktionForm.controls.betragAusgabe.value ?? '';
-  }*/
+
   get ausgabeAbschnitte() {
     return this.transaktionForm.get('ausgabeAbschnitte') as FormArray ?? [];
   }
@@ -67,6 +59,13 @@ export class TransaktionComponent {
     const artValue = art.value;
     this.transaktionForm.get('tranksaktionsArt')?.setValue(artValue);
     this.handleValidators(artValue);
+  }
+
+  onKategorieChange(index: number) {
+    const ausgabeGroup = this.ausgabeAbschnitte.controls[index];
+    if(ausgabeGroup.get('kategorie')?.value !== 'benutzerdefiniert') {
+      ausgabeGroup.get('benutzerdefiniert')?.reset();
+    }
   }
 
   onSpeichern() {
@@ -81,6 +80,10 @@ export class TransaktionComponent {
       this.transaktionService.createTransaktion(transaktionEinnahme);
     } else {
       this.ausgabeAbschnitte.controls.forEach(abschnitt => {
+        if(abschnitt.get('kategorie')?.value === 'benutzerdefiniert' && abschnitt.get('benutzerdefinierteKategorie')?.value) {
+          const neueKategorie = abschnitt.get('benutzerdefinierteKategorie')?.value;
+          abschnitt.get('kategorie')?.setValue(neueKategorie);
+        }
         const transaktionAusgabe = this.createPayloadAusgabe(abschnitt as FormGroup);
         console.log('transaktionAusgabe', transaktionAusgabe)
         this.transaktionService.createTransaktion(transaktionAusgabe);
@@ -171,6 +174,7 @@ export class TransaktionComponent {
   private createAusgabeFormGroup():FormGroup {
     return new FormGroup({
       'kategorie': new FormControl('', Validators.required),
+      'benutzerdefinierteKategorie': new FormControl(''),
       'datumTransaktion': new FormControl('', Validators.required),
       'betragAusgabe': new FormControl('', Validators.required),
     });

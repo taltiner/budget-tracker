@@ -4,6 +4,8 @@
   </mat-card-header>
   <mat-card-content>
 
+    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="50"></mat-progress-spinner>
+
     <fieldset>
       <legend hidden>Datum der Transaktion</legend>
       <mat-form-field>
@@ -15,7 +17,7 @@
       </mat-form-field>
     </fieldset>
 
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="dataSource" *ngIf="!isLoading">
 
       <ng-container matColumnDef="monat">
         <th mat-header-cell *matHeaderCellDef>Monat</th>
@@ -29,7 +31,16 @@
           </ng-container>
         </td>
       </ng-container>
-      <ng-container matColumnDef="miete">
+
+      <ng-container *ngFor="let kategorie of kategorienSet" [matColumnDef]="kategorie">
+        <th mat-header-cell *matHeaderCellDef>{{kategorie}}</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.ausgaben[kategorie]">
+            {{element.ausgaben[kategorie].hoehe}} {{element.ausgaben[kategorie].waehrung}}
+          </ng-container>
+        </td>
+      </ng-container>
+ <!--     <ng-container matColumnDef="miete">
         <th mat-header-cell *matHeaderCellDef>Miete</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.ausgaben.miete">
@@ -53,7 +64,7 @@
           </ng-container>
         </td>
       </ng-container>
-
+-->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>

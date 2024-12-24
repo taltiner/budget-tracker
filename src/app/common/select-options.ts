@@ -5,7 +5,8 @@ export interface SelectOptions {
 export const KATEGORIE_AUSGABE: SelectOptions[] = [
   {value: 'miete', label: 'Miete'},
   {value: 'strom', label: 'Strom'},
-  {value: 'lebensmittel', label: 'Lebensmittel'},
+  {value: 'lebensmittel', label: 'Lebensmittel'}
+
 ];
 
 export const TRANSAKTION_JAHR: SelectOptions[] = [
