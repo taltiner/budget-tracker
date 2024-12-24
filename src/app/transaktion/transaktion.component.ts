@@ -34,7 +34,7 @@ export class TransaktionComponent {
     'notiz': new FormControl(''),
 
     'ausgabeAbschnitte': new FormArray([this.createAusgabeFormGroup()]),
-  })
+  });
 
   get jahrTransaktion(): string {
     return this.transaktionForm.controls.jahr.value ?? '';
@@ -80,15 +80,18 @@ export class TransaktionComponent {
 
       this.transaktionService.createTransaktion(transaktionEinnahme);
     } else {
-      //const transaktionAusgabe = this.createPayloadAusgabe();
-      //this.transaktionService.createTransaktion(transaktionAusgabe);
-
+      this.ausgabeAbschnitte.controls.forEach(abschnitt => {
+        const transaktionAusgabe = this.createPayloadAusgabe(abschnitt as FormGroup);
+        console.log('transaktionAusgabe', transaktionAusgabe)
+        this.transaktionService.createTransaktion(transaktionAusgabe);
+      })
     }
+
+    this.router.navigate(['/'], { queryParams: {} });
   }
 
   onAbbrechen() {
-    this.router.navigate(['/'], {
-      queryParams: {} });
+    this.router.navigate(['/'], {queryParams: {} });
   }
 
   onAusgabeHinzufuegen() {
@@ -105,7 +108,16 @@ export class TransaktionComponent {
     let felderToSet: string[] = [];
 
     if(artValue === 'einnahme') {
-      felderToReset = ['kategorie', 'betragAusgabe', 'datumTransaktion'];
+      this.transaktionForm.controls.ausgabeAbschnitte.controls.forEach(abschnitt => {
+        abschnitt.get('kategorie')?.clearValidators();
+        abschnitt.get('datumTransaktion')?.clearValidators();
+        abschnitt.get('betragAusgabe')?.clearValidators();
+        abschnitt.get('kategorie')?.updateValueAndValidity();
+        abschnitt.get('datumTransaktion')?.updateValueAndValidity();
+        abschnitt.get('betragAusgabe')?.updateValueAndValidity();
+
+      });
+      //felderToReset = ['ausgabeAbschnitte'];
       felderToSet = ['jahr', 'monat'];
     } else {
       felderToReset = ['betragEinnahme', 'jahr', 'monat'];
@@ -138,18 +150,23 @@ export class TransaktionComponent {
     return payload;
   }
 
-/*  private createPayloadAusgabe(): TransaktionAusgabe {
+  private createPayloadAusgabe(abschnitt: FormGroup): TransaktionAusgabe {
+    const datumTransaktion = abschnitt.get('datumTransaktion')?.value;
+    const kategorie = abschnitt.get('kategorie')?.value;
+    const betragAusgabe = abschnitt.get('betragAusgabe')?.value;
+
     const datePipe = new DatePipe('en-US');
-    const formattedDate = datePipe.transform(this.datumTransaktion, 'dd.MM.yyyy');
+    const formattedDate = datePipe.transform(datumTransaktion, 'dd.MM.yyyy');
+
     const payload: TransaktionAusgabe = {
       datumTransaktion: formattedDate || '',
       tranksaktionsArt: this.transaktionsArt,
-      kategorie: this.kategorie,
-      betragAusgabe: {hoehe: this.betragAusgabe, waehrung: '€'}
+      kategorie: kategorie,
+      betragAusgabe: {hoehe: betragAusgabe, waehrung: '€'}
     }
 
     return payload;
-  }*/
+  }
 
   private createAusgabeFormGroup():FormGroup {
     return new FormGroup({

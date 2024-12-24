@@ -66,7 +66,12 @@ export class TransaktionUebersichtComponent implements OnInit {
     this.dataSource.forEach((data: any) => {
       data.monatTransaktion = getMonatLabel(data.monatTransaktion);
     });
-    console.log('dataSource', this.dataSource)
+    console.log('dataSource MonatLabel ', this.dataSource);
+    this.dataSource = this.gruppiereNachMonat(this.dataSource);
+    console.log('dataSource gruppiert', this.dataSource);
+    // @ts-ignore
+    this.dataSource = this.sortiereDaten(this.dataSource);
+    console.log('dataSource sortiert ', this.dataSource);
   }
 
 
@@ -78,6 +83,46 @@ export class TransaktionUebersichtComponent implements OnInit {
     this.router.navigate(['/neu'], {
       queryParams: {}
     });
+  }
+
+  gruppiereNachMonat(daten: any[]) {
+    const gruppiert: { [monat: string]: any } = {};
+
+    daten.forEach((transaktion) => {
+      const monat = transaktion.monatTransaktion;
+
+      if (!gruppiert[monat]) {
+        gruppiert[monat] = {
+          monatTransaktion: monat,
+          einnahmen: {hoehe: 0, waehrung: '€'},
+          ausgaben: {}
+        };
+      }
+
+      if (transaktion.tranksaktionsArt === 'einnahme') {
+        gruppiert[monat].einnahmen.hoehe += Number(transaktion.betragEinnahme?.hoehe || 0);
+      }
+
+      if (transaktion.tranksaktionsArt === 'ausgabe') {
+        const kategorie = transaktion.kategorie;
+
+        if (!gruppiert[monat].ausgaben[kategorie]) {
+          gruppiert[monat].ausgaben[kategorie] = {hoehe: 0, waehrung: '€'};
+        }
+        gruppiert[monat].ausgaben[kategorie].hoehe += Number(transaktion.betragAusgabe?.hoehe || 0);
+      }
+    });
+
+    return Object.values(gruppiert);
+  }
+
+  sortiereDaten(unsortierteDaten: any) {
+    // @ts-ignore
+    return unsortierteDaten.sort((a, b) => {
+      const indexA = this.monate.indexOf(a.monatTransaktion);
+      const indexB = this.monate.indexOf(b.monatTransaktion);
+      return indexB - indexA;
+    })
   }
 
 

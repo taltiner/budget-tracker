@@ -17,6 +17,7 @@ export class TransaktionService {
       if(transaktion.tranksaktionsArt === 'einnahme') {
         alleTransaktionen.einnahmen.push(transaktion as TransaktionEinnahme);
       } else if (transaktion.tranksaktionsArt === 'ausgabe') {
+        console.log('wird gepushed')
         alleTransaktionen.ausgaben.push(transaktion as TransaktionAusgabe);
       }
 

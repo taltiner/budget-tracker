@@ -3,31 +3,67 @@
     "einnahmen": [
       {
         "jahrTransaktion": "2024",
-        "monatTransaktion": "januar",
+        "monatTransaktion": "dezember",
         "tranksaktionsArt": "einnahme",
         "betragEinnahme": {
-          "hoehe": "3300",
+          "hoehe": "3000",
           "waehrung": "€"
         },
-        "notiz": "Test"
+        "notiz": ""
       }
     ],
     "ausgaben": [
       {
-        "datumTransaktion": "11.01.2024",
+        "datumTransaktion": "13.12.2024",
         "tranksaktionsArt": "ausgabe",
-        "kategorie": "miete",
+        "kategorie": "strom",
         "betragAusgabe": {
-          "hoehe": "990",
+          "hoehe": "60",
           "waehrung": "€"
         }
       },
       {
-        "datumTransaktion": "15.01.2024",
+        "datumTransaktion": "04.12.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "lebensmittel",
+        "betragAusgabe": {
+          "hoehe": "20",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "09.12.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "lebensmittel",
+        "betragAusgabe": {
+          "hoehe": "20",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "02.12.2024",
         "tranksaktionsArt": "ausgabe",
         "kategorie": "strom",
         "betragAusgabe": {
-          "hoehe": "65",
+          "hoehe": "60",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "01.12.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "miete",
+        "betragAusgabe": {
+          "hoehe": "900",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "12.11.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "lebensmittel",
+        "betragAusgabe": {
+          "hoehe": "50",
           "waehrung": "€"
         }
       }
