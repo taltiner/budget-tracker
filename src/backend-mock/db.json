@@ -10,6 +10,16 @@
           "waehrung": "€"
         },
         "notiz": ""
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "tranksaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "2800",
+          "waehrung": "€"
+        },
+        "notiz": ""
       }
     ],
     "ausgaben": [
@@ -90,6 +100,16 @@
         "benutzerdefinierteKategorie": "Test",
         "betragAusgabe": {
           "hoehe": "50",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "04.11.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "miete",
+        "benutzerdefinierteKategorie": "",
+        "betragAusgabe": {
+          "hoehe": "850",
           "waehrung": "€"
         }
       }

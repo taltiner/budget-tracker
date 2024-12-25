@@ -102,58 +102,61 @@ export class TransaktionUebersichtComponent implements OnInit {
   }
 
   private gruppiereNachMonat(transaktionen: (TransaktionEinnahme | TransaktionAusgabe)[]): TransaktionUebersichtTransformiert[] {
-    const gruppiert: { [monat: string]: TransaktionUebersichtTransformiert  } = {};
+    const gruppiert: { [monat: string]: TransaktionUebersichtTransformiert } = {};
+
+    const gesamtKey = 'gesamt';
+    gruppiert[gesamtKey] = {
+      monatTransaktion: getMonatLabel(gesamtKey),
+      einnahmen: { hoehe: 0, waehrung: '€' },
+      ausgaben: {},
+      gesamtausgaben: { hoehe: 0, waehrung: '€' },
+      saldo: { hoehe: 0, waehrung: '€' },
+    };
 
     transaktionen.forEach((transaktion) => {
-      let monat: string = transaktion.monatTransaktion ?? '';
+      const monat = transaktion.monatTransaktion ?? '';
+      const isEinnahme = this.isEinnahme(transaktion);
+      const betragHoehe = Number(isEinnahme ? transaktion.betragEinnahme?.hoehe : transaktion.betragAusgabe?.hoehe || 0);
 
       if (!gruppiert[monat]) {
         gruppiert[monat] = {
           monatTransaktion: monat,
-          einnahmen: {hoehe: 0, waehrung: '€'},
+          einnahmen: { hoehe: 0, waehrung: '€' },
           ausgaben: {},
-          gesamtausgaben: {hoehe: 0, waehrung: '€'},
-          saldo: {hoehe: 0, waehrung: '€'},
+          gesamtausgaben: { hoehe: 0, waehrung: '€' },
+          saldo: { hoehe: 0, waehrung: '€' },
         };
       }
 
-      if (!gruppiert['gesamt']) {
-        gruppiert['gesamt'] = {
-          monatTransaktion: getMonatLabel('gesamt'),
-          einnahmen: {hoehe: 0, waehrung: '€'},
-          ausgaben: {},
-          gesamtausgaben: {hoehe: 0, waehrung: '€'},
-          saldo: {hoehe: 0, waehrung: '€'},
-        };
-      }
+      const aktuellerMonat = gruppiert[monat];
+      const gesamtEintrag = gruppiert[gesamtKey];
 
-      if (this.isEinnahme(transaktion)) {
-        gruppiert[monat].einnahmen.hoehe += Number(transaktion.betragEinnahme?.hoehe || 0);
-        gruppiert[monat].saldo.hoehe += Number(transaktion.betragEinnahme?.hoehe || 0);
+      if (isEinnahme) {
+        aktuellerMonat.einnahmen.hoehe += betragHoehe;
+        aktuellerMonat.saldo.hoehe += betragHoehe;
+        gesamtEintrag.einnahmen.hoehe += betragHoehe;
+        gesamtEintrag.saldo.hoehe += betragHoehe;
       } else {
-        let kategorieFormatted = '';
-        if(transaktion.benutzerdefinierteKategorie === '') {
-           kategorieFormatted = getKategorieLabel(transaktion.kategorie);
-        } else {
-          kategorieFormatted = transaktion.kategorie.charAt(0).toUpperCase() + transaktion.kategorie.slice(1).toLowerCase();
+        const kategorie = transaktion.benutzerdefinierteKategorie
+          ? transaktion.kategorie.charAt(0).toUpperCase() + transaktion.kategorie.slice(1).toLowerCase()
+          : getKategorieLabel(transaktion.kategorie);
+
+        if (!aktuellerMonat.ausgaben[kategorie]) {
+          aktuellerMonat.ausgaben[kategorie] = { hoehe: 0, waehrung: '€' };
         }
 
-        if (!gruppiert[monat].ausgaben[kategorieFormatted]) {
-          gruppiert[monat].ausgaben[kategorieFormatted] = {hoehe: 0, waehrung: '€'};
-        }
-        gruppiert[monat].ausgaben[kategorieFormatted].hoehe += Number(transaktion.betragAusgabe?.hoehe || 0);
-        gruppiert[monat].gesamtausgaben.hoehe += Number(transaktion.betragAusgabe?.hoehe || 0);
-        gruppiert[monat].saldo.hoehe -= Number(transaktion.betragAusgabe?.hoehe || 0);
+        aktuellerMonat.ausgaben[kategorie].hoehe += betragHoehe;
+        aktuellerMonat.gesamtausgaben.hoehe += betragHoehe;
+        aktuellerMonat.saldo.hoehe -= betragHoehe;
+
+        gesamtEintrag.gesamtausgaben.hoehe += betragHoehe;
+        gesamtEintrag.saldo.hoehe -= betragHoehe;
       }
-
-      gruppiert['gesamt'].einnahmen.hoehe += gruppiert[monat].einnahmen.hoehe;
-      gruppiert['gesamt'].gesamtausgaben.hoehe += gruppiert[monat].gesamtausgaben.hoehe;
-      gruppiert['gesamt'].saldo.hoehe += gruppiert[monat].saldo.hoehe;
-
     });
-    console.log('gruppiert ', gruppiert)
+
     return Object.values(gruppiert);
   }
+
 
   private sortiereDaten(unsortierteDaten: TransaktionUebersichtTransformiert[]): TransaktionUebersichtTransformiert[] {
     return unsortierteDaten.sort((a, b) => {
