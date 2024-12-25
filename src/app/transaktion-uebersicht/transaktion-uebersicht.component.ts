@@ -1,14 +1,13 @@
-import {ChangeDetectorRef, Component, DestroyRef, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
 import {
   initialTransaktionUebersicht,
-  TransaktionAusgabe,
-  TransaktionEinnahme,
-  TransaktionUebersicht
+  TransaktionAusgabe, TransaktionEinnahme,
+  TransaktionUebersicht, TransaktionUebersichtTransformiert
 } from "../models/transaktion.model";
 import {TransaktionService} from "../service/transaktion.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Router} from "@angular/router";
-import {getMonatLabel, TRANSAKTION_JAHR, TRANSAKTION_MONAT} from "../common/select-options";
+import {getMonatLabel, TRANSAKTION_JAHR} from "../common/select-options";
 import {BehaviorSubject} from "rxjs";
 
 @Component({
@@ -17,76 +16,26 @@ import {BehaviorSubject} from "rxjs";
   styleUrl: './transaktion-uebersicht.component.scss'
 })
 export class TransaktionUebersichtComponent implements OnInit {
-  monate = ['januar', 'februar', 'märz', 'april', 'mai', 'juni',
+  monate: string[] = ['januar', 'februar', 'märz', 'april', 'mai', 'juni',
     'juli', 'august', 'september', 'oktober', 'november', 'dezember'];
   transaktionen: TransaktionUebersicht = initialTransaktionUebersicht;
-  dataSource:any = [];
+  dataSource: TransaktionUebersichtTransformiert[] = [];
   jahrAuswahl$ = new BehaviorSubject<string | null>(null);
   kategorienSet: string[] = [];
-  //displayedColumns: string[] = ['monat', 'einnahmen', ...this.kategorienSet];
-  get displayedColumns() {
-    return ['monat', 'einnahmen', ...this.kategorienSet];
-  }
-  isLoading: boolean = false;
+  isDataProcessing: boolean = false;
 
   constructor(private transaktionService: TransaktionService,
               private destroyRef: DestroyRef,
-              private router: Router,
-              private cdr: ChangeDetectorRef) {}
+              private router: Router) {}
 
   ngOnInit(): void {
-    this.transaktionService.getAllTransaktionen()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(alleTransaktionen => {
-        this.transaktionen = alleTransaktionen;
-        console.log('transaktionen', this.transaktionen);
-      });
-
-    this.jahrAuswahl$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(jahr => {
-        if(jahr !== null) {
-          this.isLoading = true;
-          const einnahmen = this.transaktionen.einnahmen;
-          const ausgabenMapped = this.mapTransaktionAusgabe();
-
-          this.dataSource = [...einnahmen, ...ausgabenMapped];
-          this.transformDataSource(jahr);
-          this.getAusgabeKategorien();
-          console.log('kategorienSet', this.kategorienSet)
-          this.cdr.detectChanges();
-          this.isLoading = false;
-        }
-    })
+    this.loadAllTransaktionen();
+    this.handleJahrSelektion();
   }
 
-  mapTransaktionAusgabe(): TransaktionAusgabe[] {
-    return this.transaktionen.ausgaben.map(transaktion => {
-      const datumString = transaktion.datumTransaktion;
-      const [tagTransaktion, monatNummer, jahrTransaktion] = datumString.split('.');
-      const monatTransaktion = this.monate[parseInt(monatNummer, 10) - 1];
-
-      return {...transaktion, tagTransaktion, monatTransaktion, jahrTransaktion};
-    });
+  get displayedColumns() {
+    return ['monat', 'einnahmen', ...this.kategorienSet];
   }
-
-  transformDataSource(jahr: string) {
-    this.dataSource = this.dataSource.filter((transaktion: any) => {
-      return transaktion.jahrTransaktion === jahr
-    });
-    this.dataSource.forEach((data: any) => {
-      data.monatTransaktion = getMonatLabel(data.monatTransaktion);
-    });
-    console.log('dataSource MonatLabel ', this.dataSource);
-    this.dataSource = this.gruppiereNachMonat(this.dataSource);
-    console.log('dataSource gruppiert', this.dataSource);
-    // @ts-ignore
-    this.dataSource = this.sortiereDaten(this.dataSource);
-    console.log('dataSource sortiert ', this.dataSource);
-/*    this.getAusgabeKategorien();
-    console.log('kategorienSet', this.kategorienSet);*/
-  }
-
 
   onJahrChange(selectedJahr: string) {
     this.jahrAuswahl$.next(selectedJahr);
@@ -98,11 +47,61 @@ export class TransaktionUebersichtComponent implements OnInit {
     });
   }
 
-  gruppiereNachMonat(daten: any[]) {
-    const gruppiert: { [monat: string]: any } = {};
+  private loadAllTransaktionen(): void {
+    this.transaktionService.getAllTransaktionen()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(alleTransaktionen => {
+        this.transaktionen = alleTransaktionen;
+      });
+  }
 
-    daten.forEach((transaktion) => {
-      const monat = transaktion.monatTransaktion;
+  private handleJahrSelektion(): void {
+    this.jahrAuswahl$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(jahr => {
+        if(jahr !== null) {
+          this.isDataProcessing = true;
+          this.transformDataSource(jahr);
+          this.setAusgabeKategorien();
+          this.isDataProcessing = false;
+        }
+      })
+  }
+
+  private transformDataSource(jahr: string): void {
+    const einnahmen = this.transaktionen.einnahmen;
+    const ausgabenMapped = this.mapTransaktionAusgabe();
+    const transaktionenUntransformiert = [...einnahmen, ...ausgabenMapped];
+
+    const transaktionenGefiltert = transaktionenUntransformiert.filter((transaktion: TransaktionEinnahme | TransaktionAusgabe) => {
+      return transaktion.jahrTransaktion === jahr;
+    });
+    transaktionenGefiltert.forEach((transaktion: TransaktionEinnahme | TransaktionAusgabe) => {
+      if(transaktion.monatTransaktion !== undefined) {
+        transaktion.monatTransaktion = getMonatLabel(transaktion.monatTransaktion);
+      }
+    });
+
+    const datenGruppiert = this.gruppiereNachMonat(transaktionenGefiltert);
+    this.dataSource = this.sortiereDaten(datenGruppiert);
+    console.log('dataSource', this.dataSource);
+  }
+
+  private mapTransaktionAusgabe(): TransaktionAusgabe[] {
+    return this.transaktionen.ausgaben.map(transaktion => {
+      const datumString = transaktion.datumTransaktion;
+      const [tagTransaktion, monatNummer, jahrTransaktion] = datumString.split('.');
+      const monatTransaktion = this.monate[parseInt(monatNummer, 10) - 1];
+
+      return {...transaktion, tagTransaktion, monatTransaktion, jahrTransaktion};
+    });
+  }
+
+  private gruppiereNachMonat(transaktionen: (TransaktionEinnahme | TransaktionAusgabe)[]): TransaktionUebersichtTransformiert[] {
+    const gruppiert: { [monat: string]: TransaktionUebersichtTransformiert  } = {};
+
+    transaktionen.forEach((transaktion) => {
+      let monat: string = transaktion.monatTransaktion ?? '';
 
       if (!gruppiert[monat]) {
         gruppiert[monat] = {
@@ -112,11 +111,9 @@ export class TransaktionUebersichtComponent implements OnInit {
         };
       }
 
-      if (transaktion.tranksaktionsArt === 'einnahme') {
+      if (this.isEinnahme(transaktion)) {
         gruppiert[monat].einnahmen.hoehe += Number(transaktion.betragEinnahme?.hoehe || 0);
-      }
-
-      if (transaktion.tranksaktionsArt === 'ausgabe') {
+      } else {
         const kategorie = transaktion.kategorie;
 
         if (!gruppiert[monat].ausgaben[kategorie]) {
@@ -129,18 +126,17 @@ export class TransaktionUebersichtComponent implements OnInit {
     return Object.values(gruppiert);
   }
 
-  sortiereDaten(unsortierteDaten: any) {
-    // @ts-ignore
+  private sortiereDaten(unsortierteDaten: TransaktionUebersichtTransformiert[]): TransaktionUebersichtTransformiert[] {
     return unsortierteDaten.sort((a, b) => {
       const indexA = this.monate.indexOf(a.monatTransaktion);
       const indexB = this.monate.indexOf(b.monatTransaktion);
+
       return indexB - indexA;
     })
   }
 
-  getAusgabeKategorien() {
+  private setAusgabeKategorien(): void {
     const kategorienSet = new Set<string>();
-    // @ts-ignore
     this.dataSource.forEach(transaktion => {
       Object.keys(transaktion.ausgaben).forEach(kategorie => {
         kategorienSet.add(kategorie);
@@ -148,6 +144,14 @@ export class TransaktionUebersichtComponent implements OnInit {
     });
 
     this.kategorienSet = Array.from(kategorienSet);
+  }
+
+  isSpinnerActive(): boolean {
+    return this.isDataProcessing;
+  }
+
+  private isEinnahme(transaktion: TransaktionEinnahme | TransaktionAusgabe): transaktion is TransaktionEinnahme {
+    return transaktion.tranksaktionsArt === 'einnahme';
   }
 
 

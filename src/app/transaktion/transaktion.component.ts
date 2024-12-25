@@ -51,10 +51,10 @@ export class TransaktionComponent {
   get notiz(): string {
     return this.transaktionForm.controls.notiz.value ?? '';
   }
-
   get ausgabeAbschnitte() {
     return this.transaktionForm.get('ausgabeAbschnitte') as FormArray ?? [];
   }
+
   onTransaktonArtChange(art: MatRadioChange) {
     const artValue = art.value;
     this.transaktionForm.get('tranksaktionsArt')?.setValue(artValue);
@@ -76,19 +76,9 @@ export class TransaktionComponent {
 
     if(this.transaktionsArt === 'einnahme') {
       const transaktionEinnahme = this.createPayloadEinnahme();
-
       this.transaktionService.createEinnahmeTransaktion(transaktionEinnahme);
     } else {
-      const payloadAusgaben: TransaktionAusgabe[] = [];
-
-      this.ausgabeAbschnitte.controls.forEach(abschnitt => {
-        if(abschnitt.get('kategorie')?.value === 'benutzerdefiniert' && abschnitt.get('benutzerdefinierteKategorie')?.value) {
-          const neueKategorie = abschnitt.get('benutzerdefinierteKategorie')?.value;
-          abschnitt.get('kategorie')?.setValue(neueKategorie);
-        }
-        const transaktionAusgabe = {...this.createPayloadAusgabe(abschnitt as FormGroup)};
-        payloadAusgaben.push(transaktionAusgabe);
-      })
+      const payloadAusgaben: TransaktionAusgabe[] = this.prepareForPayloadAusgabe();
       this.transaktionService.createAusgabenTransaktion(payloadAusgaben);
     }
 
@@ -182,5 +172,20 @@ export class TransaktionComponent {
       'datumTransaktion': new FormControl('', Validators.required),
       'betragAusgabe': new FormControl('', Validators.required),
     });
+  }
+
+  private prepareForPayloadAusgabe(): TransaktionAusgabe[] {
+    const payloadAusgaben: TransaktionAusgabe[] = [];
+
+    this.ausgabeAbschnitte.controls.forEach(abschnitt => {
+      if(abschnitt.get('kategorie')?.value === 'benutzerdefiniert' && abschnitt.get('benutzerdefinierteKategorie')?.value) {
+        const neueKategorie = abschnitt.get('benutzerdefinierteKategorie')?.value.toLowerCase();
+        abschnitt.get('kategorie')?.setValue(neueKategorie);
+      }
+      const transaktionAusgabe = {...this.createPayloadAusgabe(abschnitt as FormGroup)};
+      payloadAusgaben.push(transaktionAusgabe);
+    });
+
+    return payloadAusgaben;
   }
 }

@@ -4,7 +4,7 @@
   </mat-card-header>
   <mat-card-content>
 
-    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="50"></mat-progress-spinner>
+    <mat-progress-spinner *ngIf="isSpinnerActive()" mode="indeterminate" diameter="50"></mat-progress-spinner>
 
     <fieldset>
       <legend hidden>Datum der Transaktion</legend>
@@ -17,7 +17,7 @@
       </mat-form-field>
     </fieldset>
 
-    <table mat-table [dataSource]="dataSource" *ngIf="!isLoading">
+    <table mat-table [dataSource]="dataSource" *ngIf="!isSpinnerActive()">
 
       <ng-container matColumnDef="monat">
         <th mat-header-cell *matHeaderCellDef>Monat</th>
@@ -40,31 +40,7 @@
           </ng-container>
         </td>
       </ng-container>
- <!--     <ng-container matColumnDef="miete">
-        <th mat-header-cell *matHeaderCellDef>Miete</th>
-        <td mat-cell *matCellDef="let element">
-          <ng-container *ngIf="element.ausgaben.miete">
-            {{element.ausgaben.miete.hoehe}} {{element.ausgaben.miete.waehrung}}
-          </ng-container>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="strom">
-        <th mat-header-cell *matHeaderCellDef>Strom</th>
-        <td mat-cell *matCellDef="let element">
-          <ng-container *ngIf="element.ausgaben.strom === 'strom'">
-            {{element.ausgaben.strom.hoehe}} {{element.ausgaben.strom.waehrung}}
-          </ng-container>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="lebensmittel">
-        <th mat-header-cell *matHeaderCellDef>Lebensmittel</th>
-        <td mat-cell *matCellDef="let element">
-          <ng-container *ngIf="element.ausgaben.lebensmittel">
-            {{element.ausgaben.lebensmittel.hoehe}} {{element.ausgaben.lebensmittel.waehrung}}
-          </ng-container>
-        </td>
-      </ng-container>
--->
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>

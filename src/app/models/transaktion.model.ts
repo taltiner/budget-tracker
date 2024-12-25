@@ -15,7 +15,11 @@ export interface TransaktionAusgabe extends Transaktion {
   datumTransaktion: string,
   kategorie: string,
   benutzerdefinierteKategorie: string,
-  betragAusgabe: Geldbetrag
+  betragAusgabe: Geldbetrag,
+
+  tagTransaktion?: string,
+  monatTransaktion?: string,
+  jahrTransaktion?: string,
 }
 
 export interface TransaktionUebersicht {
@@ -23,7 +27,25 @@ export interface TransaktionUebersicht {
   ausgaben: TransaktionAusgabe[],
 }
 
+export interface TransaktionUebersichtTransformiert {
+  einnahmen: {hoehe: number, waehrung: '€'},
+  ausgaben: { [kategorie: string]: {hoehe: number, waehrung: '€'} };
+  monatTransaktion: string
+}
+
 export const initialTransaktionUebersicht = {
   einnahmen: [],
   ausgaben: []
+}
+
+export const initialTransaktionAusgabe: TransaktionAusgabe = {
+  tranksaktionsArt: 'aussgabe',
+  datumTransaktion: '',
+  kategorie: '',
+  benutzerdefinierteKategorie: '',
+  betragAusgabe: {hoehe: '0', waehrung: '€'},
+
+  tagTransaktion: '',
+  monatTransaktion: '',
+  jahrTransaktion: '',
 }
