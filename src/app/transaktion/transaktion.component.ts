@@ -77,17 +77,19 @@ export class TransaktionComponent {
     if(this.transaktionsArt === 'einnahme') {
       const transaktionEinnahme = this.createPayloadEinnahme();
 
-      this.transaktionService.createTransaktion(transaktionEinnahme);
+      this.transaktionService.createEinnahmeTransaktion(transaktionEinnahme);
     } else {
+      const payloadAusgaben: TransaktionAusgabe[] = [];
+
       this.ausgabeAbschnitte.controls.forEach(abschnitt => {
         if(abschnitt.get('kategorie')?.value === 'benutzerdefiniert' && abschnitt.get('benutzerdefinierteKategorie')?.value) {
           const neueKategorie = abschnitt.get('benutzerdefinierteKategorie')?.value;
           abschnitt.get('kategorie')?.setValue(neueKategorie);
         }
-        const transaktionAusgabe = this.createPayloadAusgabe(abschnitt as FormGroup);
-        console.log('transaktionAusgabe', transaktionAusgabe)
-        this.transaktionService.createTransaktion(transaktionAusgabe);
+        const transaktionAusgabe = {...this.createPayloadAusgabe(abschnitt as FormGroup)};
+        payloadAusgaben.push(transaktionAusgabe);
       })
+      this.transaktionService.createAusgabenTransaktion(payloadAusgaben);
     }
 
     this.router.navigate(['/'], { queryParams: {} });
@@ -156,6 +158,7 @@ export class TransaktionComponent {
   private createPayloadAusgabe(abschnitt: FormGroup): TransaktionAusgabe {
     const datumTransaktion = abschnitt.get('datumTransaktion')?.value;
     const kategorie = abschnitt.get('kategorie')?.value;
+    const benutzerdefinierteKategorie = abschnitt.get('benutzerdefinierteKategorie')?.value;
     const betragAusgabe = abschnitt.get('betragAusgabe')?.value;
 
     const datePipe = new DatePipe('en-US');
@@ -165,6 +168,7 @@ export class TransaktionComponent {
       datumTransaktion: formattedDate || '',
       tranksaktionsArt: this.transaktionsArt,
       kategorie: kategorie,
+      benutzerdefinierteKategorie: benutzerdefinierteKategorie,
       betragAusgabe: {hoehe: betragAusgabe, waehrung: '€'}
     }
 

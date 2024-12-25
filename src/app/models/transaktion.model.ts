@@ -14,6 +14,7 @@ export interface TransaktionEinnahme extends Transaktion {
 export interface TransaktionAusgabe extends Transaktion {
   datumTransaktion: string,
   kategorie: string,
+  benutzerdefinierteKategorie: string,
   betragAusgabe: Geldbetrag
 }
 

@@ -1,6 +1,6 @@
 import {HttpClient} from "@angular/common/http";
 import {Transaktion, TransaktionAusgabe, TransaktionEinnahme, TransaktionUebersicht} from "../models/transaktion.model";
-import {catchError, Observable} from "rxjs";
+import {catchError, map, Observable, switchMap, take, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
 
 @Injectable({
@@ -12,23 +12,52 @@ export class TransaktionService {
 
   constructor(private http: HttpClient) { }
 
-  createTransaktion(transaktion: TransaktionEinnahme | TransaktionAusgabe): void {
-    this.getAllTransaktionen().subscribe(alleTransaktionen => {
-      if(transaktion.tranksaktionsArt === 'einnahme') {
-        alleTransaktionen.einnahmen.push(transaktion as TransaktionEinnahme);
-      } else if (transaktion.tranksaktionsArt === 'ausgabe') {
-        console.log('wird gepushed')
-        alleTransaktionen.ausgaben.push(transaktion as TransaktionAusgabe);
-      }
-
-      this.http.put<TransaktionUebersicht>(this.apiUrl, alleTransaktionen).pipe(
-        catchError(error => {
-          console.error('Fehler beim Erzeugen der Transaktion', error);
-          throw error;
-        })
-      ).subscribe();
-    })
+  createEinnahmeTransaktion(transaktion: TransaktionEinnahme): void {
+    this.getAllTransaktionen().pipe(
+      take(1),
+      map(alleTransaktionen => {
+        if (transaktion.tranksaktionsArt === 'einnahme') {
+          alleTransaktionen.einnahmen.push(transaktion as TransaktionEinnahme);
+        }
+        return alleTransaktionen;
+      }),
+      switchMap(aktualisierteTransaktionen =>
+        this.http.put<TransaktionUebersicht>(this.apiUrl, aktualisierteTransaktionen)
+      ),
+      catchError(error => {
+        console.error('Fehler beim Erzeugen der Transaktion', error);
+        return throwError(() => error); // Fehler weiterleiten
+      })
+    ).subscribe(() => {
+      console.log('Transaktion erfolgreich gespeichert:', transaktion);
+    });
   }
+
+  createAusgabenTransaktion(transaktion: TransaktionAusgabe[]): void {
+    this.getAllTransaktionen().pipe(
+      take(1),
+      map(alleTransaktionen => {
+        transaktion.forEach((abschnitt: TransaktionAusgabe ) => {
+          if (abschnitt.tranksaktionsArt === 'ausgabe') {
+            console.log('Wird gepusht:', transaktion);
+            alleTransaktionen.ausgaben.push(abschnitt as TransaktionAusgabe);
+          }
+        })
+
+        return alleTransaktionen;
+      }),
+      switchMap(aktualisierteTransaktionen =>
+        this.http.put<TransaktionUebersicht>(this.apiUrl, aktualisierteTransaktionen)
+      ),
+      catchError(error => {
+        console.error('Fehler beim Erzeugen der Transaktion', error);
+        return throwError(() => error); // Fehler weiterleiten
+      })
+    ).subscribe(() => {
+      console.log('Transaktion erfolgreich gespeichert:', transaktion);
+    });
+  }
+
 
   getTransaktion(id: string): Observable<Transaktion> {
 
