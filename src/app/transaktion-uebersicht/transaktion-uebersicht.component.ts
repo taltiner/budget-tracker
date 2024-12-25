@@ -7,8 +7,9 @@ import {
 import {TransaktionService} from "../service/transaktion.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Router} from "@angular/router";
-import {getMonatLabel, TRANSAKTION_JAHR} from "../common/select-options";
+import {getKategorieLabel, getMonatLabel, getMonatValue, TRANSAKTION_JAHR} from "../common/select-options";
 import {BehaviorSubject} from "rxjs";
+import {GeldbetragNumerisch} from "../models/geldbetrag.model";
 
 @Component({
   selector: 'app-transaktion-uebersicht',
@@ -16,7 +17,7 @@ import {BehaviorSubject} from "rxjs";
   styleUrl: './transaktion-uebersicht.component.scss'
 })
 export class TransaktionUebersichtComponent implements OnInit {
-  monate: string[] = ['januar', 'februar', 'märz', 'april', 'mai', 'juni',
+  monate: string[] = ['gesamt', 'januar', 'februar', 'märz', 'april', 'mai', 'juni',
     'juli', 'august', 'september', 'oktober', 'november', 'dezember'];
   transaktionen: TransaktionUebersicht = initialTransaktionUebersicht;
   dataSource: TransaktionUebersichtTransformiert[] = [];
@@ -34,7 +35,7 @@ export class TransaktionUebersichtComponent implements OnInit {
   }
 
   get displayedColumns() {
-    return ['monat', 'einnahmen', ...this.kategorienSet];
+    return ['monat', 'einnahmen', ...this.kategorienSet, 'gesamtausgaben', 'saldo'];
   }
 
   onJahrChange(selectedJahr: string) {
@@ -78,11 +79,14 @@ export class TransaktionUebersichtComponent implements OnInit {
     });
     transaktionenGefiltert.forEach((transaktion: TransaktionEinnahme | TransaktionAusgabe) => {
       if(transaktion.monatTransaktion !== undefined) {
-        transaktion.monatTransaktion = getMonatLabel(transaktion.monatTransaktion);
+        console.log('monatTransaktion', transaktion.monatTransaktion)
+        transaktion.monatTransaktion = getMonatLabel(transaktion.monatTransaktion.toLowerCase());
       }
     });
+    console.log('transaktionenGefiltert', transaktionenGefiltert)
 
     const datenGruppiert = this.gruppiereNachMonat(transaktionenGefiltert);
+    console.log('datenGruppiert', datenGruppiert)
     this.dataSource = this.sortiereDaten(datenGruppiert);
     console.log('dataSource', this.dataSource);
   }
@@ -91,7 +95,7 @@ export class TransaktionUebersichtComponent implements OnInit {
     return this.transaktionen.ausgaben.map(transaktion => {
       const datumString = transaktion.datumTransaktion;
       const [tagTransaktion, monatNummer, jahrTransaktion] = datumString.split('.');
-      const monatTransaktion = this.monate[parseInt(monatNummer, 10) - 1];
+      const monatTransaktion = this.monate[parseInt(monatNummer, 10)];
 
       return {...transaktion, tagTransaktion, monatTransaktion, jahrTransaktion};
     });
@@ -107,29 +111,54 @@ export class TransaktionUebersichtComponent implements OnInit {
         gruppiert[monat] = {
           monatTransaktion: monat,
           einnahmen: {hoehe: 0, waehrung: '€'},
-          ausgaben: {}
+          ausgaben: {},
+          gesamtausgaben: {hoehe: 0, waehrung: '€'},
+          saldo: {hoehe: 0, waehrung: '€'},
+        };
+      }
+
+      if (!gruppiert['gesamt']) {
+        gruppiert['gesamt'] = {
+          monatTransaktion: getMonatLabel('gesamt'),
+          einnahmen: {hoehe: 0, waehrung: '€'},
+          ausgaben: {},
+          gesamtausgaben: {hoehe: 0, waehrung: '€'},
+          saldo: {hoehe: 0, waehrung: '€'},
         };
       }
 
       if (this.isEinnahme(transaktion)) {
         gruppiert[monat].einnahmen.hoehe += Number(transaktion.betragEinnahme?.hoehe || 0);
+        gruppiert[monat].saldo.hoehe += Number(transaktion.betragEinnahme?.hoehe || 0);
       } else {
-        const kategorie = transaktion.kategorie;
-
-        if (!gruppiert[monat].ausgaben[kategorie]) {
-          gruppiert[monat].ausgaben[kategorie] = {hoehe: 0, waehrung: '€'};
+        let kategorieFormatted = '';
+        if(transaktion.benutzerdefinierteKategorie === '') {
+           kategorieFormatted = getKategorieLabel(transaktion.kategorie);
+        } else {
+          kategorieFormatted = transaktion.kategorie.charAt(0).toUpperCase() + transaktion.kategorie.slice(1).toLowerCase();
         }
-        gruppiert[monat].ausgaben[kategorie].hoehe += Number(transaktion.betragAusgabe?.hoehe || 0);
-      }
-    });
 
+        if (!gruppiert[monat].ausgaben[kategorieFormatted]) {
+          gruppiert[monat].ausgaben[kategorieFormatted] = {hoehe: 0, waehrung: '€'};
+        }
+        gruppiert[monat].ausgaben[kategorieFormatted].hoehe += Number(transaktion.betragAusgabe?.hoehe || 0);
+        gruppiert[monat].gesamtausgaben.hoehe += Number(transaktion.betragAusgabe?.hoehe || 0);
+        gruppiert[monat].saldo.hoehe -= Number(transaktion.betragAusgabe?.hoehe || 0);
+      }
+
+      gruppiert['gesamt'].einnahmen.hoehe += gruppiert[monat].einnahmen.hoehe;
+      gruppiert['gesamt'].gesamtausgaben.hoehe += gruppiert[monat].gesamtausgaben.hoehe;
+      gruppiert['gesamt'].saldo.hoehe += gruppiert[monat].saldo.hoehe;
+
+    });
+    console.log('gruppiert ', gruppiert)
     return Object.values(gruppiert);
   }
 
   private sortiereDaten(unsortierteDaten: TransaktionUebersichtTransformiert[]): TransaktionUebersichtTransformiert[] {
     return unsortierteDaten.sort((a, b) => {
-      const indexA = this.monate.indexOf(a.monatTransaktion);
-      const indexB = this.monate.indexOf(b.monatTransaktion);
+      const indexA = this.monate.indexOf(getMonatValue(a.monatTransaktion));
+      const indexB = this.monate.indexOf(getMonatValue(b.monatTransaktion));
 
       return indexB - indexA;
     })

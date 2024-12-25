@@ -5,8 +5,14 @@ export interface SelectOptions {
 export const KATEGORIE_AUSGABE: SelectOptions[] = [
   {value: 'miete', label: 'Miete'},
   {value: 'strom', label: 'Strom'},
-  {value: 'lebensmittel', label: 'Lebensmittel'}
-
+  {value: 'lebensmittel', label: 'Lebensmittel (Einkauf)'},
+  {value: 'essenUnterwegs', label: 'Essen (Unterwegs)'},
+  {value: 'transportOeffentliche', label: 'Transport Öffentliche'},
+  {value: 'transportKfz', label: 'Transport Kfz'},
+  {value: 'internet', label: 'Internet'},
+  {value: 'mobilesInternet', label: 'Mobiles Internet'},
+  {value: 'sport', label: 'Sport'},
+  {value: 'sonstiges', label: 'Sonstiges'},
 ];
 
 export const TRANSAKTION_JAHR: SelectOptions[] = [
@@ -16,6 +22,7 @@ export const TRANSAKTION_JAHR: SelectOptions[] = [
 ];
 
 export const TRANSAKTION_MONAT: SelectOptions[] = [
+  {value: 'gesamt', label: 'Gesamt'},
   {value: 'januar', label: 'Januar'},
   {value: 'februar', label: 'Februar'},
   {value: 'märz', label: 'März'},
@@ -30,8 +37,20 @@ export const TRANSAKTION_MONAT: SelectOptions[] = [
   {value: 'dezember', label: 'Dezember'},
 ];
 
+export function getKategorieLabel(value: string): string {
+  const kategorieLabel = KATEGORIE_AUSGABE.find((m) => m.value === value)?.label;
+
+  return kategorieLabel ?? '';
+}
+
 export function getMonatLabel(value: string): string {
   const monaltLabel = TRANSAKTION_MONAT.find((m) => m.value === value)?.label;
 
   return monaltLabel ?? '';
+}
+
+export function getMonatValue(label: string): string {
+  const monaltValue = TRANSAKTION_MONAT.find((m) => m.label === label)?.value;
+
+  return monaltValue ?? '';
 }

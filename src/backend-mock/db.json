@@ -1,6 +1,17 @@
 {
   "transaktionen": {
-    "einnahmen": [],
+    "einnahmen": [
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "tranksaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3000",
+          "waehrung": "€"
+        },
+        "notiz": ""
+      }
+    ],
     "ausgaben": [
       {
         "datumTransaktion": "01.12.2024",
@@ -8,7 +19,7 @@
         "kategorie": "miete",
         "benutzerdefinierteKategorie": "",
         "betragAusgabe": {
-          "hoehe": "900",
+          "hoehe": "1000",
           "waehrung": "€"
         }
       },
@@ -23,7 +34,7 @@
         }
       },
       {
-        "datumTransaktion": "26.12.2024",
+        "datumTransaktion": "10.12.2024",
         "tranksaktionsArt": "ausgabe",
         "kategorie": "lebensmittel",
         "benutzerdefinierteKategorie": "",
@@ -33,22 +44,52 @@
         }
       },
       {
-        "datumTransaktion": "26.12.2024",
+        "datumTransaktion": "11.12.2024",
         "tranksaktionsArt": "ausgabe",
         "kategorie": "lebensmittel",
         "benutzerdefinierteKategorie": "",
         "betragAusgabe": {
-          "hoehe": "25",
+          "hoehe": "40",
           "waehrung": "€"
         }
       },
       {
-        "datumTransaktion": "11.12.2024",
+        "datumTransaktion": "12.12.2024",
         "tranksaktionsArt": "ausgabe",
-        "kategorie": "VAG",
-        "benutzerdefinierteKategorie": "VAG",
+        "kategorie": "essenUnterwegs",
+        "benutzerdefinierteKategorie": "",
+        "betragAusgabe": {
+          "hoehe": "30",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "10.12.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "transportOeffentliche",
+        "benutzerdefinierteKategorie": "",
         "betragAusgabe": {
           "hoehe": "49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "04.12.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "mobilesInternet",
+        "benutzerdefinierteKategorie": "",
+        "betragAusgabe": {
+          "hoehe": "22",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "04.12.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "test",
+        "benutzerdefinierteKategorie": "Test",
+        "betragAusgabe": {
+          "hoehe": "50",
           "waehrung": "€"
         }
       }
