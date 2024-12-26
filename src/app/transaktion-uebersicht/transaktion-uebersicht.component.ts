@@ -12,9 +12,10 @@ import {BehaviorSubject} from "rxjs";
 import {GeldbetragNumerisch} from "../models/geldbetrag.model";
 
 @Component({
-  selector: 'app-transaktion-uebersicht',
-  templateUrl: './transaktion-uebersicht.component.html',
-  styleUrl: './transaktion-uebersicht.component.scss'
+    selector: 'app-transaktion-uebersicht',
+    templateUrl: './transaktion-uebersicht.component.html',
+    styleUrl: './transaktion-uebersicht.component.scss',
+    standalone: false
 })
 export class TransaktionUebersichtComponent implements OnInit {
   monate: string[] = ['gesamt', 'januar', 'februar', 'märz', 'april', 'mai', 'juni',

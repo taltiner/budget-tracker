@@ -8,9 +8,10 @@ import {Router} from "@angular/router";
 import {DatePipe} from "@angular/common";
 
 @Component({
-  selector: 'app-transaktion',
-  templateUrl: './transaktion.component.html',
-  styleUrl: './transaktion.component.scss'
+    selector: 'app-transaktion',
+    templateUrl: './transaktion.component.html',
+    styleUrl: './transaktion.component.scss',
+    standalone: false
 })
 
 export class TransaktionComponent {

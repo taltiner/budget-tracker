@@ -16,7 +16,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButton} from "@angular/material/button";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatSelect} from "@angular/material/select";
-import {StoreModule} from "@ngrx/store";
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {TransaktionService} from "./service/transaktion.service";
 import {TransaktionUebersichtComponent} from "./transaktion-uebersicht/transaktion-uebersicht.component";
