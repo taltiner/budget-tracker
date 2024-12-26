@@ -1,15 +1,24 @@
 import {Component, DestroyRef, OnInit} from '@angular/core';
 import {
   initialTransaktionUebersicht,
-  TransaktionAusgabe, TransaktionEinnahme,
-  TransaktionUebersicht, TransaktionUebersichtTransformiert
+  TransaktionAusgabe,
+  TransaktionEinnahme,
+  TransaktionUebersicht,
+  TransaktionUebersichtTransformiert
 } from "../models/transaktion.model";
 import {TransaktionService} from "../service/transaktion.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Router} from "@angular/router";
-import {getKategorieLabel, getMonatLabel, getMonatValue, TRANSAKTION_JAHR} from "../common/select-options";
-import {BehaviorSubject} from "rxjs";
-import {GeldbetragNumerisch} from "../models/geldbetrag.model";
+import {
+  getKategorieLabel,
+  getMonatLabel,
+  getMonatValue,
+  KATEGORIE_AUSGABE,
+  TRANSAKTION_JAHR
+} from "../common/select-options";
+import {Darstellung} from "../models/darstellung.model";
+import _default from "chart.js/dist/core/core.interaction";
+import dataset = _default.modes.dataset;
 
 @Component({
     selector: 'app-transaktion-uebersicht',
@@ -22,9 +31,10 @@ export class TransaktionUebersichtComponent implements OnInit {
     'juli', 'august', 'september', 'oktober', 'november', 'dezember'];
   transaktionen: TransaktionUebersicht = initialTransaktionUebersicht;
   dataSource: TransaktionUebersichtTransformiert[] = [];
-  jahrAuswahl$ = new BehaviorSubject<string | null>(null);
   kategorienSet: string[] = [];
   isDataProcessing: boolean = false;
+  darstellung: Darstellung = Darstellung.Tabellarisch;
+  kategorie: string = '';
 
   constructor(private transaktionService: TransaktionService,
               private destroyRef: DestroyRef,
@@ -40,7 +50,17 @@ export class TransaktionUebersichtComponent implements OnInit {
   }
 
   onJahrChange(selectedJahr: string) {
-    this.jahrAuswahl$.next(selectedJahr);
+    this.transaktionService.jahrAuswahl$.next(selectedJahr);
+  }
+
+  onDarstellungChange(darstellung: Darstellung) {
+    this.darstellung = darstellung;
+  }
+
+  onKategorieChange(kategorie: string) {
+    console.log('kategorie changed', kategorie)
+    this.kategorie = kategorie;
+    this.transaktionService.kategorie$.next(kategorie);
   }
 
   onNeuErfassen() {
@@ -58,13 +78,15 @@ export class TransaktionUebersichtComponent implements OnInit {
   }
 
   private handleJahrSelektion(): void {
-    this.jahrAuswahl$
+    this.transaktionService.jahrAuswahl$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(jahr => {
         if(jahr !== null) {
           this.isDataProcessing = true;
           this.transformDataSource(jahr);
           this.setAusgabeKategorien();
+          this.transaktionService.dataSource$.next(this.dataSource);
+          console.log('datasource changed')
           this.isDataProcessing = false;
         }
       })
@@ -80,14 +102,11 @@ export class TransaktionUebersichtComponent implements OnInit {
     });
     transaktionenGefiltert.forEach((transaktion: TransaktionEinnahme | TransaktionAusgabe) => {
       if(transaktion.monatTransaktion !== undefined) {
-        console.log('monatTransaktion', transaktion.monatTransaktion)
         transaktion.monatTransaktion = getMonatLabel(transaktion.monatTransaktion.toLowerCase());
       }
     });
-    console.log('transaktionenGefiltert', transaktionenGefiltert)
 
     const datenGruppiert = this.gruppiereNachMonat(transaktionenGefiltert);
-    console.log('datenGruppiert', datenGruppiert)
     this.dataSource = this.sortiereDaten(datenGruppiert);
     console.log('dataSource', this.dataSource);
   }
@@ -189,4 +208,6 @@ export class TransaktionUebersichtComponent implements OnInit {
 
 
   protected readonly jahrOptions = TRANSAKTION_JAHR;
+  protected readonly Darstellung = Darstellung;
+  protected readonly kategorieOptions = KATEGORIE_AUSGABE;
 }

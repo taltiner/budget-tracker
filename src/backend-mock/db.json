@@ -20,6 +20,16 @@
           "waehrung": "€"
         },
         "notiz": ""
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "tranksaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3000",
+          "waehrung": "€"
+        },
+        "notiz": ""
       }
     ],
     "ausgaben": [
@@ -110,6 +120,26 @@
         "benutzerdefinierteKategorie": "",
         "betragAusgabe": {
           "hoehe": "850",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "06.11.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "lebensmittel",
+        "benutzerdefinierteKategorie": "",
+        "betragAusgabe": {
+          "hoehe": "50",
+          "waehrung": "€"
+        }
+      },
+      {
+        "datumTransaktion": "10.10.2024",
+        "tranksaktionsArt": "ausgabe",
+        "kategorie": "lebensmittel",
+        "benutzerdefinierteKategorie": "",
+        "betragAusgabe": {
+          "hoehe": "20",
           "waehrung": "€"
         }
       }

@@ -4,7 +4,7 @@ import {Routes, RouterModule, RouterOutlet} from '@angular/router';
 import { AppComponent } from './app.component';
 import {TransaktionComponent} from "./transaktion/transaktion.component";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField} from "@angular/material/form-field";
 import { MatLabel } from '@angular/material/form-field';
 import {MatInput} from "@angular/material/input";
@@ -24,43 +24,59 @@ import {MatTableModule} from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import { BaseChartDirective } from 'ng2-charts';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import {UebersichtDiagrammComponent} from "./transaktion-uebersicht/uebersicht-diagramm/uebersicht-diagramm.component";
 
 const appRoutes: Routes = [
   { path: '', component: TransaktionUebersichtComponent},
   { path: 'neu', component: TransaktionComponent },
 ];
 
-@NgModule({ declarations: [
-        AppComponent,
-        TransaktionComponent,
-        TransaktionUebersichtComponent
+@NgModule({
+  declarations: [
+    AppComponent,
+    TransaktionComponent,
+    TransaktionUebersichtComponent,
+    UebersichtDiagrammComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        RouterModule.forRoot(appRoutes),
-        MatCard,
-        ReactiveFormsModule,
-        MatCardHeader,
-        MatCardContent,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        BrowserAnimationsModule,
-        MatDatepickerToggle,
-        MatDatepicker,
-        MatDatepickerInput,
-        MatIconModule,
-        MatNativeDateModule,
-        MatFormFieldModule,
-        MatButton,
-        MatRadioGroup,
-        MatRadioButton,
-        MatSelect,
-        MatOption,
-        RouterOutlet,
-        MatTable,
-        MatTableModule,
-        MatCardModule,
-        MatProgressSpinner], providers: [TransaktionService, provideAnimationsAsync(), provideHttpClient(withInterceptorsFromDi())] })
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot(appRoutes),
+    MatCard,
+    ReactiveFormsModule,
+    MatCardHeader,
+    MatCardContent,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    BrowserAnimationsModule,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatDatepickerInput,
+    MatIconModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatButton,
+    MatRadioGroup,
+    MatRadioButton,
+    MatSelect,
+    MatOption,
+    RouterOutlet,
+    MatTable,
+    MatTableModule,
+    MatCardModule,
+    MatProgressSpinner,
+    BaseChartDirective,
+    FormsModule,
+  ],
+  providers: [
+    TransaktionService,
+    provideAnimationsAsync(),
+    provideHttpClient(withInterceptorsFromDi()),
+    provideCharts(withDefaultRegisterables()),
+  ] })
 export class AppModule {
 
 }

@@ -1,5 +1,5 @@
-<mat-card class="uebersicht__card">
-  <mat-card-header class="uebersicht__card--title">
+<mat-card class="uebersicht">
+  <mat-card-header class="uebersicht__title">
     <mat-card-title>Transaktion Übersicht</mat-card-title>
   </mat-card-header>
   <mat-card-content>
@@ -7,17 +7,35 @@
     <mat-progress-spinner *ngIf="isSpinnerActive()" mode="indeterminate" diameter="50"></mat-progress-spinner>
 
     <fieldset>
-      <legend hidden>Datum der Transaktion</legend>
-      <mat-form-field>
+      <legend hidden>Auswahl Darstellung</legend>
+      <mat-form-field class="uebersicht__jahr">
         <mat-label>Wähle das Jahr</mat-label>
         <mat-select (selectionChange)="onJahrChange($event.value)">
           <mat-option *ngFor="let jahr of jahrOptions"
                       [value]="jahr.value">{{jahr.label}}</mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-radio-group [(ngModel)]="darstellung"
+                       (change)="onDarstellungChange($event.value)"
+                       class="uebersicht__darstellung">
+        <mat-radio-button value="{{Darstellung.Tabellarisch}}">Tabellarisch</mat-radio-button>
+        <mat-radio-button value="{{Darstellung.Graphisch}}">Graphisch</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-form-field *ngIf="darstellung === Darstellung.Graphisch"
+                      class="uebersicht__kategorie">
+        <mat-label>Kategorie</mat-label>
+        <mat-select (selectionChange)="onKategorieChange($event.value)">
+          <mat-option *ngFor="let kategorie of kategorieOptions"
+                      [value]="kategorie.value">{{kategorie.label}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </fieldset>
 
-    <table class="uebersicht__table" mat-table [dataSource]="dataSource" *ngIf="!isSpinnerActive()">
+    <table mat-table *ngIf="!isSpinnerActive() && darstellung === Darstellung.Tabellarisch"
+      class="uebersicht__table"
+      [dataSource]="dataSource">
 
       <ng-container matColumnDef="monat">
         <th mat-header-cell *matHeaderCellDef>Monat</th>
@@ -62,6 +80,10 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
+    <app-uebersicht-diagramm
+      *ngIf="darstellung === Darstellung.Graphisch && dataSource.length && kategorie"
+    ></app-uebersicht-diagramm>
   </mat-card-content>
 </mat-card>
 

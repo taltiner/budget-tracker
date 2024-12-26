@@ -1,6 +1,12 @@
 import { HttpClient } from "@angular/common/http";
-import {Transaktion, TransaktionAusgabe, TransaktionEinnahme, TransaktionUebersicht} from "../models/transaktion.model";
-import {catchError, map, Observable, switchMap, take, throwError} from "rxjs";
+import {
+  Transaktion,
+  TransaktionAusgabe,
+  TransaktionEinnahme,
+  TransaktionUebersicht,
+  TransaktionUebersichtTransformiert
+} from "../models/transaktion.model";
+import {BehaviorSubject, catchError, map, Observable, switchMap, take, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
 
 @Injectable({
@@ -8,7 +14,9 @@ import {Injectable} from "@angular/core";
 })
 export class TransaktionService {
   private apiUrl = 'http://localhost:3000/transaktionen';
-
+  jahrAuswahl$ = new BehaviorSubject<string | null>(null);
+  dataSource$ = new BehaviorSubject<TransaktionUebersichtTransformiert[] | null>(null);
+  kategorie$ = new BehaviorSubject<string | null>(null);
 
   constructor(private http: HttpClient) { }
 

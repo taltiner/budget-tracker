@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TransaktionComponent } from './transaktion.component';
-import {Store} from "@ngrx/store";
 
 describe('TransaktionComponent', () => {
   let component: TransaktionComponent;
@@ -10,7 +9,7 @@ describe('TransaktionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TransaktionComponent],
-      providers:[Store]
+      providers:[]
     })
     .compileComponents();
 
