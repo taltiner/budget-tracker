@@ -1,7 +1,7 @@
 <form [formGroup]="transaktionForm" class="example-form">
-  <mat-card>
-    <mat-card-header>
-      <h2>Transaktion</h2>
+  <mat-card class="transaktion">
+    <mat-card-header class="transaktion__titel">
+      <h2>Transaktion Erfassen</h2>
     </mat-card-header>
 
     <mat-card-content>
@@ -108,18 +108,17 @@
         </div>
 
 
-        <button mat-stroked-button
+        <button mat-stroked-button class="transaktion__button--hinzufuegen"
                 (click)="onAusgabeHinzufuegen()">Weitere Ausgabe hinzufügen</button>
 
       </ng-container>
 
     </mat-card-content>
-
-    <div>
-      <button mat-flat-button
-        (click)="onSpeichern()">Speichern</button>
-      <button mat-stroked-button
-        (click)="onAbbrechen()">Abbrechen</button>
-    </div>
   </mat-card>
+  <div>
+    <button mat-stroked-button class="transaktion__button--speichern"
+            (click)="onSpeichern()">Speichern</button>
+    <button mat-stroked-button class="transaktion__button--abbrechen"
+            (click)="onAbbrechen()">Abbrechen</button>
+  </div>
 </form>

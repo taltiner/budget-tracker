@@ -1,5 +1,5 @@
-<mat-card class="uebersicht__table">
-  <mat-card-header class="uebersicht__table--title">
+<mat-card class="uebersicht__card">
+  <mat-card-header class="uebersicht__card--title">
     <mat-card-title>Transaktion Übersicht</mat-card-title>
   </mat-card-header>
   <mat-card-content>
@@ -17,7 +17,7 @@
       </mat-form-field>
     </fieldset>
 
-    <table mat-table [dataSource]="dataSource" *ngIf="!isSpinnerActive()">
+    <table class="uebersicht__table" mat-table [dataSource]="dataSource" *ngIf="!isSpinnerActive()">
 
       <ng-container matColumnDef="monat">
         <th mat-header-cell *matHeaderCellDef>Monat</th>
