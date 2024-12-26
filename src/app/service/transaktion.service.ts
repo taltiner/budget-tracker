@@ -1,4 +1,4 @@
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Transaktion, TransaktionAusgabe, TransaktionEinnahme, TransaktionUebersicht} from "../models/transaktion.model";
 import {catchError, map, Observable, switchMap, take, throwError} from "rxjs";
 import {Injectable} from "@angular/core";

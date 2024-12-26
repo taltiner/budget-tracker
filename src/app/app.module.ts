@@ -17,9 +17,7 @@ import {MatButton} from "@angular/material/button";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatSelect} from "@angular/material/select";
 import {StoreModule} from "@ngrx/store";
-import {transaktionReducer} from "./state/transaktion.reducer";
-import {EffectsModule} from "@ngrx/effects";
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {TransaktionService} from "./service/transaktion.service";
 import {TransaktionUebersichtComponent} from "./transaktion-uebersicht/transaktion-uebersicht.component";
 import {MatTable} from "@angular/material/table";
@@ -33,17 +31,13 @@ const appRoutes: Routes = [
   { path: 'neu', component: TransaktionComponent },
 ];
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    TransaktionComponent,
-    TransaktionUebersichtComponent
-  ],
-    imports: [
-        BrowserModule,
-        StoreModule.forRoot({transaktionen: transaktionReducer}),
+@NgModule({ declarations: [
+        AppComponent,
+        TransaktionComponent,
+        TransaktionUebersichtComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
         RouterModule.forRoot(appRoutes),
-        EffectsModule.forRoot([]),
         MatCard,
         ReactiveFormsModule,
         MatCardHeader,
@@ -64,15 +58,10 @@ const appRoutes: Routes = [
         MatSelect,
         MatOption,
         RouterOutlet,
-        HttpClientModule,
         MatTable,
         MatTableModule,
         MatCardModule,
-        MatProgressSpinner
-    ],
-  providers: [TransaktionService, provideAnimationsAsync()],
-  bootstrap: [AppComponent]
-})
+        MatProgressSpinner], providers: [TransaktionService, provideAnimationsAsync(), provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
 
 }
