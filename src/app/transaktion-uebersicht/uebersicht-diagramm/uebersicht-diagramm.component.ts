@@ -1,12 +1,11 @@
-import {AfterViewChecked, ChangeDetectorRef, Component, DestroyRef, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild} from '@angular/core';
 import {ChartData, ChartOptions} from "chart.js";
 import {TransaktionUebersichtTransformiert} from "../../models/transaktion.model";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {TransaktionService} from "../../service/transaktion.service";
-import {GeldbetragNumerisch} from "../../models/geldbetrag.model";
 import {BaseChartDirective} from "ng2-charts";
 import {getKategorieLabel} from "../../common/select-options";
-import {combineLatest, combineLatestAll} from "rxjs";
+import {combineLatest} from "rxjs";
 
 @Component({
   selector: 'app-uebersicht-diagramm',
@@ -19,8 +18,7 @@ export class UebersichtDiagrammComponent implements OnInit {
 
   constructor(
     private transaktionService: TransaktionService,
-    private destroyRef: DestroyRef,
-    private cdr: ChangeDetectorRef,
+    private destroyRef: DestroyRef
   ) {
   }
 
@@ -88,6 +86,7 @@ export class UebersichtDiagrammComponent implements OnInit {
   private clearChart() {
     this.barChartLabels = [];
     this.barChartData.datasets.forEach(dataset => dataset.data = []);
+    this.barChartData.labels = [];
     this.chart?.update();
   }
 }
