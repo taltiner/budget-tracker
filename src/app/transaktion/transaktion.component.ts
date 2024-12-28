@@ -44,7 +44,8 @@ export class TransaktionComponent {
     return this.transaktionForm.controls.tranksaktionsArt?.value || undefined;
   }
   get betragEinnahme(): string {
-    return this.transaktionForm.controls.betragEinnahme.value ?? '';
+    const einnahme = this.transaktionForm.controls.betragEinnahme.value?.replace(',', '.');
+    return einnahme ?? '';
   }
   get notiz(): string {
     return this.transaktionForm.controls.notiz.value ?? '';
@@ -55,7 +56,6 @@ export class TransaktionComponent {
 
   onTransaktonArtChange(art: MatRadioChange) {
     const artValue = art.value;
-    console.log('art', art)
     this.transaktionForm.get('tranksaktionsArt')?.setValue(artValue);
     this.handleValidators(artValue);
   }
@@ -160,7 +160,7 @@ export class TransaktionComponent {
     const datumTransaktion = abschnitt.get('datumTransaktion')?.value;
     const kategorie = abschnitt.get('kategorie')?.value;
     const benutzerdefinierteKategorie = abschnitt.get('benutzerdefinierteKategorie')?.value;
-    const betragAusgabe = abschnitt.get('betragAusgabe')?.value;
+    const betragAusgabe = abschnitt.get('betragAusgabe')?.value.replace(',', '.');
 
     const datePipe = new DatePipe('en-US');
     const formattedDate = datePipe.transform(datumTransaktion, 'dd.MM.yyyy');
