@@ -15,9 +15,17 @@
     margin-right: 10px;
   }
 
+  &__container {
+    width: 1500px;
+  }
+
   &__table {
     background-color: #ffffff;
     border: 1px solid white;
+
+    & tr:hover {
+      background-color: #93caf6;
+    }
 
     & th {
       background-color: #0077b6;
@@ -29,6 +37,7 @@
       color: #3a3a3a;
       font-weight: 400;
     }
+
   }
 
   &__button {

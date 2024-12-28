@@ -7,16 +7,17 @@
     <mat-card-content>
 
       <fieldset class="transaktion__abschnitt">
-        <legend>Art der Transaktion</legend>
+        <legend>Art der Eingabe</legend>
         <mat-radio-group
           formControlName="tranksaktionsArt"
           (change)="onTransaktonArtChange($event)">
-          <mat-radio-button value="einnahme">Einnahme</mat-radio-button>
-          <mat-radio-button value="ausgabe">Ausgabe</mat-radio-button>
+          <mat-radio-button value="{{EingabeArt.Einnahme}}">Einnahme</mat-radio-button>
+          <mat-radio-button value="{{EingabeArt.Ausgabe}}">Ausgabe</mat-radio-button>
+          <mat-radio-button value="{{EingabeArt.Notiz}}">Notiz</mat-radio-button>
         </mat-radio-group>
       </fieldset>
 
-      <ng-container *ngIf="transaktionsArt === 'einnahme'">
+      <ng-container *ngIf="transaktionsArt === EingabeArt.Einnahme || transaktionsArt === EingabeArt.Notiz">
         <fieldset class="transaktion__abschnitt">
           <legend>Datum der Transaktion</legend>
           <mat-form-field>
@@ -37,15 +38,9 @@
             </mat-select>
           </mat-form-field>
         </fieldset>
+      </ng-container>
 
-        <fieldset class="transaktion__abschnitt">
-          <legend>Einnahme</legend>
-          <mat-form-field>
-            <mat-label>Netto Einnahme</mat-label>
-            <input matInput formControlName="betragEinnahme">
-          </mat-form-field>
-        </fieldset>
-
+      <ng-container *ngIf="transaktionsArt === EingabeArt.Notiz">
         <fieldset class="transaktion__abschnitt">
           <legend>Notiz</legend>
           <mat-form-field>
@@ -55,7 +50,17 @@
         </fieldset>
       </ng-container>
 
-      <ng-container *ngIf="transaktionsArt === 'ausgabe'">
+      <ng-container *ngIf="transaktionsArt === EingabeArt.Einnahme">
+        <fieldset class="transaktion__abschnitt">
+          <legend>Einnahme</legend>
+          <mat-form-field>
+            <mat-label>Netto Einnahme</mat-label>
+            <input matInput formControlName="betragEinnahme">
+          </mat-form-field>
+        </fieldset>
+      </ng-container>
+
+      <ng-container *ngIf="transaktionsArt === EingabeArt.Ausgabe">
         <div formArrayName="ausgabeAbschnitte">
           <div *ngFor="let abschnitt of ausgabeAbschnitte.controls; let i = index"
                [formGroupName]="i" class="transaktion__abschnitt transaktion__ausgabe">

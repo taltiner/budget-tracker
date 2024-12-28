@@ -1,14 +1,20 @@
 import {Geldbetrag, GeldbetragNumerisch} from "./geldbetrag.model";
 
+
+export enum EingabeArt {
+  Einnahme = 'einnahme',
+  Ausgabe = 'ausgabe',
+  Notiz = 'notiz'
+}
+
 export interface Transaktion {
-  tranksaktionsArt: string
+  tranksaktionsArt: EingabeArt | undefined | null,
 }
 
 export interface TransaktionEinnahme extends Transaktion {
   jahrTransaktion: string,
   monatTransaktion: string,
   betragEinnahme: Geldbetrag,
-  notiz?: string
 }
 
 export interface TransaktionAusgabe extends Transaktion {
@@ -22,9 +28,16 @@ export interface TransaktionAusgabe extends Transaktion {
   jahrTransaktion?: string,
 }
 
+export interface TransaktionNotiz extends Transaktion {
+  jahrTransaktion: string,
+  monatTransaktion: string,
+  notiz: string
+}
+
 export interface TransaktionUebersicht {
   einnahmen: TransaktionEinnahme[],
   ausgaben: TransaktionAusgabe[],
+  notizen: TransaktionNotiz[],
 }
 
 export interface TransaktionUebersichtTransformiert {
@@ -33,9 +46,11 @@ export interface TransaktionUebersichtTransformiert {
   monatTransaktion: string,
   gesamtausgaben: GeldbetragNumerisch,
   saldo: GeldbetragNumerisch,
+  notiz?: string
 }
 
 export const initialTransaktionUebersicht = {
   einnahmen: [],
-  ausgaben: []
+  ausgaben: [],
+  notizen: []
 }

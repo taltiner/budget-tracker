@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatRadioChange} from "@angular/material/radio";
 import {KATEGORIE_AUSGABE, SelectOptions, TRANSAKTION_JAHR, TRANSAKTION_MONAT} from "../common/select-options";
-import {TransaktionAusgabe, TransaktionEinnahme} from "../models/transaktion.model";
+import {EingabeArt, TransaktionAusgabe, TransaktionEinnahme, TransaktionNotiz} from "../models/transaktion.model";
 import {TransaktionService} from "../service/transaktion.service";
 import {Router} from "@angular/router";
 import {DatePipe} from "@angular/common";
@@ -25,7 +25,7 @@ export class TransaktionComponent {
   monatOptions: SelectOptions[] = TRANSAKTION_MONAT;
 
   transaktionForm = new FormGroup({
-    'tranksaktionsArt': new FormControl('', Validators.required),
+    'tranksaktionsArt': new FormControl(undefined, Validators.required),
     'jahr': new FormControl('', Validators.required),
     'monat': new FormControl('', Validators.required),
     'betragEinnahme': new FormControl('', Validators.required),
@@ -40,8 +40,8 @@ export class TransaktionComponent {
   get monatTransaktion(): string {
     return this.transaktionForm.controls.monat.value ?? '';
   }
-  get transaktionsArt(): string {
-    return this.transaktionForm.controls.tranksaktionsArt?.value ?? '';
+  get transaktionsArt(): EingabeArt | undefined {
+    return this.transaktionForm.controls.tranksaktionsArt?.value || undefined;
   }
   get betragEinnahme(): string {
     return this.transaktionForm.controls.betragEinnahme.value ?? '';
@@ -55,6 +55,7 @@ export class TransaktionComponent {
 
   onTransaktonArtChange(art: MatRadioChange) {
     const artValue = art.value;
+    console.log('art', art)
     this.transaktionForm.get('tranksaktionsArt')?.setValue(artValue);
     this.handleValidators(artValue);
   }
@@ -72,12 +73,17 @@ export class TransaktionComponent {
       return;
     }
 
-    if(this.transaktionsArt === 'einnahme') {
-      const transaktionEinnahme = this.createPayloadEinnahme();
-      this.transaktionService.createEinnahmeTransaktion(transaktionEinnahme);
-    } else {
+    if(this.transaktionsArt && this.transaktionsArt === 'einnahme') {
+      const payloadEinnahme = this.createPayloadEinnahme();
+      this.transaktionService.createEinnahmeTransaktion(payloadEinnahme);
+
+    } else if(this.transaktionsArt && this.transaktionsArt === 'ausgabe') {
       const payloadAusgaben: TransaktionAusgabe[] = this.prepareForPayloadAusgabe();
       this.transaktionService.createAusgabenTransaktion(payloadAusgaben);
+
+    } else {
+      const payloadNotiz = this.createPayloadNotiz();
+      this.transaktionService.createNotizTransaktion(payloadNotiz);
     }
 
     this.router.navigate(['/'], { queryParams: {} });
@@ -101,20 +107,17 @@ export class TransaktionComponent {
     let felderToSet: string[] = [];
 
     if(artValue === 'einnahme') {
-      this.transaktionForm.controls.ausgabeAbschnitte.controls.forEach(abschnitt => {
-        abschnitt.get('kategorie')?.clearValidators();
-        abschnitt.get('datumTransaktion')?.clearValidators();
-        abschnitt.get('betragAusgabe')?.clearValidators();
-        abschnitt.get('kategorie')?.updateValueAndValidity();
-        abschnitt.get('datumTransaktion')?.updateValueAndValidity();
-        abschnitt.get('betragAusgabe')?.updateValueAndValidity();
-
-      });
-      //felderToReset = ['ausgabeAbschnitte'];
+      this.clearAusgabeValidators();
       felderToSet = ['jahr', 'monat'];
-    } else {
+
+    } else if(artValue === 'ausgabe') {
       felderToReset = ['betragEinnahme', 'jahr', 'monat'];
       felderToSet = ['datumTransaktion', 'kategorie', 'betragAusgabe'];
+
+    } else {
+      felderToReset = ['betragEinnahme', 'jahr', 'monat'];
+      this.clearAusgabeValidators();
+      felderToSet = ['notiz', 'jahr', 'monat'];
     }
 
     felderToReset.forEach(feld => { this.clearValidators(feld) });
@@ -124,6 +127,17 @@ export class TransaktionComponent {
   private clearValidators(feld: string) {
     this.transaktionForm.get(feld)?.clearValidators();
     this.transaktionForm.get(feld)?.updateValueAndValidity();
+  }
+
+  private clearAusgabeValidators() {
+    this.transaktionForm.controls.ausgabeAbschnitte.controls.forEach(abschnitt => {
+      abschnitt.get('kategorie')?.clearValidators();
+      abschnitt.get('datumTransaktion')?.clearValidators();
+      abschnitt.get('betragAusgabe')?.clearValidators();
+      abschnitt.get('kategorie')?.updateValueAndValidity();
+      abschnitt.get('datumTransaktion')?.updateValueAndValidity();
+      abschnitt.get('betragAusgabe')?.updateValueAndValidity();
+    });
   }
 
   private setValidatorsRequired(feld: string) {
@@ -137,7 +151,6 @@ export class TransaktionComponent {
       monatTransaktion: this.monatTransaktion,
       tranksaktionsArt: this.transaktionsArt,
       betragEinnahme: {hoehe: this.betragEinnahme, waehrung: '€'},
-      notiz: this.notiz
     }
 
     return payload;
@@ -157,7 +170,18 @@ export class TransaktionComponent {
       tranksaktionsArt: this.transaktionsArt,
       kategorie: kategorie,
       benutzerdefinierteKategorie: benutzerdefinierteKategorie,
-      betragAusgabe: {hoehe: betragAusgabe, waehrung: '€'}
+      betragAusgabe: {hoehe: betragAusgabe, waehrung: '€'},
+    }
+
+    return payload;
+  }
+
+  private createPayloadNotiz(): TransaktionNotiz {
+    const payload: TransaktionNotiz = {
+      jahrTransaktion: this.jahrTransaktion,
+      monatTransaktion: this.monatTransaktion,
+      tranksaktionsArt: this.transaktionsArt,
+      notiz: this.notiz,
     }
 
     return payload;
@@ -186,4 +210,6 @@ export class TransaktionComponent {
 
     return payloadAusgaben;
   }
+
+  protected readonly EingabeArt = EingabeArt;
 }

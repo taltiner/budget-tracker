@@ -12,6 +12,8 @@ export const KATEGORIE_AUSGABE: SelectOptions[] = [
   {value: 'internet', label: 'Internet'},
   {value: 'mobilesInternet', label: 'Mobiles Internet'},
   {value: 'sport', label: 'Sport'},
+  {value: 'kleidung', label: 'Kleidung'},
+  {value: 'wohnungHaushalt', label: 'Wohnung/Haushalt'},
   {value: 'sonstiges', label: 'Sonstiges'},
 ];
 

@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import {
   Transaktion,
   TransaktionAusgabe,
-  TransaktionEinnahme,
+  TransaktionEinnahme, TransaktionNotiz,
   TransaktionUebersicht,
   TransaktionUebersichtTransformiert
 } from "../models/transaktion.model";
@@ -34,7 +34,7 @@ export class TransaktionService {
       ),
       catchError(error => {
         console.error('Fehler beim Erzeugen der Transaktion', error);
-        return throwError(() => error); // Fehler weiterleiten
+        return throwError(() => error);
       })
     ).subscribe(() => {
       console.log('Transaktion erfolgreich gespeichert:', transaktion);
@@ -59,13 +59,33 @@ export class TransaktionService {
       ),
       catchError(error => {
         console.error('Fehler beim Erzeugen der Transaktion', error);
-        return throwError(() => error); // Fehler weiterleiten
+        return throwError(() => error);
       })
     ).subscribe(() => {
       console.log('Transaktion erfolgreich gespeichert:', transaktion);
     });
   }
 
+  createNotizTransaktion(transaktion: TransaktionNotiz): void {
+    this.getAllTransaktionen().pipe(
+      take(1),
+      map(alleTransaktionen => {
+        if (transaktion.tranksaktionsArt === 'notiz') {
+          alleTransaktionen.notizen.push(transaktion as TransaktionNotiz);
+        }
+        return alleTransaktionen;
+      }),
+      switchMap(aktualisierteTransaktionen =>
+        this.http.put<TransaktionUebersicht>(this.apiUrl, aktualisierteTransaktionen)
+      ),
+      catchError(error => {
+        console.error('Fehler beim Erzeugen der Transaktion', error);
+        return throwError(() => error);
+      })
+    ).subscribe(() => {
+      console.log('Transaktion erfolgreich gespeichert:', transaktion);
+    });
+  }
 
   getTransaktion(id: string): Observable<Transaktion> {
 

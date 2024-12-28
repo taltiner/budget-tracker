@@ -1,8 +1,10 @@
 import {Component, DestroyRef, OnInit} from '@angular/core';
 import {
+  EingabeArt,
   initialTransaktionUebersicht,
   TransaktionAusgabe,
   TransaktionEinnahme,
+  TransaktionNotiz,
   TransaktionUebersicht,
   TransaktionUebersichtTransformiert
 } from "../models/transaktion.model";
@@ -17,8 +19,6 @@ import {
   TRANSAKTION_JAHR
 } from "../common/select-options";
 import {Darstellung} from "../models/darstellung.model";
-import _default from "chart.js/dist/core/core.interaction";
-import dataset = _default.modes.dataset;
 
 @Component({
     selector: 'app-transaktion-uebersicht',
@@ -46,7 +46,7 @@ export class TransaktionUebersichtComponent implements OnInit {
   }
 
   get displayedColumns() {
-    return ['monat', 'einnahmen', ...this.kategorienSet, 'gesamtausgaben', 'saldo'];
+    return ['monat', 'einnahmen', ...this.kategorienSet, 'gesamtausgaben', 'saldo', 'notiz'];
   }
 
   onJahrChange(selectedJahr: string) {
@@ -95,20 +95,20 @@ export class TransaktionUebersichtComponent implements OnInit {
   private transformDataSource(jahr: string): void {
     const einnahmen = this.transaktionen.einnahmen;
     const ausgabenMapped = this.mapTransaktionAusgabe();
-    const transaktionenUntransformiert = [...einnahmen, ...ausgabenMapped];
-
-    const transaktionenGefiltert = transaktionenUntransformiert.filter((transaktion: TransaktionEinnahme | TransaktionAusgabe) => {
+    const notizen = this.transaktionen.notizen;
+    const transaktionenUntransformiert = [...einnahmen, ...ausgabenMapped, ...notizen];
+    const transaktionenGefiltert = transaktionenUntransformiert.filter((transaktion: TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz) => {
       return transaktion.jahrTransaktion === jahr;
     });
-    transaktionenGefiltert.forEach((transaktion: TransaktionEinnahme | TransaktionAusgabe) => {
+    transaktionenGefiltert.forEach((transaktion: TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz) => {
       if(transaktion.monatTransaktion !== undefined) {
         transaktion.monatTransaktion = getMonatLabel(transaktion.monatTransaktion.toLowerCase());
       }
     });
 
-    const datenGruppiert = this.gruppiereNachMonat(transaktionenGefiltert);
+    const datenGruppiert = this.gruppiereUndTransformiereNachMonat(transaktionenGefiltert);
     this.dataSource = this.sortiereDaten(datenGruppiert);
-    console.log('dataSource', this.dataSource);
+    console.log('dataSource sortiert', this.dataSource);
   }
 
   private mapTransaktionAusgabe(): TransaktionAusgabe[] {
@@ -121,22 +121,23 @@ export class TransaktionUebersichtComponent implements OnInit {
     });
   }
 
-  private gruppiereNachMonat(transaktionen: (TransaktionEinnahme | TransaktionAusgabe)[]): TransaktionUebersichtTransformiert[] {
+  private gruppiereUndTransformiereNachMonat(transaktionen: (TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz)[]): TransaktionUebersichtTransformiert[] {
     const gruppiert: { [monat: string]: TransaktionUebersichtTransformiert } = {};
-
     const gesamtKey = 'gesamt';
+
     gruppiert[gesamtKey] = {
       monatTransaktion: getMonatLabel(gesamtKey),
       einnahmen: { hoehe: 0, waehrung: '€' },
       ausgaben: {},
       gesamtausgaben: { hoehe: 0, waehrung: '€' },
-      saldo: { hoehe: 0, waehrung: '€' },
+      saldo: { hoehe: 0, waehrung: '€' }
     };
 
     transaktionen.forEach((transaktion) => {
       const monat = transaktion.monatTransaktion ?? '';
       const isEinnahme = this.isEinnahme(transaktion);
-      const betragHoehe = Number(isEinnahme ? transaktion.betragEinnahme?.hoehe : transaktion.betragAusgabe?.hoehe || 0);
+      const isNotiz = this.isNotiz(transaktion);
+      let betragHoehe = 0;
 
       if (!gruppiert[monat]) {
         gruppiert[monat] = {
@@ -145,6 +146,7 @@ export class TransaktionUebersichtComponent implements OnInit {
           ausgaben: {},
           gesamtausgaben: { hoehe: 0, waehrung: '€' },
           saldo: { hoehe: 0, waehrung: '€' },
+          notiz: ''
         };
       }
 
@@ -152,11 +154,14 @@ export class TransaktionUebersichtComponent implements OnInit {
       const gesamtEintrag = gruppiert[gesamtKey];
 
       if (isEinnahme) {
-        aktuellerMonat.einnahmen.hoehe += betragHoehe;
-        aktuellerMonat.saldo.hoehe += betragHoehe;
-        gesamtEintrag.einnahmen.hoehe += betragHoehe;
-        gesamtEintrag.saldo.hoehe += betragHoehe;
-      } else {
+        betragHoehe = Number(transaktion.betragEinnahme?.hoehe);
+        aktuellerMonat.einnahmen.hoehe = this.rundeNachZweiKommastellen(aktuellerMonat.einnahmen.hoehe + betragHoehe);
+        aktuellerMonat.saldo.hoehe = this.rundeNachZweiKommastellen(aktuellerMonat.saldo.hoehe + betragHoehe);
+        gesamtEintrag.einnahmen.hoehe = this.rundeNachZweiKommastellen(gesamtEintrag.einnahmen.hoehe + betragHoehe);
+        gesamtEintrag.saldo.hoehe = this.rundeNachZweiKommastellen(gesamtEintrag.saldo.hoehe + betragHoehe);
+      } else if (!isEinnahme && !isNotiz) {
+        betragHoehe = Number(transaktion.betragAusgabe?.hoehe)
+
         const kategorie = transaktion.benutzerdefinierteKategorie
           ? transaktion.kategorie.charAt(0).toUpperCase() + transaktion.kategorie.slice(1).toLowerCase()
           : getKategorieLabel(transaktion.kategorie);
@@ -165,18 +170,21 @@ export class TransaktionUebersichtComponent implements OnInit {
           aktuellerMonat.ausgaben[kategorie] = { hoehe: 0, waehrung: '€' };
         }
 
-        aktuellerMonat.ausgaben[kategorie].hoehe += betragHoehe;
-        aktuellerMonat.gesamtausgaben.hoehe += betragHoehe;
-        aktuellerMonat.saldo.hoehe -= betragHoehe;
+        aktuellerMonat.ausgaben[kategorie].hoehe = this.rundeNachZweiKommastellen(aktuellerMonat.ausgaben[kategorie].hoehe + betragHoehe);
+        aktuellerMonat.gesamtausgaben.hoehe = this.rundeNachZweiKommastellen(aktuellerMonat.gesamtausgaben.hoehe + betragHoehe);
+        aktuellerMonat.saldo.hoehe = this.rundeNachZweiKommastellen(aktuellerMonat.saldo.hoehe - betragHoehe);
 
-        gesamtEintrag.gesamtausgaben.hoehe += betragHoehe;
-        gesamtEintrag.saldo.hoehe -= betragHoehe;
+        gesamtEintrag.gesamtausgaben.hoehe = this.rundeNachZweiKommastellen(gesamtEintrag.gesamtausgaben.hoehe + betragHoehe);
+      } else if(isNotiz) {
+
+        aktuellerMonat.notiz = transaktion.notiz;
       }
     });
 
+    gruppiert[gesamtKey].saldo.hoehe = this.rundeNachZweiKommastellen(gruppiert[gesamtKey].einnahmen.hoehe - gruppiert[gesamtKey].gesamtausgaben.hoehe);
+
     return Object.values(gruppiert);
   }
-
 
   private sortiereDaten(unsortierteDaten: TransaktionUebersichtTransformiert[]): TransaktionUebersichtTransformiert[] {
     return unsortierteDaten.sort((a, b) => {
@@ -202,10 +210,17 @@ export class TransaktionUebersichtComponent implements OnInit {
     return this.isDataProcessing;
   }
 
-  private isEinnahme(transaktion: TransaktionEinnahme | TransaktionAusgabe): transaktion is TransaktionEinnahme {
-    return transaktion.tranksaktionsArt === 'einnahme';
+  private isEinnahme(transaktion: TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz): transaktion is TransaktionEinnahme {
+    return transaktion.tranksaktionsArt === EingabeArt.Einnahme;
   }
 
+  private isNotiz(transaktion: TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz): transaktion is TransaktionNotiz {
+    return transaktion.tranksaktionsArt === EingabeArt.Notiz;
+  }
+
+  private rundeNachZweiKommastellen(betrag: number): number {
+    return Math.ceil(betrag * 100) / 100;
+  }
 
   protected readonly jahrOptions = TRANSAKTION_JAHR;
   protected readonly Darstellung = Darstellung;
