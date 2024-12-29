@@ -6,6 +6,7 @@ import {TransaktionService} from "../../service/transaktion.service";
 import {BaseChartDirective} from "ng2-charts";
 import {getKategorieLabel} from "../../common/select-options";
 import {combineLatest} from "rxjs";
+import {diagrammFarbenModel} from "../../models/diagrammFarben.model";
 
 @Component({
   selector: 'app-uebersicht-diagramm',
@@ -34,59 +35,67 @@ export class UebersichtDiagrammComponent implements OnInit {
   public barChartLabels: string[] = [];
   public barChartData: ChartData<'line'> = {
     labels: this.barChartLabels,
-    datasets: [
-      {
-        data: [],
-        label: '',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
-      },
-    ],
+    datasets: [],
   };
 
   ngOnInit() {
-
     combineLatest([this.transaktionService.kategorie$, this.transaktionService.dataSource$])
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(([kategorie, dataSource]) => {
-        if(kategorie && dataSource) {
+      .subscribe(([selectedKategorien, dataSource]) => {
+
+        if(selectedKategorien && selectedKategorien.length && dataSource) {
           this.clearChart();
-          const kategorieLabel = getKategorieLabel(kategorie);
+          selectedKategorien.forEach((kategorie, index) => {
+            const kategorieLabel = getKategorieLabel(kategorie);
+            const anzahlEintraege = this.barChartData.datasets.length;
+            const newDataSet = createDataSet(index);
 
-          dataSource.forEach((data:  TransaktionUebersichtTransformiert) => {
+            this.barChartData.datasets.push(newDataSet);
+            dataSource.forEach((data:  TransaktionUebersichtTransformiert) => {
 
-            this.setChart(data, kategorieLabel);
+              this.setChart(data, kategorieLabel, anzahlEintraege);
+            });
+
+            this.chart?.update();
           });
 
-          this.chart?.update();
         } else {
-
           this.clearChart();
         }
       })
   }
 
-  private setChart(data:  TransaktionUebersichtTransformiert, kategorieLabel: string) {
+  private setChart(data: TransaktionUebersichtTransformiert, kategorieLabel: string, anzahlEintraege: number) {
     const ausgabeKategorie = data.ausgaben[kategorieLabel];
 
     if(ausgabeKategorie !== undefined && ausgabeKategorie.hoehe !== undefined) {
       const monat: string = data.monatTransaktion;
 
-      if(kategorieLabel !== undefined && !this.barChartLabels.includes(monat)) {
-        this.barChartLabels.push(monat);
-        this.barChartData.datasets[0].data.push(ausgabeKategorie.hoehe);
-        this.barChartData.labels?.push(monat);
-        this.barChartData.datasets[0].label = kategorieLabel;
-        console.log('barChartData', this.barChartData);
+      if(kategorieLabel !== undefined ) {
+        if( !this.barChartLabels.includes(monat)) {
+          this.barChartLabels.push(monat);
+          this.barChartData.labels?.push(monat);
+        }
+        this.barChartData.datasets[anzahlEintraege].data.push(ausgabeKategorie.hoehe);
+        this.barChartData.datasets[anzahlEintraege].label = kategorieLabel;
       }
     }
   }
 
   private clearChart() {
     this.barChartLabels = [];
-    this.barChartData.datasets.forEach(dataset => dataset.data = []);
+    this.barChartData.datasets = [];
     this.barChartData.labels = [];
     this.chart?.update();
+  }
+}
+
+export function createDataSet(index: number)  {
+  return {
+    data: [],
+    label: '',
+    backgroundColor: diagrammFarbenModel[index % diagrammFarbenModel.length],
+    borderColor: diagrammFarbenModel[index % diagrammFarbenModel.length],
+    borderWidth: 1,
   }
 }

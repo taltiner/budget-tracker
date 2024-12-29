@@ -15,9 +15,12 @@ import {Injectable} from "@angular/core";
 export class TransaktionService {
   private apiUrl = 'http://localhost:3000/transaktionen';
   jahrAuswahl$ = new BehaviorSubject<string | null>(null);
-  dataSource$ = new BehaviorSubject<TransaktionUebersichtTransformiert[] | null>(null);
-  kategorie$ = new BehaviorSubject<string | null>(null);
+  dataSourceSubject = new BehaviorSubject<TransaktionUebersichtTransformiert[] | null>(null);
+  kategorieSubject = new BehaviorSubject<string[] >([]);
 
+
+  kategorie$ = this.kategorieSubject.asObservable();
+  dataSource$ = this.dataSourceSubject.asObservable();
   constructor(private http: HttpClient) { }
 
   createEinnahmeTransaktion(transaktion: TransaktionEinnahme): void {

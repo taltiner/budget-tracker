@@ -5,35 +5,122 @@
   <mat-card-content>
 
     <mat-progress-spinner *ngIf="isSpinnerActive()" mode="indeterminate" diameter="50"></mat-progress-spinner>
-
-    <fieldset>
-      <legend hidden>Auswahl Darstellung</legend>
-      <mat-form-field class="uebersicht__jahr">
-        <mat-label>Wähle das Jahr</mat-label>
-        <mat-select (selectionChange)="onJahrChange($event.value)">
-          <mat-option *ngFor="let jahr of jahrOptions"
-                      [value]="jahr.value">{{jahr.label}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-radio-group [(ngModel)]="darstellung"
-                       (change)="onDarstellungChange($event.value)"
-                       class="uebersicht__darstellung">
-        <mat-radio-button value="{{Darstellung.Tabellarisch}}">Tabellarisch</mat-radio-button>
-        <mat-radio-button value="{{Darstellung.Graphisch}}">Graphisch</mat-radio-button>
-      </mat-radio-group>
-
-      <mat-form-field *ngIf="darstellung === Darstellung.Graphisch"
-                      class="uebersicht__kategorie">
-        <mat-label>Kategorie</mat-label>
-        <mat-select (selectionChange)="onKategorieChange($event.value)">
-          <mat-option *ngFor="let kategorie of kategorieOptions"
-                      [value]="kategorie.value">{{kategorie.label}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </fieldset>
-
     <div class="uebersicht__container">
+
+      <div class="uebersicht__links">
+
+        <fieldset>
+          <legend hidden>Auswahl Darstellung</legend>
+          <mat-form-field class="uebersicht__jahr">
+            <mat-label>Wähle das Jahr</mat-label>
+            <mat-select (selectionChange)="onJahrChange($event.value)">
+              <mat-option *ngFor="let jahr of jahrOptions"
+                          [value]="jahr.value">{{jahr.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-radio-group [(ngModel)]="darstellung"
+                           (change)="onDarstellungChange($event.value)"
+                           class="uebersicht__darstellung">
+            <mat-radio-button value="{{Darstellung.Tabellarisch}}">Tabellarisch</mat-radio-button>
+            <mat-radio-button value="{{Darstellung.Graphisch}}">Graphisch</mat-radio-button>
+          </mat-radio-group>
+        </fieldset>
+
+        <div class="uebersicht__table">
+          <table mat-table *ngIf="!isSpinnerActive() && darstellung === Darstellung.Tabellarisch"
+                 [dataSource]="dataSource">
+
+            <ng-container matColumnDef="monat">
+              <th mat-header-cell *matHeaderCellDef>Monat</th>
+              <td mat-cell *matCellDef="let element">{{element.monatTransaktion}}</td>
+            </ng-container>
+            <ng-container matColumnDef="einnahmen">
+              <th mat-header-cell *matHeaderCellDef>Einnahmen</th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="element.einnahmen">
+                  {{element.einnahmen.hoehe}} {{element.einnahmen.waehrung}}
+                </ng-container>
+              </td>
+            </ng-container>
+
+            <ng-container *ngFor="let kategorie of kategorienSet" [matColumnDef]="kategorie">
+              <th mat-header-cell *matHeaderCellDef>{{kategorie}}</th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="element.ausgaben[kategorie]">
+                  {{element.ausgaben[kategorie].hoehe}} {{element.ausgaben[kategorie].waehrung}}
+                </ng-container>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="gesamtausgaben">
+              <th mat-header-cell *matHeaderCellDef>Gesamtausgaben</th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="element.gesamtausgaben">
+                  {{element.gesamtausgaben.hoehe}} {{element.gesamtausgaben.waehrung}}
+                </ng-container>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="saldo">
+              <th mat-header-cell *matHeaderCellDef>Saldo</th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="element.saldo">
+                  {{element.saldo.hoehe}} {{element.saldo.waehrung}}
+                </ng-container>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="notiz">
+              <th mat-header-cell *matHeaderCellDef>Notiz</th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="element.notiz">
+                  {{element.notiz}}
+                </ng-container>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+
+        <app-uebersicht-diagramm
+          *ngIf="darstellung === Darstellung.Graphisch && dataSource.length && selectedKategorie.length"
+        ></app-uebersicht-diagramm>
+
+      </div>
+      <div class="uebersicht__rechts" *ngIf="darstellung === Darstellung.Graphisch">
+
+        <fieldset>
+          <legend hidden>Auswahl Kategorie</legend>
+            <section>
+              <span>
+                <mat-checkbox
+                >
+                  Alle
+                </mat-checkbox>
+              </span>
+              <span>
+                <ul>
+                  <ng-container *ngFor="let kategorie of kategorieOptions">
+                    <li>
+                      <mat-checkbox
+                        (change)="onKategorieChange($event, kategorie.value)">
+                        {{kategorie.label}}
+                      </mat-checkbox>
+                    </li>
+                  </ng-container>
+                </ul>
+              </span>
+            </section>
+        </fieldset>
+
+      </div>
+    </div>
+
+
+<!--    <div>
       <table mat-table *ngIf="!isSpinnerActive() && darstellung === Darstellung.Tabellarisch"
              class="uebersicht__table"
              [dataSource]="dataSource">
@@ -90,12 +177,8 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-    </div>
+    </div>-->
 
-
-    <app-uebersicht-diagramm
-      *ngIf="darstellung === Darstellung.Graphisch && dataSource.length && kategorie"
-    ></app-uebersicht-diagramm>
   </mat-card-content>
 </mat-card>
 

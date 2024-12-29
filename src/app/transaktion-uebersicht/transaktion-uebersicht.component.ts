@@ -19,6 +19,7 @@ import {
   TRANSAKTION_JAHR
 } from "../common/select-options";
 import {Darstellung} from "../models/darstellung.model";
+import {MatCheckboxChange} from "@angular/material/checkbox";
 
 @Component({
     selector: 'app-transaktion-uebersicht',
@@ -35,6 +36,7 @@ export class TransaktionUebersichtComponent implements OnInit {
   isDataProcessing: boolean = false;
   darstellung: Darstellung = Darstellung.Tabellarisch;
   kategorie: string = '';
+  selectedKategorie: string[] = [];
 
   constructor(private transaktionService: TransaktionService,
               private destroyRef: DestroyRef,
@@ -57,10 +59,15 @@ export class TransaktionUebersichtComponent implements OnInit {
     this.darstellung = darstellung;
   }
 
-  onKategorieChange(kategorie: string) {
-    console.log('kategorie changed', kategorie)
-    this.kategorie = kategorie;
-    this.transaktionService.kategorie$.next(kategorie);
+  onKategorieChange(event: MatCheckboxChange, kategorie: string) {
+    if(event.checked) {
+      if (!this.selectedKategorie.includes(kategorie)) {
+        this.selectedKategorie.push(kategorie);
+      }
+    } else {
+      this.selectedKategorie = this.selectedKategorie.filter(item => item !== kategorie);
+    }
+    this.transaktionService.kategorieSubject.next([...this.selectedKategorie]);
   }
 
   onNeuErfassen() {
@@ -85,8 +92,7 @@ export class TransaktionUebersichtComponent implements OnInit {
           this.isDataProcessing = true;
           this.transformDataSource(jahr);
           this.setAusgabeKategorien();
-          this.transaktionService.dataSource$.next(this.dataSource);
-          console.log('datasource changed')
+          this.transaktionService.dataSourceSubject.next([...this.dataSource]);
           this.isDataProcessing = false;
         }
       })
