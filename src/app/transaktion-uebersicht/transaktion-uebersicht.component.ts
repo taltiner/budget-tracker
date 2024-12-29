@@ -175,12 +175,16 @@ export class TransaktionUebersichtComponent implements OnInit {
         if (!aktuellerMonat.ausgaben[kategorie]) {
           aktuellerMonat.ausgaben[kategorie] = { hoehe: 0, waehrung: '€' };
         }
+        if(!gesamtEintrag.ausgaben[kategorie]) {
+          gesamtEintrag.ausgaben[kategorie] = { hoehe: 0, waehrung: '€' };
+        }
 
         aktuellerMonat.ausgaben[kategorie].hoehe = this.rundeNachZweiKommastellen(aktuellerMonat.ausgaben[kategorie].hoehe + betragHoehe);
         aktuellerMonat.gesamtausgaben.hoehe = this.rundeNachZweiKommastellen(aktuellerMonat.gesamtausgaben.hoehe + betragHoehe);
         aktuellerMonat.saldo.hoehe = this.rundeNachZweiKommastellen(aktuellerMonat.saldo.hoehe - betragHoehe);
 
         gesamtEintrag.gesamtausgaben.hoehe = this.rundeNachZweiKommastellen(gesamtEintrag.gesamtausgaben.hoehe + betragHoehe);
+        gesamtEintrag.ausgaben[kategorie].hoehe = this.rundeNachZweiKommastellen(gesamtEintrag.ausgaben[kategorie].hoehe + betragHoehe);
       } else if(isNotiz) {
 
         aktuellerMonat.notiz = transaktion.notiz;

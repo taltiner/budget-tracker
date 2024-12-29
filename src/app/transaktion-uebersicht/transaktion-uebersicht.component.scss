@@ -43,6 +43,11 @@
     overflow-y: hidden;
     display: block;
 
+    & tr:last-child td {
+      background-color: rgba(147, 202, 246, 0.2);
+      font-weight: bold;
+    }
+
     & tr:hover {
       background-color: #93caf6;
     }
