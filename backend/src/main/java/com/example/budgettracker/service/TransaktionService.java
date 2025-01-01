@@ -3,6 +3,7 @@ package com.example.budgettracker.service;
 import com.example.budgettracker.model.*;
 import com.example.budgettracker.repository.TransaktionAusgabeRepository;
 import com.example.budgettracker.repository.TransaktionEinnahmeRepository;
+import com.example.budgettracker.repository.TransaktionNotizRepository;
 import com.example.budgettracker.repository.TransaktionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,23 +17,28 @@ public class TransaktionService {
     private final TransaktionRepository transaktionRepository;
     private final TransaktionEinnahmeRepository transaktionEinnahmeRepository;
     private final TransaktionAusgabeRepository transaktionAusgabeRepository;
+    private final TransaktionNotizRepository transaktionNotizRepository;
 
     @Autowired
     public TransaktionService(
             TransaktionRepository transaktionRepository,
             TransaktionEinnahmeRepository transaktionEinnahmeRepository,
-            TransaktionAusgabeRepository transaktionAusgabeRepository) {
+            TransaktionAusgabeRepository transaktionAusgabeRepository,
+            TransaktionNotizRepository transaktionNotizRepository) {
         this.transaktionRepository = transaktionRepository;
         this.transaktionEinnahmeRepository = transaktionEinnahmeRepository;
         this.transaktionAusgabeRepository = transaktionAusgabeRepository;
+        this.transaktionNotizRepository = transaktionNotizRepository;
     }
 
     public TransaktionEinnahme createEinnahmeTransaktion(TransaktionEinnahme einnahme) {
         return transaktionEinnahmeRepository.save(einnahme);
     }
-
     public TransaktionAusgabe createAusgabeTransaktion(TransaktionAusgabe ausgabe) {
         return transaktionAusgabeRepository.save(ausgabe);
+    }
+    public TransaktionNotiz createNotizTransaktion(TransaktionNotiz notiz) {
+        return transaktionNotizRepository.save(notiz);
     }
 
     public TransaktionUebersicht getAllTransaktionen() {
