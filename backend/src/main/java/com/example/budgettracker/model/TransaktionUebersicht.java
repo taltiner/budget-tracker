@@ -2,6 +2,7 @@ package com.example.budgettracker.model;
 
 import java.util.List;
 
+
 public class TransaktionUebersicht {
     private List<TransaktionEinnahme> einnahmen;
     private List<TransaktionAusgabe> ausgaben;
