@@ -23,6 +23,8 @@ export class TransaktionComponent {
   kategorieOptions: SelectOptions[] = KATEGORIE_AUSGABE;
   jahrOptions: SelectOptions[] = TRANSAKTION_JAHR;
   monatOptions: SelectOptions[] = TRANSAKTION_MONAT;
+  jahr: string = '';
+  monat: string = '';
 
   transaktionForm = new FormGroup({
     'tranksaktionsArt': new FormControl(undefined, Validators.required),
@@ -65,6 +67,25 @@ export class TransaktionComponent {
     if(ausgabeGroup.get('kategorie')?.value !== 'benutzerdefiniert') {
       ausgabeGroup.get('benutzerdefiniert')?.reset();
     }
+  }
+
+  onJahrChange(jahr: string) {
+    this.jahr = jahr;
+    if(this.transaktionsArt === 'ausgabe') {
+      this.transaktionForm.controls.ausgabeAbschnitte.controls.forEach(abschnitt => {
+        abschnitt.get('jahr')?.setValue(jahr);
+      });
+    }
+  }
+
+  onMonatChange(monat: string) {
+    this.monat = monat;
+    if(this.transaktionsArt === 'ausgabe') {
+      this.transaktionForm.controls.ausgabeAbschnitte.controls.forEach(abschnitt => {
+        abschnitt.get('monat')?.setValue(monat);
+      });
+    }
+
   }
 
   onSpeichern() {
@@ -111,8 +132,8 @@ export class TransaktionComponent {
       felderToSet = ['jahr', 'monat'];
 
     } else if(artValue === 'ausgabe') {
-      felderToReset = ['betragEinnahme', 'jahr', 'monat'];
-      felderToSet = ['datumTransaktion', 'kategorie', 'betragAusgabe'];
+      felderToReset = ['betragEinnahme'];
+      felderToSet = ['jahr', 'monat', 'kategorie', 'betragAusgabe'];
 
     } else {
       felderToReset = ['betragEinnahme', 'jahr', 'monat'];
@@ -132,10 +153,8 @@ export class TransaktionComponent {
   private clearAusgabeValidators() {
     this.transaktionForm.controls.ausgabeAbschnitte.controls.forEach(abschnitt => {
       abschnitt.get('kategorie')?.clearValidators();
-      abschnitt.get('datumTransaktion')?.clearValidators();
       abschnitt.get('betragAusgabe')?.clearValidators();
       abschnitt.get('kategorie')?.updateValueAndValidity();
-      abschnitt.get('datumTransaktion')?.updateValueAndValidity();
       abschnitt.get('betragAusgabe')?.updateValueAndValidity();
     });
   }
@@ -157,16 +176,13 @@ export class TransaktionComponent {
   }
 
   private createPayloadAusgabe(abschnitt: FormGroup): TransaktionAusgabe {
-    const datumTransaktion = abschnitt.get('datumTransaktion')?.value;
     const kategorie = abschnitt.get('kategorie')?.value;
     const benutzerdefinierteKategorie = abschnitt.get('benutzerdefinierteKategorie')?.value;
     const betragAusgabe = abschnitt.get('betragAusgabe')?.value.replace(',', '.');
 
-    const datePipe = new DatePipe('en-US');
-    const formattedDate = datePipe.transform(datumTransaktion, 'dd.MM.yyyy');
-
     const payload: TransaktionAusgabe = {
-      datumTransaktion: formattedDate || '',
+      jahrTransaktion: this.jahrTransaktion,
+      monatTransaktion: this.monatTransaktion,
       tranksaktionsArt: this.transaktionsArt,
       kategorie: kategorie,
       benutzerdefinierteKategorie: benutzerdefinierteKategorie,
@@ -191,7 +207,8 @@ export class TransaktionComponent {
     return new FormGroup({
       'kategorie': new FormControl('', Validators.required),
       'benutzerdefinierteKategorie': new FormControl(''),
-      'datumTransaktion': new FormControl('', Validators.required),
+      'jahr': new FormControl(this.jahr, Validators.required),
+      'monat': new FormControl(this.monat, Validators.required),
       'betragAusgabe': new FormControl('', Validators.required),
     });
   }

@@ -100,9 +100,9 @@ export class TransaktionUebersichtComponent implements OnInit {
 
   private transformDataSource(jahr: string): void {
     const einnahmen = this.transaktionen.einnahmen;
-    const ausgabenMapped = this.mapTransaktionAusgabe();
+    const ausgaben = this.transaktionen.ausgaben;
     const notizen = this.transaktionen.notizen;
-    const transaktionenUntransformiert = [...einnahmen, ...ausgabenMapped, ...notizen];
+    const transaktionenUntransformiert = [...einnahmen, ...ausgaben, ...notizen];
     const transaktionenGefiltert = transaktionenUntransformiert.filter((transaktion: TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz) => {
       return transaktion.jahrTransaktion === jahr;
     });
@@ -115,16 +115,6 @@ export class TransaktionUebersichtComponent implements OnInit {
     const datenGruppiert = this.gruppiereUndTransformiereNachMonat(transaktionenGefiltert);
     this.dataSource = this.sortiereDaten(datenGruppiert);
     console.log('dataSource sortiert', this.dataSource);
-  }
-
-  private mapTransaktionAusgabe(): TransaktionAusgabe[] {
-    return this.transaktionen.ausgaben.map(transaktion => {
-      const datumString = transaktion.datumTransaktion;
-      const [tagTransaktion, monatNummer, jahrTransaktion] = datumString.split('.');
-      const monatTransaktion = this.monate[parseInt(monatNummer, 10)];
-
-      return {...transaktion, tagTransaktion, monatTransaktion, jahrTransaktion};
-    });
   }
 
   private gruppiereUndTransformiereNachMonat(transaktionen: (TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz)[]): TransaktionUebersichtTransformiert[] {

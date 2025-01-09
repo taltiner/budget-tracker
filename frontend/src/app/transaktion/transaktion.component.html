@@ -17,7 +17,7 @@
         </mat-radio-group>
       </fieldset>
 
-      <ng-container *ngIf="transaktionsArt === EingabeArt.Einnahme || transaktionsArt === EingabeArt.Notiz">
+      <ng-container *ngIf="transaktionsArt === EingabeArt.Einnahme || transaktionsArt === EingabeArt.Notiz || transaktionsArt === EingabeArt.Ausgabe">
         <fieldset class="transaktion__abschnitt">
           <legend>Datum der Transaktion</legend>
           <mat-form-field>
@@ -25,6 +25,7 @@
             <mat-select
               formControlName="jahr">
               <mat-option *ngFor="let jahr of jahrOptions"
+                          (onSelectionChange)="onJahrChange(jahr.value)"
                           [value]="jahr.value">{{jahr.label}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -34,6 +35,7 @@
             <mat-select
               formControlName="monat">
               <mat-option *ngFor="let monat of monatOptions"
+                          (onSelectionChange)="onMonatChange(monat.value)"
                           [value]="monat.value">{{monat.label}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -82,17 +84,6 @@
                 <mat-form-field *ngIf="abschnitt.get('kategorie')?.value === 'benutzerdefiniert'">
                   <mat-label>Gib eine neue Kategorie ein</mat-label>
                   <input matInput formControlName="benutzerdefinierteKategorie">
-                </mat-form-field>
-              </fieldset>
-
-              <fieldset>
-                <legend>Datum der Transaktion</legend>
-                <mat-form-field>
-                  <mat-label>Wähle ein Datum</mat-label>
-                  <input matInput [matDatepicker]="picker"
-                         formControlName="datumTransaktion">
-                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
               </fieldset>
 

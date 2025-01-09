@@ -1,10 +1,7 @@
 package com.example.budgettracker.service;
 
 import com.example.budgettracker.model.*;
-import com.example.budgettracker.repository.TransaktionAusgabeRepository;
-import com.example.budgettracker.repository.TransaktionEinnahmeRepository;
-import com.example.budgettracker.repository.TransaktionNotizRepository;
-import com.example.budgettracker.repository.TransaktionRepository;
+import com.example.budgettracker.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +16,20 @@ public class TransaktionService {
     private final TransaktionAusgabeRepository transaktionAusgabeRepository;
     private final TransaktionNotizRepository transaktionNotizRepository;
 
+    private final TransaktionUebersichtRepository transaktionUebersichtRepository;
+
     @Autowired
     public TransaktionService(
             TransaktionRepository transaktionRepository,
             TransaktionEinnahmeRepository transaktionEinnahmeRepository,
             TransaktionAusgabeRepository transaktionAusgabeRepository,
-            TransaktionNotizRepository transaktionNotizRepository) {
+            TransaktionNotizRepository transaktionNotizRepository,
+            TransaktionUebersichtRepository transaktionUebersichtRepository) {
         this.transaktionRepository = transaktionRepository;
         this.transaktionEinnahmeRepository = transaktionEinnahmeRepository;
         this.transaktionAusgabeRepository = transaktionAusgabeRepository;
         this.transaktionNotizRepository = transaktionNotizRepository;
+        this.transaktionUebersichtRepository = transaktionUebersichtRepository;
     }
 
     public TransaktionEinnahme createEinnahmeTransaktion(TransaktionEinnahme einnahme) {
@@ -39,6 +40,10 @@ public class TransaktionService {
     }
     public TransaktionNotiz createNotizTransaktion(TransaktionNotiz notiz) {
         return transaktionNotizRepository.save(notiz);
+    }
+
+    public TransaktionUebersicht createTransaktion(TransaktionUebersicht transaktion) {
+        return transaktionUebersichtRepository.save(transaktion);
     }
 
     public TransaktionUebersicht getAllTransaktionen() {
