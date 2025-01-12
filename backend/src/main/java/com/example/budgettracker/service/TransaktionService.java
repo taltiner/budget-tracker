@@ -33,6 +33,10 @@ public class TransaktionService {
         return transaktionEinnahmeRepository.findAll();
     }
 
+    public void deleteAllTransaktionEinnahmen() {
+        transaktionEinnahmeRepository.deleteAll();
+    }
+
     public TransaktionAusgabe createAusgabeTransaktion(TransaktionAusgabe ausgabe) {
         return transaktionAusgabeRepository.save(ausgabe);
     }
@@ -41,19 +45,26 @@ public class TransaktionService {
         return transaktionAusgabeRepository.findAll();
     }
 
+    public void deleteAllTransaktionAusgaben() {
+        transaktionAusgabeRepository.deleteAll();
+    }
+
     public TransaktionNotiz createNotizTransaktion(TransaktionNotiz notiz) {
         return transaktionNotizRepository.save(notiz);
     }
 
-    public List<TransaktionNotiz> getAllTransaktionNotiz() {
+    public List<TransaktionNotiz> getAllTransaktionNotizen() {
         return transaktionNotizRepository.findAll();
     }
 
+    public void deleteAllTransaktionNotizen() {
+        transaktionNotizRepository.deleteAll();
+    }
 
     public TransaktionUebersicht getAllTransaktionen() {
         List<TransaktionEinnahme> einnahmen = getAllTransaktionEinnahmen();
         List<TransaktionAusgabe> ausgaben = getAllTransaktionAusgaben();
-        List<TransaktionNotiz> notizen = getAllTransaktionNotiz();
+        List<TransaktionNotiz> notizen = getAllTransaktionNotizen();
 
         return new TransaktionUebersicht(einnahmen, ausgaben, notizen);
     }

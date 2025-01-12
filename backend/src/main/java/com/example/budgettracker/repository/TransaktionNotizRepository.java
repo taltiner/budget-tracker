@@ -60,4 +60,9 @@ public class TransaktionNotizRepository {
             return notizSaved;
         });
     }
+
+    public void deleteAll(){
+        String sql = "DELETE FROM TRANSAKTION_NOTIZ";
+        jdbcTemplate.update(sql);
+    }
 }

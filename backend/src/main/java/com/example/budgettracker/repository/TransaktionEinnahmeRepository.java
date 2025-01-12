@@ -46,6 +46,7 @@ public class TransaktionEinnahmeRepository {
 
     public List<TransaktionEinnahme> findAll() {
         String sql = "SELECT * FROM TRANSAKTION_EINNAHME";
+
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             EingabeArt transaktionArt = EingabeArt.valueOf(rs.getString("TRANSAKTIONS_ART"));
             String hoehe = rs.getString("HOEHE");
@@ -60,5 +61,10 @@ public class TransaktionEinnahmeRepository {
             );
             return einnahme;
         });
+    }
+
+    public void deleteAll() {
+        String sql = "DELETE FROM TRANSAKTION_EINNAHME";
+        jdbcTemplate.update(sql);
     }
 }

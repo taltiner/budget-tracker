@@ -73,4 +73,9 @@ public class TransaktionAusgabeRepository {
             return ausgabe;
         });
     }
+
+    public void deleteAll() {
+        String sql = "DELETE FROM TRANSAKTION_AUSGABE";
+        jdbcTemplate.update(sql);
+    }
 }
