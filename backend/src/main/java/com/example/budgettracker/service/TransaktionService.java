@@ -11,51 +11,50 @@ import java.util.List;
 @Service
 public class TransaktionService {
 
-    private final TransaktionRepository transaktionRepository;
     private final TransaktionEinnahmeRepository transaktionEinnahmeRepository;
     private final TransaktionAusgabeRepository transaktionAusgabeRepository;
     private final TransaktionNotizRepository transaktionNotizRepository;
 
-    private final TransaktionUebersichtRepository transaktionUebersichtRepository;
-
     @Autowired
     public TransaktionService(
-            TransaktionRepository transaktionRepository,
             TransaktionEinnahmeRepository transaktionEinnahmeRepository,
             TransaktionAusgabeRepository transaktionAusgabeRepository,
-            TransaktionNotizRepository transaktionNotizRepository,
-            TransaktionUebersichtRepository transaktionUebersichtRepository) {
-        this.transaktionRepository = transaktionRepository;
+            TransaktionNotizRepository transaktionNotizRepository) {
         this.transaktionEinnahmeRepository = transaktionEinnahmeRepository;
         this.transaktionAusgabeRepository = transaktionAusgabeRepository;
         this.transaktionNotizRepository = transaktionNotizRepository;
-        this.transaktionUebersichtRepository = transaktionUebersichtRepository;
     }
 
     public TransaktionEinnahme createEinnahmeTransaktion(TransaktionEinnahme einnahme) {
-        return transaktionEinnahmeRepository.save(einnahme);
+         return transaktionEinnahmeRepository.save(einnahme);
     }
+
+    public List<TransaktionEinnahme> getAllTransaktionEinnahmen() {
+        return transaktionEinnahmeRepository.findAll();
+    }
+
     public TransaktionAusgabe createAusgabeTransaktion(TransaktionAusgabe ausgabe) {
         return transaktionAusgabeRepository.save(ausgabe);
     }
+
+    public List<TransaktionAusgabe> getAllTransaktionAusgaben() {
+        return transaktionAusgabeRepository.findAll();
+    }
+
     public TransaktionNotiz createNotizTransaktion(TransaktionNotiz notiz) {
         return transaktionNotizRepository.save(notiz);
     }
 
-    public TransaktionUebersicht createTransaktion(TransaktionUebersicht transaktion) {
-        return transaktionUebersichtRepository.save(transaktion);
+    public List<TransaktionNotiz> getAllTransaktionNotiz() {
+        return transaktionNotizRepository.findAll();
     }
 
+
     public TransaktionUebersicht getAllTransaktionen() {
-        List<TransaktionEinnahme> einnahmen = new ArrayList<>();
-        List<TransaktionAusgabe> ausgaben = new ArrayList<>();
-        List<TransaktionNotiz> notizen = new ArrayList<>();
-        einnahmen.add(new TransaktionEinnahme(EingabeArt.EINNAHME,"2025", "Januar", new Geldbetrag("3000", "€")));
-        ausgaben.add(new TransaktionAusgabe( EingabeArt.AUSGABE, "2025-01-01", "Test","Test",  new Geldbetrag("50", "€")));
-        notizen.add(new TransaktionNotiz( EingabeArt.NOTIZ,"2025", "Januar", "Das ist ein Test"));
+        List<TransaktionEinnahme> einnahmen = getAllTransaktionEinnahmen();
+        List<TransaktionAusgabe> ausgaben = getAllTransaktionAusgaben();
+        List<TransaktionNotiz> notizen = getAllTransaktionNotiz();
 
         return new TransaktionUebersicht(einnahmen, ausgaben, notizen);
-
-        //return transaktionRepository.findAll();
     }
 }

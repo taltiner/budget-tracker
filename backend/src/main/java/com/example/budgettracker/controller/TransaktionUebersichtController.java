@@ -20,10 +20,10 @@ public class TransaktionUebersichtController {
         this.transaktionService = transaktionService;
     }
 
-    @PostMapping
+/*    @PostMapping
     public ResponseEntity<TransaktionUebersicht> createTransaktion(@RequestBody TransaktionUebersicht transaktion) {
         TransaktionUebersicht savedTransaktion = transaktionService.createTransaktion(transaktion);
         return new ResponseEntity<>(savedTransaktion, HttpStatus.CREATED);
-    }
+    }*/
 
 }

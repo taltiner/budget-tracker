@@ -11,15 +11,5 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/transaktionen")
 public class TransaktionController {
 
-    @Autowired
-    private final TransaktionService transaktionService;
-
-    public TransaktionController(TransaktionService transaktionService) {
-        this.transaktionService = transaktionService;
-    }
-    @GetMapping
-    public TransaktionUebersicht getAllTransaktionen() {
-        return this.transaktionService.getAllTransaktionen();
-    }
 
 }
