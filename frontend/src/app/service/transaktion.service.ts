@@ -6,7 +6,7 @@ import {
   TransaktionUebersicht,
   TransaktionUebersichtTransformiert
 } from "../models/transaktion.model";
-import {BehaviorSubject, catchError, filter, map, Observable, of, switchMap, take, throwError} from "rxjs";
+import {BehaviorSubject, catchError, concatMap, EMPTY, filter, from, map, Observable, of, switchMap, take, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
 
 @Injectable({
@@ -43,18 +43,7 @@ export class TransaktionService {
       filter((url): url is string => url !== null),
       take(1),
       switchMap(apiUrl=>
-        this.getAllTransaktionen().pipe(
-          take(1),
-          map(alleTransaktionen => {
-            if (transaktion.transaktionsArt === 'einnahme') {
-              alleTransaktionen.einnahmen.push(transaktion as TransaktionEinnahme);
-            }
-            return alleTransaktionen;
-          }),
-          switchMap(aktualisierteTransaktionen =>
-            this.http.put<TransaktionUebersicht>(`${apiUrl}`, aktualisierteTransaktionen)
-          )
-        )
+        this.http.post<TransaktionUebersicht>(`${apiUrl}/einnahmen`, transaktion)
       ),
       catchError(error => {
         console.error('Fehler beim Erzeugen der Transaktion', error);
@@ -65,26 +54,18 @@ export class TransaktionService {
     });
   }
 
-  createAusgabenTransaktion(transaktion: TransaktionAusgabe[]): void {
+  createAusgabenTransaktion(transaktionen: TransaktionAusgabe[]): void {
     this.apiUrl$.pipe(
       filter((url): url is string => url !== null),
       take(1),
-      switchMap(apiUrl=>
-        this.getAllTransaktionen().pipe(
-          take(1),
-          map(alleTransaktionen => {
-            transaktion.forEach((abschnitt: TransaktionAusgabe ) => {
-              if (abschnitt.transaktionsArt === 'ausgabe') {
-                console.log('Wird gepusht:', transaktion);
-                alleTransaktionen.ausgaben.push(abschnitt as TransaktionAusgabe);
-              }
-            });
-
-            return alleTransaktionen;
-          }),
-          switchMap(aktualisierteTransaktionen =>
-            this.http.put<TransaktionUebersicht>(`${apiUrl}`, aktualisierteTransaktionen)
-          )
+      switchMap(apiUrl =>
+        from(transaktionen).pipe(
+          concatMap((abschnitt: TransaktionAusgabe) => {
+            if (abschnitt.transaktionsArt === 'ausgabe') {
+              return this.http.post<TransaktionUebersicht>(`${apiUrl}/ausgaben`, abschnitt);
+            }
+            return EMPTY;
+          })
         )
       ),
       catchError(error => {
@@ -92,7 +73,7 @@ export class TransaktionService {
         return throwError(() => error);
       })
     ).subscribe(() => {
-      console.log('Transaktion erfolgreich gespeichert:', transaktion);
+      console.log('Transaktionen erfolgreich gespeichert');
     });
   }
 
@@ -101,19 +82,7 @@ export class TransaktionService {
       filter((url): url is string => url !== null),
       take(1),
       switchMap(apiUrl=>
-        this.getAllTransaktionen().pipe(
-          take(1),
-          map(alleTransaktionen => {
-            if (transaktion.transaktionsArt === 'notiz') {
-              alleTransaktionen.notizen.push(transaktion as TransaktionNotiz);
-            }
-
-            return alleTransaktionen;
-          }),
-          switchMap(aktualisierteTransaktionen =>
-            this.http.put<TransaktionUebersicht>(`${apiUrl}`, aktualisierteTransaktionen)
-          )
-        )
+        this.http.post<TransaktionUebersicht>(`${apiUrl}/notizen`, transaktion)
       ),
       catchError(error => {
         console.error('Fehler beim Erzeugen der Transaktion', error);

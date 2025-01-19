@@ -27,7 +27,7 @@ public class TransaktionNotizRepository {
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"ID"});
-            ps.setString(1, notiz.getTransaktionsArt().toString());
+            ps.setString(1, notiz.getTransaktionsArt().getValue());
             ps.setString(2, notiz.getJahrTransaktion());
             ps.setString(3, notiz.getMonatTransaktion());
             ps.setString(4, notiz.getNotiz());
@@ -46,7 +46,12 @@ public class TransaktionNotizRepository {
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Long id = rs.getLong("ID");
-            EingabeArt transaktionsArt = EingabeArt.valueOf(rs.getString("TRANSAKTIONS_ART"));
+            String transaktionsArtString = rs.getString("TRANSAKTIONS_ART");
+            EingabeArt transaktionsArt = null;
+            if (transaktionsArtString != null) {
+                transaktionsArt = EingabeArt.fromValue(transaktionsArtString.toLowerCase());
+            }
+
             String jahrTransaktion = rs.getString("JAHR_TRANSAKTION");
             String monatTransaktion = rs.getString("MONAT_TRANSAKTION");
             String notiz = rs.getString("NOTIZ");

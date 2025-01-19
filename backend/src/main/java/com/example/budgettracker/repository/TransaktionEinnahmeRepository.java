@@ -29,7 +29,7 @@ public class TransaktionEinnahmeRepository {
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"ID"});
-            ps.setString(1, einnahme.getTransaktionsArt().toString());
+            ps.setString(1, einnahme.getTransaktionsArt().getValue());
             ps.setString(2, einnahme.getJahrTransaktion());
             ps.setString(3, einnahme.getMonatTransaktion());
             ps.setString(4, einnahme.getBetragEinnahme().getHoehe());
@@ -49,21 +49,27 @@ public class TransaktionEinnahmeRepository {
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Long id = rs.getLong("ID");
-            EingabeArt transaktionArt = EingabeArt.valueOf(rs.getString("TRANSAKTIONS_ART"));
+            String transaktionsArtString = rs.getString("TRANSAKTIONS_ART");
+            EingabeArt transaktionsArt = null;
+            if (transaktionsArtString != null) {
+                transaktionsArt = EingabeArt.fromValue(transaktionsArtString.toLowerCase());
+            }
+
             String hoehe = rs.getString("HOEHE");
             String waehrung = rs.getString("WAEHRUNG");
             Geldbetrag betragEinnahme = new Geldbetrag(hoehe, waehrung);
 
             TransaktionEinnahme einnahme = new TransaktionEinnahme(
-                    transaktionArt,
+                    transaktionsArt,
                     rs.getString("JAHR_TRANSAKTION"),
                     rs.getString("MONAT_TRANSAKTION"),
                     betragEinnahme
             );
-            einnahme.setId(id);
+            einnahme.setId(id);  // ID korrekt setzen
             return einnahme;
         });
     }
+
 
     public void deleteAll() {
         String sql = "DELETE FROM TRANSAKTION_EINNAHME";

@@ -154,8 +154,12 @@ export class TransaktionComponent {
     this.transaktionForm.controls.ausgabeAbschnitte.controls.forEach(abschnitt => {
       abschnitt.get('kategorie')?.clearValidators();
       abschnitt.get('betragAusgabe')?.clearValidators();
+      abschnitt.get('monat')?.clearValidators();
+      abschnitt.get('jahr')?.clearValidators();
       abschnitt.get('kategorie')?.updateValueAndValidity();
       abschnitt.get('betragAusgabe')?.updateValueAndValidity();
+      abschnitt.get('monat')?.updateValueAndValidity();
+      abschnitt.get('jahr')?.updateValueAndValidity();
     });
   }
 

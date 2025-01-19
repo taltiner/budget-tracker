@@ -4,22 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a655325d-f01a-4c9c-bb4e-ca72dd0ce24c" name="Changes" comment="* datumTransaktion für Ausgaben mit Jahr und Monat Angabe ersetzt&#10;* H2-Datenbank persistiert&#10;* Controller, Repository und Service für TransaktionUebersicht angelegt">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/config/CorsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/controller/HealthCheckController.java" afterDir="false" />
+    <list default="true" id="a655325d-f01a-4c9c-bb4e-ca72dd0ce24c" name="Changes" comment="* Einbau checkBackendStatus zur dynamischen Steuerung Rest Befehle an H2-DB oder db-Server&#10;* Korrektur typo in transaktionsArt und refactoring&#10;* Erweiterung models im Frontend mit id">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projects/h2Data/budgettracker.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/Projects/h2Data/budgettracker.mv.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projects/h2Data/budgettracker.trace.db" beforeDir="false" afterPath="$PROJECT_DIR$/Projects/h2Data/budgettracker.trace.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/model/EingabeArt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/model/EingabeArt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionAusgabeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionAusgabeRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionEinnahmeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionEinnahmeRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionNotizRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionNotizRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/models/transaktion.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/models/transaktion.model.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/service/transaktion.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/service/transaktion.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/transaktion-uebersicht/transaktion-uebersicht.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/transaktion-uebersicht/transaktion-uebersicht.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/transaktion-uebersicht/transaktion-uebersicht.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/transaktion-uebersicht/transaktion-uebersicht.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/transaktion/transaktion.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/transaktion/transaktion.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/transaktion/transaktion.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/transaktion/transaktion.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/backend-mock/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/backend-mock/db.json" afterDir="false" />
     </list>
@@ -428,7 +421,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736719874694</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="* Einbau checkBackendStatus zur dynamischen Steuerung Rest Befehle an H2-DB oder db-Server&#10;* Korrektur typo in transaktionsArt und refactoring&#10;* Erweiterung models im Frontend mit id">
+      <option name="closed" value="true" />
+      <created>1737310462433</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1737310462433</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -446,7 +447,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Hinzufügen von mehreren Ausgabenabschnitten ermöglicht." />
     <MESSAGE value="Gruppierung Einnahmen und Ausgaben monatlich und Darstellung dieser in der Übersicht." />
     <MESSAGE value="Ermöglichung Erfassung und Darstellung von benutzerdefinierten Kategorien für Ausgaben" />
     <MESSAGE value="Bugfix speichern mehrerer Ausgabenabschnitte" />
@@ -471,6 +471,7 @@
     <MESSAGE value="db.json" />
     <MESSAGE value="* save und findAll nach JDBC in den Repositories für Einnahme, Ausgabe und Notiz angelegt." />
     <MESSAGE value="Delete Request für Einnahme, Ausgabe und Notiz ergänzt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Delete Request für Einnahme, Ausgabe und Notiz ergänzt" />
+    <MESSAGE value="* Einbau checkBackendStatus zur dynamischen Steuerung Rest Befehle an H2-DB oder db-Server&#10;* Korrektur typo in transaktionsArt und refactoring&#10;* Erweiterung models im Frontend mit id" />
+    <option name="LAST_COMMIT_MESSAGE" value="* Einbau checkBackendStatus zur dynamischen Steuerung Rest Befehle an H2-DB oder db-Server&#10;* Korrektur typo in transaktionsArt und refactoring&#10;* Erweiterung models im Frontend mit id" />
   </component>
 </project>

@@ -29,7 +29,7 @@ public class TransaktionAusgabeRepository {
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"ID"});
-            ps.setString(1, ausgabe.getTransaktionsArt().toString());
+            ps.setString(1, ausgabe.getTransaktionsArt().getValue());
             ps.setString(2, ausgabe.getKategorie());
             ps.setString(3, ausgabe.getBenutzerdefinierteKategorie());
             ps.setString(4, ausgabe.getBetragAusgabe().getHoehe());
@@ -53,7 +53,12 @@ public class TransaktionAusgabeRepository {
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Long id = rs.getLong("ID");
-            EingabeArt transaktionsArt = EingabeArt.valueOf(rs.getString("TRANSAKTIONS_ART"));
+            String transaktionsArtString = rs.getString("TRANSAKTIONS_ART");
+            EingabeArt transaktionsArt = null;
+            if (transaktionsArtString != null) {
+                transaktionsArt = EingabeArt.fromValue(transaktionsArtString.toLowerCase());
+            }
+
             String kategorie = rs.getString("KATEGORIE");
             String benutzerdefinierteKategorie = rs.getString("BENUTZERDEFINIERTE_KATEGORIE");
             String hoehe = rs.getString("HOEHE");
