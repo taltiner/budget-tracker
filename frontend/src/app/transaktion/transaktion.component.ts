@@ -27,7 +27,7 @@ export class TransaktionComponent {
   monat: string = '';
 
   transaktionForm = new FormGroup({
-    'tranksaktionsArt': new FormControl(undefined, Validators.required),
+    'transaktionsArt': new FormControl(undefined, Validators.required),
     'jahr': new FormControl('', Validators.required),
     'monat': new FormControl('', Validators.required),
     'betragEinnahme': new FormControl('', Validators.required),
@@ -43,7 +43,7 @@ export class TransaktionComponent {
     return this.transaktionForm.controls.monat.value ?? '';
   }
   get transaktionsArt(): EingabeArt | undefined {
-    return this.transaktionForm.controls.tranksaktionsArt?.value || undefined;
+    return this.transaktionForm.controls.transaktionsArt?.value || undefined;
   }
   get betragEinnahme(): string {
     const einnahme = this.transaktionForm.controls.betragEinnahme.value?.replace(',', '.');
@@ -58,7 +58,7 @@ export class TransaktionComponent {
 
   onTransaktonArtChange(art: MatRadioChange) {
     const artValue = art.value;
-    this.transaktionForm.get('tranksaktionsArt')?.setValue(artValue);
+    this.transaktionForm.get('transaktionsArt')?.setValue(artValue);
     this.handleValidators(artValue);
   }
 
@@ -168,7 +168,7 @@ export class TransaktionComponent {
     const payload: TransaktionEinnahme = {
       jahrTransaktion: this.jahrTransaktion,
       monatTransaktion: this.monatTransaktion,
-      tranksaktionsArt: this.transaktionsArt,
+      transaktionsArt: this.transaktionsArt,
       betragEinnahme: {hoehe: this.betragEinnahme, waehrung: '€'},
     }
 
@@ -183,7 +183,7 @@ export class TransaktionComponent {
     const payload: TransaktionAusgabe = {
       jahrTransaktion: this.jahrTransaktion,
       monatTransaktion: this.monatTransaktion,
-      tranksaktionsArt: this.transaktionsArt,
+      transaktionsArt: this.transaktionsArt,
       kategorie: kategorie,
       benutzerdefinierteKategorie: benutzerdefinierteKategorie,
       betragAusgabe: {hoehe: betragAusgabe, waehrung: '€'},
@@ -196,7 +196,7 @@ export class TransaktionComponent {
     const payload: TransaktionNotiz = {
       jahrTransaktion: this.jahrTransaktion,
       monatTransaktion: this.monatTransaktion,
-      tranksaktionsArt: this.transaktionsArt,
+      transaktionsArt: this.transaktionsArt,
       notiz: this.notiz,
     }
 

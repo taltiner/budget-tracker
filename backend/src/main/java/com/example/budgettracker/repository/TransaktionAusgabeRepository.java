@@ -52,6 +52,7 @@ public class TransaktionAusgabeRepository {
         String sql = "SELECT * FROM TRANSAKTION_AUSGABE";
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Long id = rs.getLong("ID");
             EingabeArt transaktionsArt = EingabeArt.valueOf(rs.getString("TRANSAKTIONS_ART"));
             String kategorie = rs.getString("KATEGORIE");
             String benutzerdefinierteKategorie = rs.getString("BENUTZERDEFINIERTE_KATEGORIE");
@@ -69,7 +70,7 @@ public class TransaktionAusgabeRepository {
                 jahrTransaktion,
                 monatTransaktion
             );
-
+            ausgabe.setId(id);
             return ausgabe;
         });
     }

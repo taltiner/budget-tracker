@@ -48,6 +48,7 @@ public class TransaktionEinnahmeRepository {
         String sql = "SELECT * FROM TRANSAKTION_EINNAHME";
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Long id = rs.getLong("ID");
             EingabeArt transaktionArt = EingabeArt.valueOf(rs.getString("TRANSAKTIONS_ART"));
             String hoehe = rs.getString("HOEHE");
             String waehrung = rs.getString("WAEHRUNG");
@@ -55,10 +56,11 @@ public class TransaktionEinnahmeRepository {
 
             TransaktionEinnahme einnahme = new TransaktionEinnahme(
                     transaktionArt,
-                    rs.getString("JAHR_TRANSAKTINO"),
+                    rs.getString("JAHR_TRANSAKTION"),
                     rs.getString("MONAT_TRANSAKTION"),
                     betragEinnahme
             );
+            einnahme.setId(id);
             return einnahme;
         });
     }

@@ -8,7 +8,8 @@ export enum EingabeArt {
 }
 
 export interface Transaktion {
-  tranksaktionsArt: EingabeArt | undefined | null,
+  id?: string;
+  transaktionsArt: EingabeArt | undefined | null,
   jahrTransaktion: string,
   monatTransaktion: string,
 }

@@ -4,22 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a655325d-f01a-4c9c-bb4e-ca72dd0ce24c" name="Changes" comment="db.json">
+    <list default="true" id="a655325d-f01a-4c9c-bb4e-ca72dd0ce24c" name="Changes" comment="* datumTransaktion für Ausgaben mit Jahr und Monat Angabe ersetzt&#10;* H2-Datenbank persistiert&#10;* Controller, Repository und Service für TransaktionUebersicht angelegt">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/config/CorsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/controller/HealthCheckController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projects/h2Data/budgettracker.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/Projects/h2Data/budgettracker.mv.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projects/h2Data/budgettracker.trace.db" beforeDir="false" afterPath="$PROJECT_DIR$/Projects/h2Data/budgettracker.trace.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/controller/TransaktionAusgabeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/controller/TransaktionAusgabeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/controller/TransaktionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/controller/TransaktionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/controller/TransaktionNotizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/controller/TransaktionNotizController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/controller/TransaktionUebersichtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/controller/TransaktionUebersichtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/model/TransaktionAusgabe.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/model/TransaktionAusgabe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/model/EingabeArt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/model/EingabeArt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionAusgabeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionAusgabeRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionEinnahmeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionEinnahmeRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionNotizRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionNotizRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/repository/TransaktionUebersichtRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/service/TransaktionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/budgettracker/service/TransaktionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/models/transaktion.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/models/transaktion.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/service/transaktion.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/service/transaktion.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/transaktion-uebersicht/transaktion-uebersicht.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/transaktion-uebersicht/transaktion-uebersicht.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/transaktion-uebersicht/transaktion-uebersicht.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/transaktion-uebersicht/transaktion-uebersicht.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/transaktion/transaktion.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/transaktion/transaktion.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/backend-mock/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/backend-mock/db.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,8 +31,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -73,6 +74,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/tolgayaltiner/dev/workspace/budget-tracker/backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -98,7 +100,18 @@
       <recent name="$PROJECT_DIR$/frontend" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.com.example.budgettracker.BudgetTrackerApplication">
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="com.example.budgettracker.BudgetTrackerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.budgettracker.BudgetTrackerApplication" />
       <module name="demo" />
@@ -127,22 +140,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.com.example.budgettracker.BudgetTrackerApplication" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -168,6 +165,7 @@
       <workItem from="1735064969987" duration="110332000" />
       <workItem from="1735506170733" duration="1404000" />
       <workItem from="1735681820502" duration="26963000" />
+      <workItem from="1736882038159" duration="21874000" />
     </task>
     <task id="LOCAL-00001" summary="Transaktionskomponente für budget-tracker erstellt">
       <option name="closed" value="true" />
@@ -416,7 +414,21 @@
       <option name="project" value="LOCAL" />
       <updated>1735757656487</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="* save und findAll nach JDBC in den Repositories für Einnahme, Ausgabe und Notiz angelegt.">
+      <created>1736713085015</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1736713085015</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Delete Request für Einnahme, Ausgabe und Notiz ergänzt">
+      <created>1736719874694</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1736719874694</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -434,8 +446,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Übersicht Filterung nach Jahr" />
-    <MESSAGE value="* Tabellendarstellung angepasst&#10;* Methoden zur Transformierung DataSource ergänzt" />
     <MESSAGE value="Hinzufügen von mehreren Ausgabenabschnitten ermöglicht." />
     <MESSAGE value="Gruppierung Einnahmen und Ausgaben monatlich und Darstellung dieser in der Übersicht." />
     <MESSAGE value="Ermöglichung Erfassung und Darstellung von benutzerdefinierten Kategorien für Ausgaben" />
@@ -459,6 +469,8 @@
     <MESSAGE value="Errechnung aller Gesamtbeträge" />
     <MESSAGE value="Modelle und Controller in Backend angelegt" />
     <MESSAGE value="db.json" />
-    <option name="LAST_COMMIT_MESSAGE" value="db.json" />
+    <MESSAGE value="* save und findAll nach JDBC in den Repositories für Einnahme, Ausgabe und Notiz angelegt." />
+    <MESSAGE value="Delete Request für Einnahme, Ausgabe und Notiz ergänzt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Delete Request für Einnahme, Ausgabe und Notiz ergänzt" />
   </component>
 </project>

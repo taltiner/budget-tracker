@@ -45,6 +45,7 @@ public class TransaktionNotizRepository {
         String sql = "SELECT * FROM TRANSAKTION_NOTIZ";
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Long id = rs.getLong("ID");
             EingabeArt transaktionsArt = EingabeArt.valueOf(rs.getString("TRANSAKTIONS_ART"));
             String jahrTransaktion = rs.getString("JAHR_TRANSAKTION");
             String monatTransaktion = rs.getString("MONAT_TRANSAKTION");
@@ -56,7 +57,7 @@ public class TransaktionNotizRepository {
                 monatTransaktion,
                 notiz
             );
-
+            notizSaved.setId(id);
             return notizSaved;
         });
     }

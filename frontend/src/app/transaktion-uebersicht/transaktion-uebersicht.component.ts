@@ -80,6 +80,7 @@ export class TransaktionUebersichtComponent implements OnInit {
     this.transaktionService.getAllTransaktionen()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(alleTransaktionen => {
+        console.log('alleTransaktionen', alleTransaktionen)
         this.transaktionen = alleTransaktionen;
       });
   }
@@ -112,7 +113,10 @@ export class TransaktionUebersichtComponent implements OnInit {
       }
     });
 
+    console.log('transaktionenGefiltert', transaktionenGefiltert);
+
     const datenGruppiert = this.gruppiereUndTransformiereNachMonat(transaktionenGefiltert);
+    console.log('datenGruppiert', datenGruppiert);
     this.dataSource = this.sortiereDaten(datenGruppiert);
     console.log('dataSource sortiert', this.dataSource);
   }
@@ -211,11 +215,11 @@ export class TransaktionUebersichtComponent implements OnInit {
   }
 
   private isEinnahme(transaktion: TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz): transaktion is TransaktionEinnahme {
-    return transaktion.tranksaktionsArt === EingabeArt.Einnahme;
+    return transaktion.transaktionsArt === EingabeArt.Einnahme;
   }
 
   private isNotiz(transaktion: TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz): transaktion is TransaktionNotiz {
-    return transaktion.tranksaktionsArt === EingabeArt.Notiz;
+    return transaktion.transaktionsArt === EingabeArt.Notiz;
   }
 
   private rundeNachZweiKommastellen(betrag: number): number {

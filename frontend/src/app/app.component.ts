@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TransaktionService } from './service/transaktion.service';
 
 @Component({
     selector: 'app-root',
@@ -8,4 +9,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'budget-tracker';
+
+  constructor(private transaktionService: TransaktionService) {}
+
+  ngOnInit(): void {
+/*    this.transaktionService.initHealthCheck().then(() => {
+      console.log('Health-Check abgeschlossen, Backend-Status:', this.transaktionService.isBackendRunning);
+    }).catch(() => {
+      console.error('Health-Check fehlgeschlagen!');
+    });*/
+  }
 }
