@@ -72,5 +72,28 @@
       background-color: #4caf50;
     }
   }
+
+  .conainer-status {
+    display: flex;
+    flex-flow: column nowrap;
+
+    &__row {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+    }
+
+    &__label {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+    }
+
+    &__value {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
 }
 

@@ -1,13 +1,2228 @@
 {
   "transaktionen": {
     "einnahmen": [
-
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3033.32",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3076.43",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3033.32",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "697.50",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3194.68",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3203.26",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "386.32",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3186.10",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3194.68",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "145",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3194.68",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "762",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3194.68",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3203.26",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3203.26",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3001.16",
+          "waehrung": "€"
+        }
+      },
+      {
+        "jahrTransaktion": "2025",
+        "monatTransaktion": "januar",
+        "transaktionsArt": "einnahme",
+        "betragEinnahme": {
+          "hoehe": "3238.99",
+          "waehrung": "€"
+        }
+      }
     ],
     "ausgaben": [
-
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Bafög",
+        "kategorie": "bafög",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "531",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "610",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "37.41",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "110",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "375.62",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "6.81",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "165.60",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "20",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "94.31",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "34.4",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "118.72",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "269.47",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "37.41",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "610",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Bafög",
+        "kategorie": "bafög",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "109.36",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "118.5",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "116.6",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "20",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "GEZ",
+        "kategorie": "gez",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "55.08",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "110",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "105.67",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "24",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "189.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "kleidung",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "69.80",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "kleidung",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "19",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "130.65",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "betragAusgabe": {
+          "hoehe": "56.52",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "610",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "37.41",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "212.93",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Bafög",
+        "kategorie": "bafög",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "390",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "110",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "23.39",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "364.54",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "191.39",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Verliehen",
+        "kategorie": "verliehen",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "betragAusgabe": {
+          "hoehe": "350",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Kaution",
+        "kategorie": "kaution",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "april",
+        "betragAusgabe": {
+          "hoehe": "2190",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "1600",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "37.41",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "115",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "281",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "wohnungHaushalt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "269.97",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportKfz",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "72.24",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "21.99",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "212.08",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "mai",
+        "betragAusgabe": {
+          "hoehe": "260.38",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "990",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "91.76",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "115",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "59.44",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "36",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "wohnungHaushalt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "547.56",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "21.45",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "21.99",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "kleidung",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "40",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "190.12",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "274.08",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "990",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Bafög",
+        "kategorie": "bafög",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "390",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "58",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "115",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "wohnungHaushalt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "160.56",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "kleidung",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "190.97",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "271",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "56.2",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "GEZ",
+        "kategorie": "gez",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "55.08",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "21.99",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "295.59",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "37.47",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "betragAusgabe": {
+          "hoehe": "413.91",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "990",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "58",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "115",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "wohnungHaushalt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "386.74",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "148.9",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "57.82",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "22.03",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "368.68",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "139.19",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "990",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "58",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "115",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "529",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "1017.57",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "609.30",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "wohnungHaushalt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "140.79",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "21.99",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "GEZ",
+        "kategorie": "gez",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "55.08",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "kleidung",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "20.1",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "327.31",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "betragAusgabe": {
+          "hoehe": "290.58",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Bafög",
+        "kategorie": "bafög",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "390",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "990",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "58",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "40",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "kleidung",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "56.23",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "102.95",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "58.72",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Schulden Privat",
+        "kategorie": "schulden privat",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "70",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "wohnungHaushalt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "174.69",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "21.99",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Schulden privat",
+        "kategorie": "schulden privat",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "100",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "290.65",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "34.99",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "oktober",
+        "betragAusgabe": {
+          "hoehe": "239.19",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "990",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "105",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "58",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "40",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "58.72",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "wohnungHaushalt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "140.79",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "21.99",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "260.86",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "november",
+        "betragAusgabe": {
+          "hoehe": "185.39",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "990",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "58",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "261.97",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "40",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "59.09",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Schulden privat",
+        "kategorie": "schulden privat",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "100",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "wohnungHaushalt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "108.79",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "21.99",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "GEZ",
+        "kategorie": "gez",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "55.08",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportKfz",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "24.50",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "326",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "23.34",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "dezember",
+        "betragAusgabe": {
+          "hoehe": "107.26",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "610",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Bafög",
+        "kategorie": "bafög",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "390",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "strom",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "37.41",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "110",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sonstiges",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "447",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Bafög",
+        "kategorie": "bafög",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "526.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "GEZ",
+        "kategorie": "gez",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "244.32",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "transportOeffentliche",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "84.9",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "wohnungHaushalt",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "89.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "internet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "37.98",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "mobilesInternet",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "22.29",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "lebensmittel",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "339.44",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Schulden privat",
+        "kategorie": "schulden privat",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "99.15",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "essenUnterwegs",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "191.29",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Schulden privat",
+        "kategorie": "schulden privat",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "august",
+        "betragAusgabe": {
+          "hoehe": "250",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juni",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "wohnungHaushalt",
+        "jahrTransaktion": "2025",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "32.01",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "miete",
+        "jahrTransaktion": "2025",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "990",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Bafög",
+        "kategorie": "bafög",
+        "jahrTransaktion": "2025",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "390",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "KFW",
+        "kategorie": "kfw",
+        "jahrTransaktion": "2025",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "103.49",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "",
+        "kategorie": "sport",
+        "jahrTransaktion": "2025",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "40",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Jugendamt",
+        "kategorie": "jugendamt",
+        "jahrTransaktion": "2025",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "454",
+          "waehrung": "€"
+        }
+      },
+      {
+        "transaktionsArt": "ausgabe",
+        "benutzerdefinierteKategorie": "Schulden privat",
+        "kategorie": "schulden privat",
+        "jahrTransaktion": "2025",
+        "monatTransaktion": "januar",
+        "betragAusgabe": {
+          "hoehe": "100",
+          "waehrung": "€"
+        }
+      }
     ],
     "notizen": [
-
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "januar",
+        "transaktionsArt": "notiz",
+        "notiz": "Flug für Aserbaidschan gekauft"
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "juli",
+        "transaktionsArt": "notiz",
+        "notiz": "Festival in Essen und Urlaub Aserbaidschan"
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "september",
+        "transaktionsArt": "notiz",
+        "notiz": "Reise Berlin mit Eda"
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "märz",
+        "transaktionsArt": "notiz",
+        "notiz": "Berlin"
+      },
+      {
+        "jahrTransaktion": "2024",
+        "monatTransaktion": "februar",
+        "transaktionsArt": "notiz",
+        "notiz": "Ticket und Hotel Berlin"
+      }
     ]
   }
 }

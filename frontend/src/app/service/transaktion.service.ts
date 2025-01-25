@@ -124,9 +124,17 @@ export class TransaktionService {
     );
   }
 
+  getAllTransaktionenDBServer(): Observable<TransaktionUebersicht> {
+    return this.http.get<TransaktionUebersicht>(`${this.frontendUrl}`).pipe(
+      catchError(error => {
+        console.error('Fehler beim Laden aller Transaktionen', error);
+        throw error;
+      })
+    )
+  }
+
   deleteTransaktion() {
 
   }
 
 }
-3
