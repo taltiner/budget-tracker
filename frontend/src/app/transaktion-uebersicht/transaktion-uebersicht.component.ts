@@ -37,14 +37,16 @@ export class TransaktionUebersichtComponent implements OnInit {
   darstellung: Darstellung = Darstellung.Tabellarisch;
   kategorie: string = '';
   selectedKategorie: string[] = [];
+  selectedJahr: string = '';
+  isBackendRunning: boolean = false;
 
   constructor(private transaktionService: TransaktionService,
               private destroyRef: DestroyRef,
               private router: Router) {}
 
   ngOnInit(): void {
+    this.checkBackendStatus();
     this.loadAllTransaktionen();
-    this.handleJahrSelektion();
   }
 
   get displayedColumns() {
@@ -52,6 +54,7 @@ export class TransaktionUebersichtComponent implements OnInit {
   }
 
   onJahrChange(selectedJahr: string) {
+    this.selectedJahr = selectedJahr;
     this.transaktionService.jahrAuswahl$.next(selectedJahr);
   }
 
@@ -74,6 +77,24 @@ export class TransaktionUebersichtComponent implements OnInit {
     this.router.navigate(['/neu'], {
       queryParams: {}
     });
+  }
+
+  onFilter() {
+    if(this.isBackendRunning) {
+      this.transaktionService.filterTransaktion(this.selectedJahr)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(filteredTransaktionen => {
+          console.log('filter transaktionen', filteredTransaktionen);
+        });
+    } else {
+      this.handleJahrSelektion();
+    }
+  }
+
+  private checkBackendStatus() {
+    this.transaktionService.backendRunning$
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(isBackendRunning => this.isBackendRunning = isBackendRunning);
   }
 
   private loadAllTransaktionen(): void {
@@ -160,7 +181,7 @@ export class TransaktionUebersichtComponent implements OnInit {
         gesamtEintrag.einnahmen.hoehe = this.rundeNachZweiKommastellen(gesamtEintrag.einnahmen.hoehe + betragHoehe);
         gesamtEintrag.saldo.hoehe = this.rundeNachZweiKommastellen(gesamtEintrag.saldo.hoehe + betragHoehe);
       } else if (!isEinnahme && !isNotiz) {
-        betragHoehe = Number(transaktion.betragAusgabe?.hoehe)
+        betragHoehe = Number(transaktion.betragAusgabe?.hoehe);
 
         const kategorie = transaktion.benutzerdefinierteKategorie
           ? transaktion.kategorie.charAt(0).toUpperCase() + transaktion.kategorie.slice(1).toLowerCase()

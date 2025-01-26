@@ -12,11 +12,4 @@ export class AppComponent {
 
   constructor(private transaktionService: TransaktionService) {}
 
-  ngOnInit(): void {
-/*    this.transaktionService.initHealthCheck().then(() => {
-      console.log('Health-Check abgeschlossen, Backend-Status:', this.transaktionService.isBackendRunning);
-    }).catch(() => {
-      console.error('Health-Check fehlgeschlagen!');
-    });*/
-  }
 }

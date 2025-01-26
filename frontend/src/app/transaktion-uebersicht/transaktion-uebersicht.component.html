@@ -25,6 +25,11 @@
             <mat-radio-button value="{{Darstellung.Tabellarisch}}">Tabellarisch</mat-radio-button>
             <mat-radio-button value="{{Darstellung.Graphisch}}">Graphisch</mat-radio-button>
           </mat-radio-group>
+
+          <button mat-stroked-button
+                  class="uebersicht__button"
+                  disabled="{{selectedJahr === ''}}"
+                  (click)="onFilter()">Filter ausführen</button>
         </fieldset>
 
         <div class="uebersicht__table">

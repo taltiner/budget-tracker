@@ -7,8 +7,6 @@ import org.springframework.data.relational.core.mapping.Table;
 public class TransaktionNotiz extends Transaktion {
     @Id
     private Long id;
-    private String jahrTransaktion;
-    private String monatTransaktion;
     private String notiz;
 
     public TransaktionNotiz(
@@ -16,20 +14,15 @@ public class TransaktionNotiz extends Transaktion {
             String jahrTransaktion,
             String monatTransaktion,
             String notiz) {
-        super(transaktionsArt);
-        this.jahrTransaktion = jahrTransaktion;
-        this.monatTransaktion = monatTransaktion;
+        super(transaktionsArt, jahrTransaktion, monatTransaktion);
+        super.setTransaktionsArt(transaktionsArt);
+        super.setJahrTransaktion(jahrTransaktion);
+        super.setMonatTransaktion(monatTransaktion);
         this.notiz = notiz;
     }
 
     public Long getId() {
         return id;
-    }
-    public String getJahrTransaktion() {
-        return jahrTransaktion;
-    }
-    public String getMonatTransaktion() {
-        return monatTransaktion;
     }
     public String getNotiz() {
         return notiz;
@@ -37,12 +30,6 @@ public class TransaktionNotiz extends Transaktion {
 
     public void setId(Long id) {
         this.id = id;
-    }
-    public void setJahrTransaktion(String jahrTransaktion) {
-        this.jahrTransaktion = jahrTransaktion;
-    }
-    public void setMonatTransaktion(String monatTransaktion) {
-        this.monatTransaktion = monatTransaktion;
     }
     public void setNotiz(String notiz) {
         this.notiz = notiz;

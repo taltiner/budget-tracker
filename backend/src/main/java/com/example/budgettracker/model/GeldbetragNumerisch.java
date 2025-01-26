@@ -26,4 +26,12 @@ public class GeldbetragNumerisch {
         this.waehrung = waehrung;
     }
 
+    public void plus(double betrag) {
+        this.hoehe += betrag;
+    }
+
+    public void minus(double betrag) {
+        this.hoehe -= betrag;
+    }
+
 }

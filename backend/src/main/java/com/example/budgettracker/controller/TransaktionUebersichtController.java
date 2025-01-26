@@ -2,6 +2,7 @@ package com.example.budgettracker.controller;
 
 import com.example.budgettracker.model.TransaktionUebersicht;
 import com.example.budgettracker.service.TransaktionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/transaktionen")
 public class TransaktionUebersichtController {
 
+    @Autowired
     private final TransaktionService transaktionService;
 
     public TransaktionUebersichtController(TransaktionService transaktionService) {

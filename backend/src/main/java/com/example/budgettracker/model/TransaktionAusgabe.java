@@ -13,8 +13,6 @@ public class TransaktionAusgabe extends Transaktion{
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
     private Geldbetrag betragAusgabe;
-    private String monatTransaktion;
-    private String jahrTransaktion;
 
 
     public TransaktionAusgabe(
@@ -24,12 +22,10 @@ public class TransaktionAusgabe extends Transaktion{
             Geldbetrag betragAusgabe,
             String jahrTransaktion,
             String monatTransaktion) {
-        super(transaktionsArt);
+        super(transaktionsArt, jahrTransaktion, monatTransaktion);
         this.kategorie = kategorie;
         this.benutzerdefinierteKategorie = benutzerdefinierteKategorie;
         this.betragAusgabe = betragAusgabe;
-        this.jahrTransaktion = jahrTransaktion;
-        this.monatTransaktion = monatTransaktion;
     }
 
     public Long getId() {
@@ -44,12 +40,6 @@ public class TransaktionAusgabe extends Transaktion{
     public Geldbetrag getBetragAusgabe() {
         return betragAusgabe;
     }
-    public String getMonatTransaktion() {
-        return monatTransaktion;
-    }
-    public String getJahrTransaktion() {
-        return jahrTransaktion;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -62,11 +52,5 @@ public class TransaktionAusgabe extends Transaktion{
     }
     public void setBetragAusgabe(Geldbetrag betragAusgabe) {
         this.betragAusgabe = betragAusgabe;
-    }
-    public void setMonatTransaktion(String monatTransaktion) {
-        this.monatTransaktion = monatTransaktion;
-    }
-    public void setJahrTransaktion(String jahrTransaktion) {
-        this.jahrTransaktion = jahrTransaktion;
     }
  }

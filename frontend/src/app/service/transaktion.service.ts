@@ -19,22 +19,26 @@ export class TransaktionService {
   jahrAuswahl$ = new BehaviorSubject<string | null>(null);
   dataSourceSubject = new BehaviorSubject<TransaktionUebersichtTransformiert[] | null>(null);
   kategorieSubject = new BehaviorSubject<string[] >([]);
+  backendRunningSubject = new BehaviorSubject<boolean>(false);
 
   kategorie$ = this.kategorieSubject.asObservable();
   dataSource$ = this.dataSourceSubject.asObservable();
   apiUrl$ = this.apiUrlSubject.asObservable();
-
+  backendRunning$ = this.backendRunningSubject.asObservable();
   constructor(private http: HttpClient) {
     this.checkBackendStatus();
   }
 
   private checkBackendStatus(): void {
     this.http.get(this.backendUrl + '/health', { responseType: 'text' }).pipe(
-      map(response => response === 'Server is running' ? this.backendUrl : this.frontendUrl),
+      map(response => {
+        const isRunning = response === 'Server is running';
+        this.backendRunningSubject.next(isRunning);
+        return isRunning ? this.backendUrl : this.frontendUrl
+      }),
       catchError(() => of(this.frontendUrl))
     ).subscribe((url: string) => {
       this.apiUrlSubject.next(url);
-      console.log('Aktualisierte API-URL:', url);
     });
   }
 
@@ -125,7 +129,7 @@ export class TransaktionService {
   }
 
   getAllTransaktionenDBServer(): Observable<TransaktionUebersicht> {
-    return this.http.get<TransaktionUebersicht>(`${this.frontendUrl}`).pipe(
+    return this.http.get<TransaktionUebersicht>(`${this.frontendUrl}/`).pipe(
       catchError(error => {
         console.error('Fehler beim Laden aller Transaktionen', error);
         throw error;
@@ -135,6 +139,15 @@ export class TransaktionService {
 
   deleteTransaktion() {
 
+  }
+
+  filterTransaktion(selectedJahr: string): Observable<Transaktion> {
+    return this.http.post<Transaktion>(`${this.backendUrl}/filtered`, selectedJahr).pipe(
+      catchError(error => {
+        console.log('Fehler beim filtern aller Transaktionen', error);
+        throw error;
+      })
+    )
   }
 
 }
