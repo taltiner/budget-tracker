@@ -26,12 +26,20 @@ public class GeldbetragNumerisch {
         this.waehrung = waehrung;
     }
 
-    public void plus(double betrag) {
+    public GeldbetragNumerisch plus(double betrag) {
         this.hoehe += betrag;
+        this.hoehe = rundeNachZweiKommastellen(this.hoehe);
+        return this;
     }
 
-    public void minus(double betrag) {
+    public GeldbetragNumerisch minus(double betrag) {
         this.hoehe -= betrag;
+        this.hoehe = rundeNachZweiKommastellen(this.hoehe);
+        return this;
+    }
+
+    private double rundeNachZweiKommastellen(double betrag) {
+        return Math.ceil(betrag * 100) / 100;
     }
 
 }

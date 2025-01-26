@@ -39,4 +39,33 @@ public class SelectOption {
             return null;
         }
     }
+
+    public class MonatAuswahl {
+        private static final List<SelectOption> TRANSAKTION_MONAT = new ArrayList<>();
+
+        static {
+            TRANSAKTION_MONAT.add(new SelectOption("gesamt", "Gesamt"));
+            TRANSAKTION_MONAT.add(new SelectOption("januar", "Januar"));
+            TRANSAKTION_MONAT.add(new SelectOption("februar", "Februar"));
+            TRANSAKTION_MONAT.add(new SelectOption("märz", "März"));
+            TRANSAKTION_MONAT.add(new SelectOption("april", "April"));
+            TRANSAKTION_MONAT.add(new SelectOption("mai", "Mai"));
+            TRANSAKTION_MONAT.add(new SelectOption("juni", "Juni"));
+            TRANSAKTION_MONAT.add(new SelectOption("juli", "Juli"));
+            TRANSAKTION_MONAT.add(new SelectOption("august", "August"));
+            TRANSAKTION_MONAT.add(new SelectOption("september", "September"));
+            TRANSAKTION_MONAT.add(new SelectOption("oktober", "Oktober"));
+            TRANSAKTION_MONAT.add(new SelectOption("november", "November"));
+            TRANSAKTION_MONAT.add(new SelectOption("dezember", "Dezember"));
+        }
+
+        public static String getMonatLabel(String value) {
+            for(SelectOption monat : TRANSAKTION_MONAT) {
+                if(monat.value.equals(value)) {
+                    return monat.label;
+                }
+            }
+            return null;
+        }
+    }
 }

@@ -77,7 +77,7 @@ public class TransaktionUebersichtTransformiert {
             this.monatTransaktion = monatTransaktion;
             return this;
         }
-        public Builder setGesamtausgaben(GeldbetragNumerisch ausgaben) {
+        public Builder setGesamtausgaben(GeldbetragNumerisch gesamtausgaben) {
             this.gesamtausgaben = gesamtausgaben;
             return this;
         }

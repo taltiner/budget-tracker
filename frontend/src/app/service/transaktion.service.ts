@@ -141,8 +141,8 @@ export class TransaktionService {
 
   }
 
-  filterTransaktion(selectedJahr: string): Observable<Transaktion> {
-    return this.http.post<Transaktion>(`${this.backendUrl}/filtered`, selectedJahr).pipe(
+  filterTransaktion(selectedJahr: string): Observable<TransaktionUebersichtTransformiert[]> {
+    return this.http.post<TransaktionUebersichtTransformiert[]>(`${this.backendUrl}/filtered`, selectedJahr).pipe(
       catchError(error => {
         console.log('Fehler beim filtern aller Transaktionen', error);
         throw error;

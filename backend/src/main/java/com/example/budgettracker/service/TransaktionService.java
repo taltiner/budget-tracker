@@ -101,9 +101,10 @@ public class TransaktionService {
         transaktionen.stream()
                 .forEach(transaktion -> {
                     String monat = transaktion.getMonatTransaktion();
+                    String monatLabel = SelectOption.MonatAuswahl.getMonatLabel(transaktion.getMonatTransaktion());
+                    transaktion.setMonatTransaktion(monatLabel);
                     Boolean istEinnahme = istEinnahme(transaktion);
                     Boolean istAussgabe = istAussagabe(transaktion);
-                    double betragHoehe = 0.00;
 
                     if(gruppiert.get(monat) == null) {
                         initTransformierterEintragFuerMonat(gruppiert, monat);
@@ -113,16 +114,16 @@ public class TransaktionService {
                     TransaktionUebersichtTransformiert eintragGesamt = gruppiert.get(gesamtKey);
 
                     if(istEinnahme && transaktion instanceof TransaktionEinnahme) {
-                        berechneEinnahmeMonat((TransaktionEinnahme) transaktion, betragHoehe, eintragAktuellerMonat, eintragGesamt);
+                        berechneEinnahmeMonat((TransaktionEinnahme) transaktion, eintragAktuellerMonat, eintragGesamt);
                     } else if(istAussgabe && transaktion instanceof TransaktionAusgabe) {
-                        berechneAusgabeMonat((TransaktionAusgabe) transaktion, betragHoehe, eintragAktuellerMonat, eintragGesamt);
+                        berechneAusgabeMonat((TransaktionAusgabe) transaktion, eintragAktuellerMonat, eintragGesamt);
                     } else if(istNotiz(transaktion) && transaktion instanceof TransaktionNotiz) {
                         eintragAktuellerMonat.setNotiz(((TransaktionNotiz) transaktion).getNotiz());
                     }
                 });
 
-        //double saldo = gruppiert.get(gesamtKey).getEinnahmen().getHoehe() - gruppiert.get(gesamtKey).getGesamtausgaben().getHoehe();
-        //gruppiert.get(gesamtKey).getSaldo().setHoehe(saldo);
+        double saldo = gruppiert.get(gesamtKey).getEinnahmen().getHoehe() - gruppiert.get(gesamtKey).getGesamtausgaben().getHoehe();
+        gruppiert.get(gesamtKey).getSaldo().setHoehe(saldo);
 
         return gruppiert.values().stream().toList();
     }
@@ -132,7 +133,7 @@ public class TransaktionService {
     }
 
     private Boolean istAussagabe(Transaktion transaktion) {
-        return transaktion.getMonatTransaktion().equals(EingabeArt.AUSGABE);
+        return transaktion.getTransaktionsArt().equals(EingabeArt.AUSGABE);
     }
 
     private Boolean istNotiz(Transaktion transaktion) {
@@ -141,11 +142,11 @@ public class TransaktionService {
 
     private void initTransformierterEintragFuerMonat(Map<String, TransaktionUebersichtTransformiert> gruppiert, String monat) {
         TransaktionUebersichtTransformiert initial = new TransaktionUebersichtTransformiert.Builder()
-                .setMonatTransaktion(monat)
-                .setEinnahmen(new GeldbetragNumerisch(0, "€"))
+                .setMonatTransaktion(SelectOption.MonatAuswahl.getMonatLabel(monat))
+                .setEinnahmen(new GeldbetragNumerisch(0.00, "€"))
                 .setAusgaben(new HashMap<>())
-                .setGesamtausgaben(new GeldbetragNumerisch(0, "€"))
-                .setSaldo(new GeldbetragNumerisch(0, "€"))
+                .setGesamtausgaben(new GeldbetragNumerisch(0.00, "€"))
+                .setSaldo(new GeldbetragNumerisch(0.00, "€"))
                 .setNotiz("")
                 .build();
         gruppiert.put(monat, initial);
@@ -153,15 +154,16 @@ public class TransaktionService {
 
     private void initAusgabeKategorieEintrag(TransaktionUebersichtTransformiert eintrag, String kategorie) {
         if(!eintrag.getAusgaben().containsKey(kategorie)) {
-            eintrag.getAusgaben().put(kategorie, new GeldbetragNumerisch(0, "€"));
+            eintrag.getAusgaben().put(kategorie, new GeldbetragNumerisch(0.00, "€"));
+            System.out.println(eintrag);
         }
     }
 
     private void berechneEinnahmeMonat(TransaktionEinnahme transaktionEinnahme,
-                                       double betragHoehe,
                                        TransaktionUebersichtTransformiert eintragAktuellerMonat,
                                        TransaktionUebersichtTransformiert eintragGesamt) {
 
+        double betragHoehe = 0.00;
         betragHoehe = Double.parseDouble(((TransaktionEinnahme) transaktionEinnahme).getBetragEinnahme().getHoehe());
         eintragAktuellerMonat.getEinnahmen().plus(betragHoehe);
         eintragAktuellerMonat.getSaldo().plus(betragHoehe);
@@ -170,11 +172,11 @@ public class TransaktionService {
     }
 
     private void berechneAusgabeMonat(TransaktionAusgabe transaktionAusgabe,
-                                      double betragHoehe,
                                       TransaktionUebersichtTransformiert eintragAktuellerMonat,
                                       TransaktionUebersichtTransformiert eintragGesamt) {
-        betragHoehe = Double.parseDouble(transaktionAusgabe.getBetragAusgabe().getHoehe());
 
+        double betragHoehe = 0.00;
+        betragHoehe = Double.parseDouble(transaktionAusgabe.getBetragAusgabe().getHoehe());
         String kategorie = ermittleAusgabeKategorie(transaktionAusgabe);
 
         initAusgabeKategorieEintrag(eintragAktuellerMonat, kategorie);
@@ -192,8 +194,9 @@ public class TransaktionService {
         String benutzerdefinierteKategorie = transaktionAusgabe.getBenutzerdefinierteKategorie();
         String kategorieLabel = SelectOption.KategorieAuswahl.getKategorieLabel(transaktionAusgabe.getKategorie());
 
-        return benutzerdefinierteKategorie.isEmpty() ?
+        return !benutzerdefinierteKategorie.isEmpty() ?
                 Character.toUpperCase(benutzerdefinierteKategorie.charAt(0)) + benutzerdefinierteKategorie.substring(1).toLowerCase() :
                 kategorieLabel;
     }
+
 }

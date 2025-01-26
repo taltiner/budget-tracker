@@ -85,10 +85,12 @@ export class TransaktionUebersichtComponent implements OnInit {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(filteredTransaktionen => {
           console.log('filter transaktionen', filteredTransaktionen);
+          this.dataSource = filteredTransaktionen;
         });
     } else {
       this.handleJahrSelektion();
     }
+
   }
 
   private checkBackendStatus() {
