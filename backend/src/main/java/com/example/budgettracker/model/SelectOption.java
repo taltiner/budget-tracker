@@ -67,5 +67,14 @@ public class SelectOption {
             }
             return null;
         }
+
+        public static String getMonatValue(String label) {
+            for(SelectOption monat : TRANSAKTION_MONAT) {
+                if (monat.label.equals(label)) {
+                    return monat.value;
+                }
+            }
+            return null;
+        }
     }
 }

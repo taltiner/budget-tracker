@@ -5,10 +5,8 @@ import com.example.budgettracker.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Array;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,8 +81,9 @@ public class TransaktionService {
         filteredTransaktionen.addAll(filteredNotizen);
 
         List<TransaktionUebersichtTransformiert> transaktionGruppiert = gruppiereUndTransformiereNachMonat(filteredTransaktionen);
+        List<TransaktionUebersichtTransformiert> transaktionSortiert = sortiereDaten(transaktionGruppiert);
 
-        return transaktionGruppiert;
+        return transaktionSortiert;
     }
 
     private <T extends Transaktion> List<T> filterTransaktionNachJahr(List<T> transaktionen, String selectedJahr) {
@@ -123,9 +122,19 @@ public class TransaktionService {
                 });
 
         double saldo = gruppiert.get(gesamtKey).getEinnahmen().getHoehe() - gruppiert.get(gesamtKey).getGesamtausgaben().getHoehe();
+        saldo = Math.round(saldo * 100) / 100;
         gruppiert.get(gesamtKey).getSaldo().setHoehe(saldo);
 
         return gruppiert.values().stream().toList();
+    }
+
+    private List<TransaktionUebersichtTransformiert> sortiereDaten(List<TransaktionUebersichtTransformiert> transaktionen) {
+        return transaktionen.stream().sorted((a, b) ->  {
+            int indexA = monate.indexOf(SelectOption.MonatAuswahl.getMonatValue(a.getMonatTransaktion()));
+            int indexB = monate.indexOf(SelectOption.MonatAuswahl.getMonatValue(b.getMonatTransaktion()));
+
+            return indexB - indexA;
+        }).toList();
     }
 
     private Boolean istEinnahme(Transaktion transaktion) {
@@ -198,5 +207,8 @@ public class TransaktionService {
                 Character.toUpperCase(benutzerdefinierteKategorie.charAt(0)) + benutzerdefinierteKategorie.substring(1).toLowerCase() :
                 kategorieLabel;
     }
+
+    private final List<String> monate = new ArrayList<>(Arrays.asList("gesamt", "januar", "februar", "märz", "april", "mai", "juni",
+            "juli", "august", "september", "oktober", "november", "dezember"));
 
 }

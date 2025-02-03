@@ -86,6 +86,7 @@ export class TransaktionUebersichtComponent implements OnInit {
         .subscribe(filteredTransaktionen => {
           console.log('filter transaktionen', filteredTransaktionen);
           this.dataSource = filteredTransaktionen;
+          this.setAusgabeKategorien();
         });
     } else {
       this.handleJahrSelektion();
