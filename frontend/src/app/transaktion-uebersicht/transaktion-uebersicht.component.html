@@ -27,7 +27,7 @@
           </mat-radio-group>
 
           <button mat-stroked-button
-                  class="uebersicht__button"
+                  class="uebersicht__button--edit"
                   disabled="{{selectedJahr === ''}}"
                   (click)="onFilter()">Filter ausführen</button>
         </fieldset>
@@ -35,6 +35,15 @@
         <div class="uebersicht__table">
           <table mat-table *ngIf="!isSpinnerActive() && darstellung === Darstellung.Tabellarisch"
                  [dataSource]="dataSource">
+
+            <ng-container matColumnDef="auswahl" *ngIf="toggles.includes(ToggleType.CRUD_TRANSAKTION)">
+              <th mat-header-cell *matHeaderCellDef>Auswahl</th>
+              <td mat-cell *matCellDef="let element">
+                <mat-checkbox
+                  (change)="onEintragChecked($event.checked)">
+                </mat-checkbox>
+              </td>
+            </ng-container>
 
             <ng-container matColumnDef="monat">
               <th mat-header-cell *matHeaderCellDef>Monat</th>
@@ -127,6 +136,24 @@
   </mat-card-content>
 </mat-card>
 
-<button mat-stroked-button
-        class="uebersicht__button"
-        (click)="onNeuErfassen()">Transaktion Erfassen</button>
+<div>
+  <button mat-stroked-button
+          class="uebersicht__button--confirm"
+          disabled="{{isEintragChecked}}"
+          (click)="onNeuErfassen()">Transaktion Erfassen
+  </button>
+  <ng-container *ngIf="toggles.includes(ToggleType.CRUD_TRANSAKTION)">
+    <button mat-stroked-button
+            class="uebersicht__button--edit"
+            disabled="{{!isEintragChecked}}"
+            (click)="onNeuErfassen()">Transaktion Bearbeiten
+    </button>
+    <button mat-stroked-button
+            class="uebersicht__button--delete"
+            disabled="{{!isEintragChecked}}"
+            (click)="onNeuErfassen()">Transaktion Löschen
+    </button>
+  </ng-container>
+
+</div>
+

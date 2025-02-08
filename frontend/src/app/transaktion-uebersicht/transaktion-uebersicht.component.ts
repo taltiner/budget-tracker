@@ -20,6 +20,7 @@ import {
 } from "../common/select-options";
 import {Darstellung} from "../models/darstellung.model";
 import {MatCheckboxChange} from "@angular/material/checkbox";
+import {ToggleType} from "../models/toggle.model";
 
 @Component({
     selector: 'app-transaktion-uebersicht',
@@ -39,6 +40,8 @@ export class TransaktionUebersichtComponent implements OnInit {
   selectedKategorie: string[] = [];
   selectedJahr: string = '';
   isBackendRunning: boolean = false;
+  isEintragChecked: boolean = false;
+  toggles: ToggleType[] = [];
 
   constructor(private transaktionService: TransaktionService,
               private destroyRef: DestroyRef,
@@ -47,10 +50,15 @@ export class TransaktionUebersichtComponent implements OnInit {
   ngOnInit(): void {
     this.checkBackendStatus();
     this.loadAllTransaktionen();
+    this.getToggles();
   }
 
   get displayedColumns() {
-    return ['monat', 'einnahmen', ...this.kategorienSet, 'gesamtausgaben', 'saldo', 'notiz'];
+    let columns: string[] = ['monat', 'einnahmen', ...this.kategorienSet, 'gesamtausgaben', 'saldo', 'notiz'];
+    if(this.toggles.includes(ToggleType.CRUD_TRANSAKTION)) {
+      columns.unshift('auswahl')
+    }
+    return columns;
   }
 
   onJahrChange(selectedJahr: string) {
@@ -87,11 +95,16 @@ export class TransaktionUebersichtComponent implements OnInit {
           console.log('filter transaktionen', filteredTransaktionen);
           this.dataSource = filteredTransaktionen;
           this.setAusgabeKategorien();
+          this.transaktionService.dataSourceSubject.next([...this.dataSource]);
         });
     } else {
       this.handleJahrSelektion();
     }
 
+  }
+
+  onEintragChecked(isChecked: boolean) {
+    this.isEintragChecked = isChecked;
   }
 
   private checkBackendStatus() {
@@ -107,6 +120,12 @@ export class TransaktionUebersichtComponent implements OnInit {
         console.log('alleTransaktionen', alleTransaktionen)
         this.transaktionen = alleTransaktionen;
       });
+  }
+
+  private getToggles() {
+    this.transaktionService.getToggles()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(toggles => this.toggles = toggles);
   }
 
   private handleJahrSelektion(): void {
@@ -253,4 +272,5 @@ export class TransaktionUebersichtComponent implements OnInit {
   protected readonly jahrOptions = TRANSAKTION_JAHR;
   protected readonly Darstellung = Darstellung;
   protected readonly kategorieOptions = KATEGORIE_AUSGABE;
+  protected readonly ToggleType = ToggleType;
 }

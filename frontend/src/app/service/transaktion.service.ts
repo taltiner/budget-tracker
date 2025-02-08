@@ -8,6 +8,7 @@ import {
 } from "../models/transaktion.model";
 import {BehaviorSubject, catchError, concatMap, EMPTY, filter, from, map, Observable, of, switchMap, take, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
+import {ToggleType} from "../models/toggle.model";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ export class TransaktionService {
   dataSource$ = this.dataSourceSubject.asObservable();
   apiUrl$ = this.apiUrlSubject.asObservable();
   backendRunning$ = this.backendRunningSubject.asObservable();
+
   constructor(private http: HttpClient) {
     this.checkBackendStatus();
   }
@@ -113,7 +115,6 @@ export class TransaktionService {
   }
 
   getAllTransaktionen(): Observable<TransaktionUebersicht> {
-    console.log('getAllTransaktionen')
     return this.apiUrl$.pipe(
       filter((url): url is string => url !== null),
       take(1),
@@ -148,6 +149,21 @@ export class TransaktionService {
         throw error;
       })
     )
+  }
+
+  getToggles(): Observable<ToggleType[]> {
+    return this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl=>
+        this.http.get<ToggleType[]>(`${apiUrl}/toggle`).pipe(
+          catchError(error => {
+            console.error('Fehler beim Laden der Toggles', error);
+            throw error;
+          })
+        )
+      )
+    );
   }
 
 }

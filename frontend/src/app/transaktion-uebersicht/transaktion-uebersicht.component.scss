@@ -65,13 +65,50 @@
 
   }
 
-  &__button {
-    background-color: #66bb6a;
-    margin-right: 10px;
-    &:hover {
-      background-color: #4caf50;
+  &__button{
+
+    &--confirm {
+      background-color: #66bb6a;
+      margin-right: 10px;
+      &:hover {
+        background-color: #4caf50;
+      }
+      &:disabled {
+        background-color: #a5d6a7;
+        color: #ffffff;
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+
+    &--edit {
+      background-color: #42a5f5;
+      margin-right: 10px;
+      &:hover {
+        background-color: #1e88e5;
+      }
+      &:disabled {
+        background-color: #90caf9;
+        color: #ffffff;
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+
+    &--delete {
+      background-color: #ef5350;
+      &:hover {
+        background-color: #d32f2f;
+      }
+      &:disabled {
+        background-color: #ef9a9a;
+        color: #ffffff;
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
     }
   }
+
 
   .conainer-status {
     display: flex;
