@@ -1,6 +1,5 @@
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {
-  Transaktion,
   TransaktionAusgabe,
   TransaktionEinnahme, TransaktionNotiz,
   TransaktionUebersicht,
@@ -99,19 +98,19 @@ export class TransaktionService {
     });
   }
 
-  getTransaktion(id: string): Observable<Transaktion> {
-    return this.apiUrl$.pipe(
-      filter((url): url is string => url !== null),
-      take(1),
-      switchMap(apiUrl=>
-        this.http.get<Transaktion>(`${apiUrl}/${id}`).pipe(
-          catchError(error => {
-            console.error('Fehler beim Laden der Transaktion:', error);
-            throw error;
-          })
-        )
-      )
-    );
+  getTransaktion(monat: string, jahr: string): Observable<TransaktionUebersicht> {
+    let params = new HttpParams();
+    params = params
+      .set('monat', monat)
+      .set('jahr', jahr);
+
+    console.log('params', params);
+    return this.http.get<TransaktionUebersicht>(`${this.backendUrl}`, {params}).pipe(
+      catchError(error => {
+        console.log('Fehler beim Laden der Transaktion', error);
+        throw error;
+      })
+    )
   }
 
   getAllTransaktionen(): Observable<TransaktionUebersicht> {
@@ -119,7 +118,7 @@ export class TransaktionService {
       filter((url): url is string => url !== null),
       take(1),
       switchMap(apiUrl=>
-        this.http.get<TransaktionUebersicht>(`${apiUrl}`).pipe(
+        this.http.get<TransaktionUebersicht>(`${apiUrl}/alle`).pipe(
           catchError(error => {
             console.error('Fehler beim Laden aller Transaktionen', error);
             throw error;

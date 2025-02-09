@@ -32,6 +32,7 @@ import {MatCheckbox} from "@angular/material/checkbox";
 const appRoutes: Routes = [
   { path: '', component: TransaktionUebersichtComponent},
   { path: 'neu', component: TransaktionComponent },
+  { path: 'bearbeiten', component: TransaktionComponent},
 ];
 
 @NgModule({

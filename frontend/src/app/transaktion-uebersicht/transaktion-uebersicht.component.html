@@ -40,7 +40,7 @@
               <th mat-header-cell *matHeaderCellDef>Auswahl</th>
               <td mat-cell *matCellDef="let element">
                 <mat-checkbox
-                  (change)="onEintragChecked($event.checked)">
+                  (change)="onEintragChecked($event.checked, element)">
                 </mat-checkbox>
               </td>
             </ng-container>
@@ -139,19 +139,19 @@
 <div>
   <button mat-stroked-button
           class="uebersicht__button--confirm"
-          disabled="{{isEintragChecked}}"
+          disabled="{{selectedEintraege.length > 0}}"
           (click)="onNeuErfassen()">Transaktion Erfassen
   </button>
   <ng-container *ngIf="toggles.includes(ToggleType.CRUD_TRANSAKTION)">
     <button mat-stroked-button
             class="uebersicht__button--edit"
-            disabled="{{!isEintragChecked}}"
-            (click)="onNeuErfassen()">Transaktion Bearbeiten
+            disabled="{{selectedEintraege.length !== 1}}"
+            (click)="onBearbeiten()">Transaktion Bearbeiten
     </button>
     <button mat-stroked-button
             class="uebersicht__button--delete"
-            disabled="{{!isEintragChecked}}"
-            (click)="onNeuErfassen()">Transaktion Löschen
+            disabled="{{selectedEintraege.length === 0}}"
+            (click)="onLoeschen()">Transaktion Löschen
     </button>
   </ng-container>
 

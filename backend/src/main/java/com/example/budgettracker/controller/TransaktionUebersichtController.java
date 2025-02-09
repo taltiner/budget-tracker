@@ -19,6 +19,12 @@ public class TransaktionUebersichtController {
     }
 
     @GetMapping
+    public ResponseEntity<TransaktionUebersicht> getTransaktion(@RequestParam String monat, @RequestParam String jahr) {
+        TransaktionUebersicht transaktion = transaktionService.getTransaktion(monat, jahr);
+        return new ResponseEntity<>(transaktion, HttpStatus.OK);
+    }
+
+    @GetMapping("/alle")
     public ResponseEntity<TransaktionUebersicht> getAllTransaktionen() {
         TransaktionUebersicht uebersicht = transaktionService.getAllTransaktionen();
         return new ResponseEntity<>(uebersicht, HttpStatus.OK);

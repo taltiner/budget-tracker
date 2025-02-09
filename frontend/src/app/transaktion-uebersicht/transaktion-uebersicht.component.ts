@@ -40,8 +40,8 @@ export class TransaktionUebersichtComponent implements OnInit {
   selectedKategorie: string[] = [];
   selectedJahr: string = '';
   isBackendRunning: boolean = false;
-  isEintragChecked: boolean = false;
   toggles: ToggleType[] = [];
+  selectedEintraege: string[] = [];
 
   constructor(private transaktionService: TransaktionService,
               private destroyRef: DestroyRef,
@@ -64,6 +64,7 @@ export class TransaktionUebersichtComponent implements OnInit {
   onJahrChange(selectedJahr: string) {
     this.selectedJahr = selectedJahr;
     this.transaktionService.jahrAuswahl$.next(selectedJahr);
+    this.selectedEintraege = [];
   }
 
   onDarstellungChange(darstellung: Darstellung) {
@@ -87,12 +88,23 @@ export class TransaktionUebersichtComponent implements OnInit {
     });
   }
 
+  onBearbeiten() {
+    this.router.navigate(['/bearbeiten'], {
+      queryParams: {monat: this.selectedEintraege[0].toLowerCase(), jahr: this.selectedJahr}
+    });
+  }
+
+  onLoeschen() {
+    this.router.navigate(['/neu'], {
+      queryParams: {}
+    });
+  }
+
   onFilter() {
     if(this.isBackendRunning) {
       this.transaktionService.filterTransaktion(this.selectedJahr)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(filteredTransaktionen => {
-          console.log('filter transaktionen', filteredTransaktionen);
           this.dataSource = filteredTransaktionen;
           this.setAusgabeKategorien();
           this.transaktionService.dataSourceSubject.next([...this.dataSource]);
@@ -103,8 +115,13 @@ export class TransaktionUebersichtComponent implements OnInit {
 
   }
 
-  onEintragChecked(isChecked: boolean) {
-    this.isEintragChecked = isChecked;
+  onEintragChecked(isChecked: boolean, transaktion: TransaktionUebersichtTransformiert) {
+    const monat = transaktion.monatTransaktion;
+    if(!this.selectedEintraege.includes(monat)) {
+      this.selectedEintraege.push(monat);
+    } else {
+      this.selectedEintraege = this.selectedEintraege.filter(monatEintrag => monatEintrag !== monat);
+    }
   }
 
   private checkBackendStatus() {
@@ -117,7 +134,6 @@ export class TransaktionUebersichtComponent implements OnInit {
     this.transaktionService.getAllTransaktionen()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(alleTransaktionen => {
-        console.log('alleTransaktionen', alleTransaktionen)
         this.transaktionen = alleTransaktionen;
       });
   }
@@ -150,18 +166,14 @@ export class TransaktionUebersichtComponent implements OnInit {
     const transaktionenGefiltert = transaktionenUntransformiert.filter((transaktion: TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz) => {
       return transaktion.jahrTransaktion === jahr;
     });
+
     transaktionenGefiltert.forEach((transaktion: TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz) => {
       if(transaktion.monatTransaktion !== undefined) {
         transaktion.monatTransaktion = getMonatLabel(transaktion.monatTransaktion.toLowerCase());
       }
     });
-
-    console.log('transaktionenGefiltert', transaktionenGefiltert);
-
     const datenGruppiert = this.gruppiereUndTransformiereNachMonat(transaktionenGefiltert);
-    console.log('datenGruppiert', datenGruppiert);
     this.dataSource = this.sortiereDaten(datenGruppiert);
-    console.log('dataSource sortiert', this.dataSource);
   }
 
   private gruppiereUndTransformiereNachMonat(transaktionen: (TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz)[]): TransaktionUebersichtTransformiert[] {

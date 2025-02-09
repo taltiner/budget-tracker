@@ -1,11 +1,18 @@
-import {Component} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
-import { MatRadioChange} from "@angular/material/radio";
+import {MatRadioChange} from "@angular/material/radio";
 import {KATEGORIE_AUSGABE, SelectOptions, TRANSAKTION_JAHR, TRANSAKTION_MONAT} from "../common/select-options";
-import {EingabeArt, TransaktionAusgabe, TransaktionEinnahme, TransaktionNotiz} from "../models/transaktion.model";
+import {
+  EingabeArt,
+  initialTransaktionUebersicht,
+  TransaktionAusgabe,
+  TransaktionEinnahme,
+  TransaktionNotiz,
+  TransaktionUebersicht
+} from "../models/transaktion.model";
 import {TransaktionService} from "../service/transaktion.service";
-import {Router} from "@angular/router";
-import {DatePipe} from "@angular/common";
+import {ActivatedRoute, Router} from "@angular/router";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
     selector: 'app-transaktion',
@@ -14,10 +21,12 @@ import {DatePipe} from "@angular/common";
     standalone: false
 })
 
-export class TransaktionComponent {
+export class TransaktionComponent implements OnInit {
 
   constructor(private transaktionService: TransaktionService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute,
+              private destroyRef: DestroyRef) {
   }
 
   kategorieOptions: SelectOptions[] = KATEGORIE_AUSGABE;
@@ -25,9 +34,11 @@ export class TransaktionComponent {
   monatOptions: SelectOptions[] = TRANSAKTION_MONAT;
   jahr: string = '';
   monat: string = '';
+  transaktion: TransaktionUebersicht = initialTransaktionUebersicht;
+  isBearbeitenAktiv: boolean = false;
 
   transaktionForm = new FormGroup({
-    'transaktionsArt': new FormControl(undefined, Validators.required),
+    'transaktionsArt': new FormControl(EingabeArt.Einnahme, Validators.required),
     'jahr': new FormControl('', Validators.required),
     'monat': new FormControl('', Validators.required),
     'betragEinnahme': new FormControl('', Validators.required),
@@ -35,6 +46,80 @@ export class TransaktionComponent {
 
     'ausgabeAbschnitte': new FormArray([this.createAusgabeFormGroup()]),
   });
+
+  ngOnInit() {
+    if(this.route.snapshot.routeConfig?.path === 'bearbeiten') {
+      this.isBearbeitenAktiv = true;
+      this.route.queryParams.subscribe(params => {
+        let monat: string = params['monat'];
+        const jahr: string  = params['jahr'];
+
+        this.transaktionService.getTransaktion(monat, jahr)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe(transaktion => {
+            this.transaktion = transaktion;
+            this.initForm();
+          })
+      });
+    }
+
+  }
+
+  private initForm() {
+    switch(this.transaktionsArt) {
+
+      case EingabeArt.Einnahme:
+        this.initEingabeForm();
+        break;
+
+       case EingabeArt.Ausgabe:
+         this.initAusgabeForm();
+         break;
+
+       case EingabeArt.Notiz:
+        this.initNotizForm();
+        break;
+
+      default:
+        return;
+    }
+
+  }
+
+  private initEingabeForm() {
+    let einnahmeGesamt: number = 0;
+    this.transaktion.einnahmen.forEach(einnahme => {
+      einnahmeGesamt += Number(einnahme.betragEinnahme.hoehe);
+    });
+    this.transaktionForm.controls.jahr.patchValue(this.transaktion.einnahmen[0].jahrTransaktion);
+    this.transaktionForm.controls.monat.patchValue(this.transaktion.einnahmen[0].monatTransaktion);
+    this.transaktionForm.controls.betragEinnahme.patchValue(einnahmeGesamt.toString());
+  }
+
+  private initAusgabeForm() {
+    this.transaktionForm.controls.jahr.patchValue(this.transaktion.ausgaben[0].jahrTransaktion);
+    this.transaktionForm.controls.monat.patchValue(this.transaktion.ausgaben[0].monatTransaktion);
+    this.transaktion.ausgaben.forEach((ausgabe, index) => {
+      const ausgabeAbschnitt = this.createAusgabeFormGroup();
+      ausgabeAbschnitt.get('jahr')?.setValue(ausgabe.jahrTransaktion);
+      ausgabeAbschnitt.get('monat')?.setValue(ausgabe.monatTransaktion);
+      ausgabeAbschnitt.get('betragAusgabe')?.setValue(ausgabe.betragAusgabe.hoehe);
+      if(ausgabe.benutzerdefinierteKategorie !== '') {
+        ausgabeAbschnitt.get('kategorie')?.setValue('benutzerdefiniert');
+        ausgabeAbschnitt.get('benutzerdefinierteKategorie')?.setValue(ausgabe.benutzerdefinierteKategorie);
+      } else {
+        ausgabeAbschnitt.get('kategorie')?.setValue(ausgabe.kategorie);
+        ausgabeAbschnitt.get('benutzerdefinierteKategorie')?.setValue(ausgabe.benutzerdefinierteKategorie);
+      }
+      this.transaktionForm.controls.ausgabeAbschnitte.setControl(index, ausgabeAbschnitt);
+    });
+  }
+
+  private initNotizForm() {
+    this.transaktionForm.controls.jahr.patchValue(this.transaktion.notizen[0].jahrTransaktion);
+    this.transaktionForm.controls.monat.patchValue(this.transaktion.notizen[0].monatTransaktion);
+    this.transaktionForm.controls.notiz.patchValue(this.transaktion.notizen[0].notiz);
+  }
 
   get jahrTransaktion(): string {
     return this.transaktionForm.controls.jahr.value ?? '';
@@ -57,6 +142,9 @@ export class TransaktionComponent {
   }
 
   onTransaktonArtChange(art: MatRadioChange) {
+    if(this.isBearbeitenAktiv) {
+      this.initForm();
+    }
     const artValue = art.value;
     this.transaktionForm.get('transaktionsArt')?.setValue(artValue);
     this.handleValidators(artValue);

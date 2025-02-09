@@ -62,6 +62,14 @@ public class TransaktionService {
         transaktionNotizRepository.deleteAll();
     }
 
+    public TransaktionUebersicht getTransaktion(String monat, String jahr) {
+        List<TransaktionEinnahme> filteredEinnahmen = filterTransaktionNachJahrUndMonat(getAllTransaktionEinnahmen(), jahr, monat);
+        List<TransaktionAusgabe> filteredAusgaben = filterTransaktionNachJahrUndMonat(getAllTransaktionAusgaben(), jahr, monat) ;
+        List<TransaktionNotiz> filteredNotizen = filterTransaktionNachJahrUndMonat(getAllTransaktionNotizen(), jahr, monat);
+
+        return new TransaktionUebersicht(filteredEinnahmen, filteredAusgaben, filteredNotizen);
+    }
+
     public TransaktionUebersicht getAllTransaktionen() {
         List<TransaktionEinnahme> einnahmen = getAllTransaktionEinnahmen();
         List<TransaktionAusgabe> ausgaben = getAllTransaktionAusgaben();
@@ -89,6 +97,13 @@ public class TransaktionService {
     private <T extends Transaktion> List<T> filterTransaktionNachJahr(List<T> transaktionen, String selectedJahr) {
         return transaktionen.stream()
                 .filter(transaktion -> transaktion.getJahrTransaktion().equals(selectedJahr))
+                .collect(Collectors.toList());
+    }
+
+    private <T extends Transaktion> List<T> filterTransaktionNachJahrUndMonat(List<T> transaktionen, String selectedJahr, String selectedMonat) {
+        return transaktionen.stream()
+                .filter(transaktion -> transaktion.getJahrTransaktion().equals(selectedJahr))
+                .filter(transaktion -> transaktion.getMonatTransaktion().equals(selectedMonat))
                 .collect(Collectors.toList());
     }
 
