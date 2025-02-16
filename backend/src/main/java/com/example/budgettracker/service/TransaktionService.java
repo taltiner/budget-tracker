@@ -30,6 +30,10 @@ public class TransaktionService {
          return transaktionEinnahmeRepository.save(einnahme);
     }
 
+    public TransaktionEinnahme updateEinnahmeTransaktion(TransaktionEinnahme einnahme) {
+        return transaktionEinnahmeRepository.update(einnahme);
+    }
+
     public List<TransaktionEinnahme> getAllTransaktionEinnahmen() {
         return transaktionEinnahmeRepository.findAll();
     }

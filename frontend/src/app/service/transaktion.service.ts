@@ -59,6 +59,22 @@ export class TransaktionService {
     });
   }
 
+  updateEinnahmeTransaktion(transaktion: TransaktionEinnahme): void {
+    this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl=>
+      this.http.put<TransaktionEinnahme>( `${apiUrl}/einnahmen`, transaktion)
+    ),
+      catchError(error => {
+        console.error('Fehler beim Aktualisieren der Transaktion', error);
+        return throwError(() => error);
+      })
+    ).subscribe(() => {
+      console.log('Transaktion erfolgreich aktualisiert:', transaktion);
+    });
+  }
+
   createAusgabenTransaktion(transaktionen: TransaktionAusgabe[]): void {
     this.apiUrl$.pipe(
       filter((url): url is string => url !== null),

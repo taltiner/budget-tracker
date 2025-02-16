@@ -44,6 +44,20 @@ public class TransaktionEinnahmeRepository {
         return einnahme;
     }
 
+    public TransaktionEinnahme update(TransaktionEinnahme einnahme) {
+        String sql = "DELETE FROM TRANSAKTION_EINNAHME WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ?";
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, einnahme.getMonatTransaktion());
+            ps.setString(2, einnahme.getJahrTransaktion());
+            return ps;
+        });
+        save(einnahme);
+
+        return einnahme;
+    }
+
     public List<TransaktionEinnahme> findAll() {
         String sql = "SELECT * FROM TRANSAKTION_EINNAHME";
 

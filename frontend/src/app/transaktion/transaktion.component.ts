@@ -62,6 +62,9 @@ export class TransaktionComponent implements OnInit {
           })
       });
     }
+    if(this.transaktionsArt) {
+      this.handleValidators(this.transaktionsArt?.toString());
+    }
 
   }
 
@@ -184,7 +187,8 @@ export class TransaktionComponent implements OnInit {
 
     if(this.transaktionsArt && this.transaktionsArt === 'einnahme') {
       const payloadEinnahme = this.createPayloadEinnahme();
-      this.transaktionService.createEinnahmeTransaktion(payloadEinnahme);
+      this.isBearbeitenAktiv ? this.transaktionService.updateEinnahmeTransaktion(payloadEinnahme)
+        : this.transaktionService.createEinnahmeTransaktion(payloadEinnahme);
 
     } else if(this.transaktionsArt && this.transaktionsArt === 'ausgabe') {
       const payloadAusgaben: TransaktionAusgabe[] = this.prepareForPayloadAusgabe();
@@ -239,6 +243,7 @@ export class TransaktionComponent implements OnInit {
   }
 
   private clearAusgabeValidators() {
+    console.log('wird gecleared')
     this.transaktionForm.controls.ausgabeAbschnitte.controls.forEach(abschnitt => {
       abschnitt.get('kategorie')?.clearValidators();
       abschnitt.get('betragAusgabe')?.clearValidators();

@@ -27,6 +27,12 @@ public class TransaktionEinnahmeController {
         return new ResponseEntity<>(savedEinnahme, HttpStatus.CREATED);
     }
 
+    @PutMapping
+    public ResponseEntity<TransaktionEinnahme> updateEinnahmeTransaktion(@RequestBody TransaktionEinnahme einnahme) {
+        TransaktionEinnahme updatedEinnahme = transaktionService.updateEinnahmeTransaktion(einnahme);
+        return new ResponseEntity<>(updatedEinnahme, HttpStatus.CREATED);
+    }
+
     @GetMapping
     public ResponseEntity<List <TransaktionEinnahme>> getAllTransaktionEinnahmen() {
         List<TransaktionEinnahme> alleEinnahmen = transaktionService.getAllTransaktionEinnahmen();
