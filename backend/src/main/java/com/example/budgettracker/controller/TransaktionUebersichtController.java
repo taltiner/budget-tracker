@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping(path="/transaktionen")
 public class TransaktionUebersichtController {
@@ -33,6 +36,20 @@ public class TransaktionUebersichtController {
     public ResponseEntity<TransaktionUebersichtResponseDTO> getAllTransaktionen() {
         TransaktionUebersicht uebersicht = transaktionService.getAllTransaktionen();
         return new ResponseEntity<>(transaktionMapper.toTransaktionUebersichtResponseDTO(uebersicht), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Map<String, String>> deleteTransaktion(@RequestParam String monat, @RequestParam String jahr) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            transaktionService.deleteTransaktion(monat, jahr);
+            response.put("message", "Transaktion erfolgreich gelöscht");
+            return ResponseEntity.ok(response);
+
+        } catch(Exception e) {
+            response.put("message","Fehler beim Löschen der Transaktion");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
 }

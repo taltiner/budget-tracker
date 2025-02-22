@@ -47,6 +47,17 @@ public class TransaktionAusgabeRepository {
         return ausgabe;
     }
 
+    public void delete(String monat, String jahr) {
+        String sql = "DELETE FROM TRANSAKTION_AUSGABE WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ?";
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, monat);
+            ps.setString(2, jahr);
+            return ps;
+        });
+    }
+
 
     public List<TransaktionAusgabe> findAll() {
         String sql = "SELECT * FROM TRANSAKTION_AUSGABE";

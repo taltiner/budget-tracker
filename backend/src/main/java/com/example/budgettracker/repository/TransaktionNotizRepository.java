@@ -41,6 +41,17 @@ public class TransaktionNotizRepository {
         return notiz;
     }
 
+    public void delete(String monat, String jahr) {
+        String sql = "DELETE FROM TRANSAKTION_NOTIZ WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ?";
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, monat);
+            ps.setString(2, jahr);
+            return ps;
+        });
+    }
+
     public List<TransaktionNotiz> findAll() {
         String sql = "SELECT * FROM TRANSAKTION_NOTIZ";
 

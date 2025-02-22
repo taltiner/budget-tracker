@@ -37,5 +37,8 @@ public interface TransaktionMapper {
     @Mapping(target = "transaktionsArt", source = "transaktionsArt")
     TransaktionNotizResponseDTO toTransaktionNotizResponseDTO(TransaktionNotiz notiz);
 
+    @Mapping(target = "einnahmen", source = "einnahmen")
+    @Mapping(target = "ausgaben", source = "ausgaben")
+    @Mapping(target = "notizen", source = "notizen")
     TransaktionUebersichtResponseDTO toTransaktionUebersichtResponseDTO(TransaktionUebersicht transaktionUebersicht);
 }

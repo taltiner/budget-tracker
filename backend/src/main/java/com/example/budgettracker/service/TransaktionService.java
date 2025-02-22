@@ -88,6 +88,12 @@ public class TransaktionService {
         return new TransaktionUebersicht(einnahmen, ausgaben, notizen);
     }
 
+    public void deleteTransaktion(String monat, String jahr) {
+        transaktionEinnahmeRepository.delete(monat, jahr);
+        transaktionAusgabeRepository.delete(monat, jahr);
+        transaktionNotizRepository.delete(monat, jahr);
+    }
+
     public List<TransaktionUebersichtTransformiert> getFilteredTransaktionen(String selectedJahr) {
         List<TransaktionEinnahme> filteredEinnahmen = filterTransaktionNachJahr(getAllTransaktionEinnahmen(), selectedJahr) ;
         List<TransaktionAusgabe> filteredAusgaben = filterTransaktionNachJahr(getAllTransaktionAusgaben(), selectedJahr) ;

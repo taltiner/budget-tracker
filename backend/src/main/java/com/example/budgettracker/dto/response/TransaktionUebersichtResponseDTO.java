@@ -1,35 +1,31 @@
 package com.example.budgettracker.dto.response;
 
-import com.example.budgettracker.model.TransaktionAusgabe;
-import com.example.budgettracker.model.TransaktionEinnahme;
-import com.example.budgettracker.model.TransaktionNotiz;
-
 import java.util.List;
 
 public class TransaktionUebersichtResponseDTO {
-    private List<TransaktionEinnahmeResponseDTO> einnahmenResponseDTO;
-    private List<TransaktionAusgabeResponseDTO> ausgabenResponseDTO;
-    private List<TransaktionNotizResponseDTO> notizenResponseDTO;
+    private List<TransaktionEinnahmeResponseDTO> einnahmen;
+    private List<TransaktionAusgabeResponseDTO> ausgaben;
+    private List<TransaktionNotizResponseDTO> notizen;
 
     public TransaktionUebersichtResponseDTO() {}
 
-    public List<TransaktionEinnahmeResponseDTO> getEinnahmenResponseDTO() {
-        return einnahmenResponseDTO;
+    public List<TransaktionEinnahmeResponseDTO> getEinnahmen() {
+        return einnahmen;
     }
-    public List<TransaktionAusgabeResponseDTO> getAusgabenResponseDTO() {
-        return ausgabenResponseDTO;
+    public List<TransaktionAusgabeResponseDTO> getAusgaben() {
+        return ausgaben;
     }
-    public List<TransaktionNotizResponseDTO> getNotizenResponseDTO() {
-        return notizenResponseDTO;
+    public List<TransaktionNotizResponseDTO> getNotizen() {
+        return notizen;
     }
 
-    public void setEinnahmenResponseDTO(List<TransaktionEinnahmeResponseDTO> einnahmenResponseDTO) {
-        this.einnahmenResponseDTO = einnahmenResponseDTO;
+    public void setEinnahmen(List<TransaktionEinnahmeResponseDTO> einnahmen) {
+        this.einnahmen = einnahmen;
     }
-    public void setAusgabenResponseDTO(List<TransaktionAusgabeResponseDTO> ausgabenResponseDTO) {
-        this.ausgabenResponseDTO = ausgabenResponseDTO;
+    public void setAusgaben(List<TransaktionAusgabeResponseDTO> ausgaben) {
+        this.ausgaben = ausgaben;
     }
-    public void setNotizenResponseDTO(List<TransaktionNotizResponseDTO> notizenResponseDTO) {
-        this.notizenResponseDTO = notizenResponseDTO;
+    public void setNotizen(List<TransaktionNotizResponseDTO> notizen) {
+        this.notizen = notizen;
     }
 }

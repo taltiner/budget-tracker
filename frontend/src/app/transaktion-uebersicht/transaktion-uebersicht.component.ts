@@ -21,6 +21,7 @@ import {
 import {Darstellung} from "../models/darstellung.model";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {ToggleType} from "../models/toggle.model";
+import {catchError} from "rxjs";
 
 @Component({
     selector: 'app-transaktion-uebersicht',
@@ -95,9 +96,22 @@ export class TransaktionUebersichtComponent implements OnInit {
   }
 
   onLoeschen() {
-    this.router.navigate(['/neu'], {
-      queryParams: {}
-    });
+    let anzahlGeloescht = 0;
+    this.selectedEintraege.forEach(eintrag => {
+      this.transaktionService.deleteTransaktion(eintrag.toLowerCase(), this.selectedJahr)
+        .subscribe(response => {
+          console.log(response);
+
+          anzahlGeloescht++;
+          if(anzahlGeloescht === this.selectedEintraege.length) {
+            window.location.reload();
+          }
+
+        }, error => {
+          console.error('Fehler beim Löschen der Transaktion');
+        });
+    })
+
   }
 
   onFilter() {

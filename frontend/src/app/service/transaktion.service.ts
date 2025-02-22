@@ -8,6 +8,7 @@ import {
 import {BehaviorSubject, catchError, concatMap, EMPTY, filter, from, map, Observable, of, switchMap, take, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
 import {ToggleType} from "../models/toggle.model";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Injectable({
   providedIn: 'root'
@@ -153,8 +154,19 @@ export class TransaktionService {
     )
   }
 
-  deleteTransaktion() {
+  deleteTransaktion(monat: string, jahr: string): Observable<{message: string}> {
+    let params = new HttpParams();
+    params = params
+      .set('monat', monat)
+      .set('jahr', jahr);
 
+    return this.http.delete<{message: string}>(`${this.backendUrl}`, {params})
+      .pipe(
+        catchError(error => {
+          console.log('Fehler beim Löschen der Transaktion', error);
+          throw error;
+        })
+      )
   }
 
   filterTransaktion(selectedJahr: string): Observable<TransaktionUebersichtTransformiert[]> {
