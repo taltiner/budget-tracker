@@ -107,7 +107,7 @@ export class TransaktionComponent implements OnInit {
       ausgabeAbschnitt.get('jahr')?.setValue(ausgabe.jahrTransaktion);
       ausgabeAbschnitt.get('monat')?.setValue(ausgabe.monatTransaktion);
       ausgabeAbschnitt.get('betragAusgabe')?.setValue(ausgabe.betragAusgabe.hoehe);
-      if(ausgabe.benutzerdefinierteKategorie !== '') {
+      if(ausgabe.benutzerdefinierteKategorie !== '' && ausgabe.benutzerdefinierteKategorie !== null) {
         ausgabeAbschnitt.get('kategorie')?.setValue('benutzerdefiniert');
         ausgabeAbschnitt.get('benutzerdefinierteKategorie')?.setValue(ausgabe.benutzerdefinierteKategorie);
       } else {
@@ -192,7 +192,8 @@ export class TransaktionComponent implements OnInit {
 
     } else if(this.transaktionsArt && this.transaktionsArt === 'ausgabe') {
       const payloadAusgaben: TransaktionAusgabe[] = this.prepareForPayloadAusgabe();
-      this.transaktionService.createAusgabenTransaktion(payloadAusgaben);
+      this.isBearbeitenAktiv ? this.transaktionService.updateAusgabenTransaktion(payloadAusgaben)
+        : this.transaktionService.createAusgabenTransaktion(payloadAusgaben);
 
     } else {
       const payloadNotiz = this.createPayloadNotiz();

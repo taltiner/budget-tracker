@@ -41,6 +41,13 @@ public class TransaktionNotizRepository {
         return notiz;
     }
 
+    public TransaktionNotiz update(TransaktionNotiz notiz) {
+        delete(notiz.getMonatTransaktion(), notiz.getJahrTransaktion());
+        save(notiz);
+
+        return notiz;
+    }
+
     public void delete(String monat, String jahr) {
         String sql = "DELETE FROM TRANSAKTION_NOTIZ WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ?";
 

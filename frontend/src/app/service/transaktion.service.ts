@@ -99,6 +99,23 @@ export class TransaktionService {
     });
   }
 
+  updateAusgabenTransaktion(transaktionen: TransaktionAusgabe[]): void {
+    this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl =>
+        this.http.put<TransaktionAusgabe[]>(`${apiUrl}/ausgaben`, transaktionen)
+
+      ),
+      catchError(error => {
+        console.error('Fehler beim Erzeugen der Transaktion', error);
+        return throwError(() => error);
+      })
+    ).subscribe(() => {
+      console.log('Transaktionen erfolgreich gespeichert');
+    });
+  }
+
   createNotizTransaktion(transaktion: TransaktionNotiz): void {
     this.apiUrl$.pipe(
       filter((url): url is string => url !== null),

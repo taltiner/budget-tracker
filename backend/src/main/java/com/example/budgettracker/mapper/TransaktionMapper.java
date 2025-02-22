@@ -27,9 +27,11 @@ public interface TransaktionMapper {
 
     @Mapping(target = "transaktionsArt", source = "transaktionsArt")
     @Mapping(target = "betragAusgabe", source = "betragAusgabe")
+    @Mapping(target = "benutzerdefinierteKategorie", source = "benutzerdefinierteKategorie")
     TransaktionAusgabe toTransaktionAusgabeEntity(TransaktionAusgabeRequestDTO ausgabeDTO);
     @Mapping(target = "transaktionsArt", source = "transaktionsArt")
     @Mapping(target = "betragAusgabe", source = "betragAusgabe")
+    @Mapping(target = "benutzerdefinierteKategorie", source = "benutzerdefinierteKategorie")
     TransaktionAusgabeResponseDTO toTransaktionAusgabeResponseDTO(TransaktionAusgabe transaktionAusgabe);
 
     @Mapping(target = "transaktionsArt", source = "transaktionsArt")

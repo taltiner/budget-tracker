@@ -32,6 +32,15 @@ public class TransaktionAusgabeController {
         return new ResponseEntity<>(transaktionMapper.toTransaktionAusgabeResponseDTO(savedAusgabe), HttpStatus.CREATED);
     }
 
+    @PutMapping
+    public ResponseEntity<List<TransaktionAusgabeResponseDTO>> updateAusgabeTransaktion(@RequestBody List<TransaktionAusgabeRequestDTO> ausgabenDTO) {
+        List<TransaktionAusgabe> updatedAusgaben = transaktionService.updateAusgabeTransaktion(ausgabenDTO);
+        List<TransaktionAusgabeResponseDTO> updatedAusgabenDTO = updatedAusgaben.stream()
+                .map(updatedAusgabe -> transaktionMapper.toTransaktionAusgabeResponseDTO(updatedAusgabe))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(updatedAusgabenDTO, HttpStatus.CREATED);
+    }
+
     @GetMapping
     public ResponseEntity<List<TransaktionAusgabeResponseDTO>> getAllTransaktionAusgaben() {
         List<TransaktionAusgabe> alleAusgaben = transaktionService.getAllTransaktionAusgaben();

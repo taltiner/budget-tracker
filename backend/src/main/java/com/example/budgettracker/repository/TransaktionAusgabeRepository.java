@@ -47,6 +47,13 @@ public class TransaktionAusgabeRepository {
         return ausgabe;
     }
 
+    public List<TransaktionAusgabe> update(List<TransaktionAusgabe> ausgaben) {
+        delete(ausgaben.get(0).getMonatTransaktion(), ausgaben.get(0).getJahrTransaktion());
+        ausgaben.stream().forEach(ausgabe -> save(ausgabe));
+
+        return ausgaben;
+    }
+
     public void delete(String monat, String jahr) {
         String sql = "DELETE FROM TRANSAKTION_AUSGABE WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ?";
 

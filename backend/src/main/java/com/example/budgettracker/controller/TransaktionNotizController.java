@@ -32,6 +32,11 @@ public class TransaktionNotizController {
         return new ResponseEntity<>(transaktionMapper.toTransaktionNotizResponseDTO(savedNotiz), HttpStatus.CREATED);
     }
 
+    public ResponseEntity<TransaktionNotizResponseDTO> updateTransaktionNotiz(@RequestBody TransaktionNotizRequestDTO notizDTO) {
+        TransaktionNotiz updatedNotiz = transaktionService.createNotizTransaktion(notizDTO);
+        return new ResponseEntity<>(transaktionMapper.toTransaktionNotizResponseDTO(updatedNotiz), HttpStatus.CREATED);
+    }
+
     @GetMapping
     public ResponseEntity<List<TransaktionNotizResponseDTO>> getAllTransaktionNotizen() {
         List<TransaktionNotiz> alleNotizen = transaktionService.getAllTransaktionNotizen();
