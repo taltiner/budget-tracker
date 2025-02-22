@@ -3696,3 +3696,7 @@ UPDATE TRANSAKTION_EINNAHME  SET HOEHE = 50 WHERE MONAT_TRANSAKTION = februar AN
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "[*]TRANSAKTION_EINNAHME"; erwartet "TRUNCATE"
 Syntax error in SQL statement "[*]TRANSAKTION_EINNAHME"; expected "TRUNCATE"; SQL statement:
 TRANSAKTION_EINNAHME [42001-232]
+2025-02-22 16:05:10.238513+01:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "DELETE [*]* FROM TRANSAKTION_EINNAHME WHERE ID = 31"; erwartet "identifier"
+Syntax error in SQL statement "DELETE [*]* FROM TRANSAKTION_EINNAHME WHERE ID = 31"; expected "identifier"; SQL statement:
+DELETE * FROM TRANSAKTION_EINNAHME WHERE ID = 31 [42001-232]

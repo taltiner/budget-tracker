@@ -1,5 +1,8 @@
 package com.example.budgettracker.controller;
 
+import com.example.budgettracker.dto.response.TransaktionAusgabeResponseDTO;
+import com.example.budgettracker.dto.response.TransaktionUebersichtResponseDTO;
+import com.example.budgettracker.mapper.TransaktionMapper;
 import com.example.budgettracker.model.TransaktionUebersicht;
 import com.example.budgettracker.service.TransaktionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +16,23 @@ public class TransaktionUebersichtController {
 
     @Autowired
     private final TransaktionService transaktionService;
+    private final TransaktionMapper transaktionMapper;
 
-    public TransaktionUebersichtController(TransaktionService transaktionService) {
+    public TransaktionUebersichtController(TransaktionService transaktionService, TransaktionMapper transaktionMapper) {
         this.transaktionService = transaktionService;
+        this.transaktionMapper = transaktionMapper;
     }
 
     @GetMapping
-    public ResponseEntity<TransaktionUebersicht> getTransaktion(@RequestParam String monat, @RequestParam String jahr) {
+    public ResponseEntity<TransaktionUebersichtResponseDTO> getTransaktion(@RequestParam String monat, @RequestParam String jahr) {
         TransaktionUebersicht transaktion = transaktionService.getTransaktion(monat, jahr);
-        return new ResponseEntity<>(transaktion, HttpStatus.OK);
+        return new ResponseEntity<>(transaktionMapper.toTransaktionUebersichtResponseDTO(transaktion), HttpStatus.OK);
     }
 
     @GetMapping("/alle")
-    public ResponseEntity<TransaktionUebersicht> getAllTransaktionen() {
+    public ResponseEntity<TransaktionUebersichtResponseDTO> getAllTransaktionen() {
         TransaktionUebersicht uebersicht = transaktionService.getAllTransaktionen();
-        return new ResponseEntity<>(uebersicht, HttpStatus.OK);
+        return new ResponseEntity<>(transaktionMapper.toTransaktionUebersichtResponseDTO(uebersicht), HttpStatus.OK);
     }
 
 }

@@ -1,11 +1,14 @@
 package com.example.budgettracker.service;
 
+import com.example.budgettracker.dto.request.TransaktionAusgabeRequestDTO;
+import com.example.budgettracker.dto.request.TransaktionEinnahmeRequestDTO;
+import com.example.budgettracker.dto.request.TransaktionNotizRequestDTO;
+import com.example.budgettracker.mapper.TransaktionMapper;
 import com.example.budgettracker.model.*;
 import com.example.budgettracker.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,23 +18,26 @@ public class TransaktionService {
     private final TransaktionEinnahmeRepository transaktionEinnahmeRepository;
     private final TransaktionAusgabeRepository transaktionAusgabeRepository;
     private final TransaktionNotizRepository transaktionNotizRepository;
+    private final TransaktionMapper transaktionMapper;
 
     @Autowired
     public TransaktionService(
             TransaktionEinnahmeRepository transaktionEinnahmeRepository,
             TransaktionAusgabeRepository transaktionAusgabeRepository,
-            TransaktionNotizRepository transaktionNotizRepository) {
+            TransaktionNotizRepository transaktionNotizRepository,
+            TransaktionMapper transaktionMapper) {
         this.transaktionEinnahmeRepository = transaktionEinnahmeRepository;
         this.transaktionAusgabeRepository = transaktionAusgabeRepository;
         this.transaktionNotizRepository = transaktionNotizRepository;
+        this.transaktionMapper = transaktionMapper;
     }
 
-    public TransaktionEinnahme createEinnahmeTransaktion(TransaktionEinnahme einnahme) {
-         return transaktionEinnahmeRepository.save(einnahme);
+    public TransaktionEinnahme createEinnahmeTransaktion(TransaktionEinnahmeRequestDTO einnahmeRequestDTO) {
+         return transaktionEinnahmeRepository.save(transaktionMapper.toTransaktionEinnahmeEntity(einnahmeRequestDTO));
     }
 
-    public TransaktionEinnahme updateEinnahmeTransaktion(TransaktionEinnahme einnahme) {
-        return transaktionEinnahmeRepository.update(einnahme);
+    public TransaktionEinnahme updateEinnahmeTransaktion(TransaktionEinnahmeRequestDTO einnahmeRequestDTO) {
+        return transaktionEinnahmeRepository.update(transaktionMapper.toTransaktionEinnahmeEntity(einnahmeRequestDTO));
     }
 
     public List<TransaktionEinnahme> getAllTransaktionEinnahmen() {
@@ -42,8 +48,8 @@ public class TransaktionService {
         transaktionEinnahmeRepository.deleteAll();
     }
 
-    public TransaktionAusgabe createAusgabeTransaktion(TransaktionAusgabe ausgabe) {
-        return transaktionAusgabeRepository.save(ausgabe);
+    public TransaktionAusgabe createAusgabeTransaktion(TransaktionAusgabeRequestDTO ausgabeRequestDTO) {
+        return transaktionAusgabeRepository.save(transaktionMapper.toTransaktionAusgabeEntity(ausgabeRequestDTO));
     }
 
     public List<TransaktionAusgabe> getAllTransaktionAusgaben() {
@@ -54,8 +60,8 @@ public class TransaktionService {
         transaktionAusgabeRepository.deleteAll();
     }
 
-    public TransaktionNotiz createNotizTransaktion(TransaktionNotiz notiz) {
-        return transaktionNotizRepository.save(notiz);
+    public TransaktionNotiz createNotizTransaktion(TransaktionNotizRequestDTO notizDTO) {
+        return transaktionNotizRepository.save(transaktionMapper.toTransaktionNotizEntity(notizDTO));
     }
 
     public List<TransaktionNotiz> getAllTransaktionNotizen() {
