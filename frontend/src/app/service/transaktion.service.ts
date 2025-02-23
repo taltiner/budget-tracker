@@ -76,6 +76,21 @@ export class TransaktionService {
     });
   }
 
+  getAllEinnahmeTransaktionen(): Observable<TransaktionEinnahme[]> {
+    return this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl=>
+        this.http.get<TransaktionEinnahme[]>(`${apiUrl}/einnahmen`).pipe(
+          catchError(error => {
+            console.error('Fehler beim Laden aller Einnahmen', error);
+            throw error;
+          })
+        )
+      )
+    );
+  }
+
   createAusgabenTransaktion(transaktionen: TransaktionAusgabe[]): void {
     this.apiUrl$.pipe(
       filter((url): url is string => url !== null),
@@ -116,6 +131,21 @@ export class TransaktionService {
     });
   }
 
+  getAllAusgabeTransaktionen(): Observable<TransaktionAusgabe[]> {
+    return this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl=>
+        this.http.get<TransaktionAusgabe[]>(`${apiUrl}/ausgaben`).pipe(
+          catchError(error => {
+            console.error('Fehler beim Laden aller Ausgaben', error);
+            throw error;
+          })
+        )
+      )
+    );
+  }
+
   createNotizTransaktion(transaktion: TransaktionNotiz): void {
     this.apiUrl$.pipe(
       filter((url): url is string => url !== null),
@@ -130,6 +160,21 @@ export class TransaktionService {
     ).subscribe(() => {
       console.log('Transaktion erfolgreich gespeichert:', transaktion);
     });
+  }
+
+  getAllNotizTransaktionen(): Observable<TransaktionNotiz[]> {
+    return this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl=>
+        this.http.get<TransaktionNotiz[]>(`${apiUrl}/notizen`).pipe(
+          catchError(error => {
+            console.error('Fehler beim Laden aller Notizen', error);
+            throw error;
+          })
+        )
+      )
+    );
   }
 
   getTransaktion(monat: string, jahr: string): Observable<TransaktionUebersicht> {
