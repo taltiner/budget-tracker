@@ -21,7 +21,6 @@ import {
 import {Darstellung} from "../models/darstellung.model";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {ToggleType} from "../models/toggle.model";
-import {catchError} from "rxjs";
 
 @Component({
     selector: 'app-transaktion-uebersicht',
