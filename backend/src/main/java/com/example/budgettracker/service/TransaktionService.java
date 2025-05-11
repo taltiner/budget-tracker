@@ -3,6 +3,8 @@ package com.example.budgettracker.service;
 import com.example.budgettracker.dto.request.TransaktionAusgabeRequestDTO;
 import com.example.budgettracker.dto.request.TransaktionEinnahmeRequestDTO;
 import com.example.budgettracker.dto.request.TransaktionNotizRequestDTO;
+import com.example.budgettracker.exception.TransaktionNichtGefundenException;
+import com.example.budgettracker.exception.TransaktionVerarbeitenFehlgeschlagenException;
 import com.example.budgettracker.mapper.TransaktionMapper;
 import com.example.budgettracker.model.*;
 import com.example.budgettracker.repository.*;
@@ -33,7 +35,7 @@ public class TransaktionService {
     }
 
     public TransaktionEinnahme createEinnahmeTransaktion(TransaktionEinnahmeRequestDTO einnahmeRequestDTO) {
-         return transaktionEinnahmeRepository.save(transaktionMapper.toTransaktionEinnahmeEntity(einnahmeRequestDTO));
+        return transaktionEinnahmeRepository.save(transaktionMapper.toTransaktionEinnahmeEntity(einnahmeRequestDTO));
     }
 
     public TransaktionEinnahme updateEinnahmeTransaktion(TransaktionEinnahmeRequestDTO einnahmeRequestDTO) {
@@ -51,13 +53,14 @@ public class TransaktionService {
     public TransaktionAusgabe createAusgabeTransaktion(TransaktionAusgabeRequestDTO ausgabeRequestDTO) {
         return transaktionAusgabeRepository.save(transaktionMapper.toTransaktionAusgabeEntity(ausgabeRequestDTO));
     }
+
     public List<TransaktionAusgabe> updateAusgabeTransaktion(List<TransaktionAusgabeRequestDTO> ausgabeRequestDTO) {
         List<TransaktionAusgabe> ausgaben = ausgabeRequestDTO.stream()
                 .map(ausgabe -> transaktionMapper.toTransaktionAusgabeEntity(ausgabe))
                 .collect(Collectors.toList());
+
         return transaktionAusgabeRepository.update(ausgaben);
     }
-
 
     public List<TransaktionAusgabe> getAllTransaktionAusgaben() {
         return transaktionAusgabeRepository.findAll();

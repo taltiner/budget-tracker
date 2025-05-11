@@ -1,8 +1,12 @@
 package com.example.budgettracker.repository;
 
+import com.example.budgettracker.exception.TransaktionLoeschenFehlgeschlagenException;
+import com.example.budgettracker.exception.TransaktionVerarbeitenFehlgeschlagenException;
 import com.example.budgettracker.model.EingabeArt;
 import com.example.budgettracker.model.Geldbetrag;
 import com.example.budgettracker.model.TransaktionEinnahme;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -16,6 +20,8 @@ import java.util.List;
 public class TransaktionEinnahmeRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private static final Logger log = LoggerFactory.getLogger(TransaktionEinnahmeRepository.class);
+
 
     public TransaktionEinnahmeRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -26,16 +32,21 @@ public class TransaktionEinnahmeRepository {
                      "VALUES (?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"ID"});
+                ps.setString(1, einnahme.getTransaktionsArt().getValue());
+                ps.setString(2, einnahme.getJahrTransaktion());
+                ps.setString(3, einnahme.getMonatTransaktion());
+                ps.setString(4, einnahme.getBetragEinnahme().getHoehe());
+                ps.setString(5, einnahme.getBetragEinnahme().getWaehrung());
+                return ps;
+            }, keyHolder);
+        } catch(Exception e) {
+            log.error("Fehler beim Speichern der Transaktion: {}", einnahme, e);
+            throw new TransaktionVerarbeitenFehlgeschlagenException(e);
+        }
 
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"ID"});
-            ps.setString(1, einnahme.getTransaktionsArt().getValue());
-            ps.setString(2, einnahme.getJahrTransaktion());
-            ps.setString(3, einnahme.getMonatTransaktion());
-            ps.setString(4, einnahme.getBetragEinnahme().getHoehe());
-            ps.setString(5, einnahme.getBetragEinnahme().getWaehrung());
-            return ps;
-        }, keyHolder);
 
         if (keyHolder.getKey() != null) {
             einnahme.setId(keyHolder.getKey().longValue());
@@ -54,12 +65,17 @@ public class TransaktionEinnahmeRepository {
     public void delete(String monat, String jahr) {
         String sql = "DELETE FROM TRANSAKTION_EINNAHME WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ?";
 
-        jdbcTemplate.update(connection -> {
+        int geloeschteZeilen = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, monat);
             ps.setString(2, jahr);
             return ps;
         });
+
+        if(geloeschteZeilen == 0) {
+            throw new TransaktionLoeschenFehlgeschlagenException(String.format(
+                    "Die Transaktion für den Monat: %s und Jahr: %s konnte nicht gefunden werden. Es wurden keine Transaktionen gelöscht." , monat, jahr));
+        }
     }
 
     public List<TransaktionEinnahme> findAll() {
@@ -69,6 +85,7 @@ public class TransaktionEinnahmeRepository {
             Long id = rs.getLong("ID");
             String transaktionsArtString = rs.getString("TRANSAKTIONS_ART");
             EingabeArt transaktionsArt = null;
+
             if (transaktionsArtString != null) {
                 transaktionsArt = EingabeArt.fromValue(transaktionsArtString.toLowerCase());
             }
