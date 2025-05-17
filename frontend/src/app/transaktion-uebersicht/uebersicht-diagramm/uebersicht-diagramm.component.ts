@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, ViewChild} from '@angular/core';
+import {Component, DestroyRef, OnInit, ViewChild} from '@angular/core';
 import {ChartData, ChartOptions} from "chart.js";
 import {TransaktionUebersichtTransformiert} from "../../models/transaktion.model";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -51,7 +51,7 @@ export class UebersichtDiagrammComponent implements OnInit {
             const newDataSet = createDataSet(index);
 
             this.barChartData.datasets.push(newDataSet);
-            dataSource.forEach((data:  TransaktionUebersichtTransformiert) => {
+            dataSource.forEach((data: TransaktionUebersichtTransformiert) => {
 
               this.setChart(data, kategorieLabel, anzahlEintraege);
             });
@@ -71,8 +71,8 @@ export class UebersichtDiagrammComponent implements OnInit {
     if(ausgabeKategorie !== undefined && ausgabeKategorie.hoehe !== undefined) {
       const monat: string = data.monatTransaktion;
 
-      if(kategorieLabel !== undefined ) {
-        if( !this.barChartLabels.includes(monat)) {
+      if(kategorieLabel !== undefined && monat !== 'Gesamt') {
+        if(!this.barChartLabels.includes(monat)) {
           this.barChartLabels.push(monat);
           this.barChartData.labels?.push(monat);
         }

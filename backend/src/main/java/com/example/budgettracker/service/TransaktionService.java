@@ -248,7 +248,7 @@ public class TransaktionService {
         String benutzerdefinierteKategorie = transaktionAusgabe.getBenutzerdefinierteKategorie();
         String kategorieLabel = SelectOption.KategorieAuswahl.getKategorieLabel(transaktionAusgabe.getKategorie());
 
-        return !benutzerdefinierteKategorie.isEmpty() ?
+        return !benutzerdefinierteKategorie.isBlank() ?
                 Character.toUpperCase(benutzerdefinierteKategorie.charAt(0)) + benutzerdefinierteKategorie.substring(1).toLowerCase() :
                 kategorieLabel;
     }

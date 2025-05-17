@@ -46,7 +46,7 @@ public class TransaktionAusgabeRequestDTO {
         this.kategorie = kategorie;
     }
     public void setBenutzerdefinierteKategorie(String benutzerdefinierteKategorie) {
-        this.benutzerdefinierteKategorie = kategorie;
+        this.benutzerdefinierteKategorie = benutzerdefinierteKategorie;
     }
     public void setBetragAusgabe(Geldbetrag betragAusgabe) {
         this.betragAusgabe = betragAusgabe;

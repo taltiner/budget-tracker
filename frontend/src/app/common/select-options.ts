@@ -45,6 +45,12 @@ export function getKategorieLabel(value: string): string {
   return kategorieLabel ?? '';
 }
 
+export function getKategorieValue(label: string): string {
+  const kategorieValue = KATEGORIE_AUSGABE.find((m) => m.label === label)?.value;
+
+  return kategorieValue ?? '';
+}
+
 export function getMonatLabel(value: string): string {
   const monaltLabel = TRANSAKTION_MONAT.find((m) => m.value === value)?.label;
 

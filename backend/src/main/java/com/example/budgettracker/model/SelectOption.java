@@ -36,7 +36,7 @@ public class SelectOption {
                     return kategorie.label;
                 }
             }
-            return null;
+            return "";
         }
     }
 
