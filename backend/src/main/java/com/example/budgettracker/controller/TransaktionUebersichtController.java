@@ -41,15 +41,9 @@ public class TransaktionUebersichtController {
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteTransaktion(@RequestParam String monat, @RequestParam String jahr) {
         Map<String, String> response = new HashMap<>();
-        try {
             transaktionService.deleteTransaktion(monat, jahr);
             response.put("message", "Transaktion erfolgreich gelöscht");
             return ResponseEntity.ok(response);
-
-        } catch(Exception e) {
-            response.put("message","Fehler beim Löschen der Transaktion");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
     }
 
 }

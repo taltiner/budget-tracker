@@ -66,16 +66,16 @@ public class TransaktionAusgabeRepository {
     public void delete(String monat, String jahr) {
         String sql = "DELETE FROM TRANSAKTION_AUSGABE WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ?";
 
-        int geloeschteZeilen = jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, monat);
-            ps.setString(2, jahr);
-            return ps;
-        });
-
-        if(geloeschteZeilen == 0) {
+        try {
+            int geloeschteZeilen = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ps.setString(1, monat);
+                ps.setString(2, jahr);
+                return ps;
+            });
+        } catch(Exception e) {
             throw new TransaktionLoeschenFehlgeschlagenException(String.format(
-                    "Die Transaktion für den Monat: %s und Jahr: %s konnte nicht gefunden werden. Es wurden keine Transaktionen gelöscht." , monat, jahr));
+                    "Die Transaktion für den Monat: %s und Jahr: %s konnte nicht gefunden werden. Es wurden keine Transaktionen gelöscht." , monat, jahr), e);
         }
     }
 
