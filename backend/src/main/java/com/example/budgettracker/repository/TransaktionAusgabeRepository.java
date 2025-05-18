@@ -100,6 +100,7 @@ public class TransaktionAusgabeRepository {
             Geldbetrag betragAusgabe = new Geldbetrag(hoehe, waehrung);
             String jahrTransaktion = rs.getString("JAHR_TRANSAKTION");
             String monatTransaktion = rs.getString("MONAT_TRANSAKTION");
+            boolean istSchulden = rs.getBoolean("IST_SCHULDEN");
 
             TransaktionAusgabe ausgabe = TransaktionAusgabe.builder()
                     .transaktionsArt(transaktionsArt)
@@ -108,6 +109,7 @@ public class TransaktionAusgabeRepository {
                     .kategorie(kategorie)
                     .benutzerdefinierteKategorie(benutzerdefinierteKategorie)
                     .betragAusgabe(betragAusgabe)
+                    .istSchulden(istSchulden)
                     .build();
 
             ausgabe.setId(id);

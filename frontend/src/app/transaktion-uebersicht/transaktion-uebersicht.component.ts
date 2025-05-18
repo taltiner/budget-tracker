@@ -148,6 +148,8 @@ export class TransaktionUebersichtComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(alleTransaktionen => {
         this.transaktionen = alleTransaktionen;
+        console.log('transaktionen eltern', this.transaktionen)
+
       });
   }
 

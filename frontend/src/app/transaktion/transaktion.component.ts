@@ -13,7 +13,6 @@ import {
 import {TransaktionService} from "../service/transaktion.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {MatCheckboxChange} from "@angular/material/checkbox";
 
 @Component({
     selector: 'app-transaktion',
@@ -251,7 +250,6 @@ export class TransaktionComponent implements OnInit {
   }
 
   private clearAusgabeValidators() {
-    console.log('wird gecleared')
     this.transaktionForm.controls.ausgabeAbschnitte.controls.forEach(abschnitt => {
       abschnitt.get('kategorie')?.clearValidators();
       abschnitt.get('betragAusgabe')?.clearValidators();
@@ -270,14 +268,13 @@ export class TransaktionComponent implements OnInit {
   }
 
   private createPayloadEinnahme(): TransaktionEinnahme {
-    const payload: TransaktionEinnahme = {
+
+    return {
       jahrTransaktion: this.jahrTransaktion,
       monatTransaktion: this.monatTransaktion,
       transaktionsArt: this.transaktionsArt,
       betragEinnahme: {hoehe: this.betragEinnahme, waehrung: '€'},
     }
-
-    return payload;
   }
 
   private createPayloadAusgabe(abschnitt: FormGroup): TransaktionAusgabe {
@@ -286,7 +283,7 @@ export class TransaktionComponent implements OnInit {
     const betragAusgabe = abschnitt.get('betragAusgabe')?.value.replace(',', '.');
     const istSchulden = abschnitt.get('istSchulden')?.value;
 
-    const payload: TransaktionAusgabe = {
+    return {
       jahrTransaktion: this.jahrTransaktion,
       monatTransaktion: this.monatTransaktion,
       transaktionsArt: this.transaktionsArt,
@@ -295,19 +292,16 @@ export class TransaktionComponent implements OnInit {
       istSchulden: istSchulden,
       betragAusgabe: {hoehe: betragAusgabe, waehrung: '€'},
     }
-
-    return payload;
   }
 
   private createPayloadNotiz(): TransaktionNotiz {
-    const payload: TransaktionNotiz = {
+
+    return {
       jahrTransaktion: this.jahrTransaktion,
       monatTransaktion: this.monatTransaktion,
       transaktionsArt: this.transaktionsArt,
       notiz: this.notiz,
     }
-
-    return payload;
   }
 
   private createAusgabeFormGroup():FormGroup {
