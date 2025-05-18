@@ -1,7 +1,6 @@
 package com.example.budgettracker.controller;
 
-import com.example.budgettracker.dto.request.TransaktionEinnahmeRequestDTO;
-import com.example.budgettracker.dto.response.TransaktionEinnahmeResponseDTO;
+import com.example.budgettracker.dto.TransaktionEinnahmeDTO;
 import com.example.budgettracker.mapper.TransaktionMapper;
 import com.example.budgettracker.model.TransaktionEinnahme;
 import com.example.budgettracker.service.TransaktionService;
@@ -30,21 +29,21 @@ public class TransaktionEinnahmeController {
     }
 
     @PostMapping
-    public ResponseEntity<TransaktionEinnahmeResponseDTO> createEinnahmeTransaktion(@RequestBody TransaktionEinnahmeRequestDTO einnahmeDTO) {
+    public ResponseEntity<TransaktionEinnahmeDTO> createEinnahmeTransaktion(@RequestBody TransaktionEinnahmeDTO einnahmeDTO) {
         TransaktionEinnahme savedEinnahme = transaktionService.createEinnahmeTransaktion(einnahmeDTO);
         return new ResponseEntity<>(transaktionMapper.toTransaktionEinnahmeResponseDTO(savedEinnahme), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<TransaktionEinnahmeResponseDTO> updateEinnahmeTransaktion(@RequestBody TransaktionEinnahmeRequestDTO einnahmeDTO) {
+    public ResponseEntity<TransaktionEinnahmeDTO> updateEinnahmeTransaktion(@RequestBody TransaktionEinnahmeDTO einnahmeDTO) {
         TransaktionEinnahme updatedEinnahme = transaktionService.updateEinnahmeTransaktion(einnahmeDTO);
         return new ResponseEntity<>(transaktionMapper.toTransaktionEinnahmeResponseDTO(updatedEinnahme), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List <TransaktionEinnahmeResponseDTO>> getAllTransaktionEinnahmen() {
+    public ResponseEntity<List <TransaktionEinnahmeDTO>> getAllTransaktionEinnahmen() {
         List<TransaktionEinnahme> alleEinnahmen = transaktionService.getAllTransaktionEinnahmen();
-        List<TransaktionEinnahmeResponseDTO> alleEinnahmenResponseDTO =  alleEinnahmen.stream()
+        List<TransaktionEinnahmeDTO> alleEinnahmenResponseDTO =  alleEinnahmen.stream()
                 .map(einnahme -> transaktionMapper.toTransaktionEinnahmeResponseDTO(einnahme))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(alleEinnahmenResponseDTO, HttpStatus.OK);

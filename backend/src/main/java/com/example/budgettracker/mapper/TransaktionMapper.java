@@ -1,12 +1,9 @@
 package com.example.budgettracker.mapper;
 
-import com.example.budgettracker.dto.request.TransaktionAusgabeRequestDTO;
-import com.example.budgettracker.dto.request.TransaktionEinnahmeRequestDTO;
-import com.example.budgettracker.dto.request.TransaktionNotizRequestDTO;
-import com.example.budgettracker.dto.response.TransaktionAusgabeResponseDTO;
-import com.example.budgettracker.dto.response.TransaktionEinnahmeResponseDTO;
-import com.example.budgettracker.dto.response.TransaktionNotizResponseDTO;
-import com.example.budgettracker.dto.response.TransaktionUebersichtResponseDTO;
+import com.example.budgettracker.dto.TransaktionAusgabeDTO;
+import com.example.budgettracker.dto.TransaktionEinnahmeDTO;
+import com.example.budgettracker.dto.TransaktionNotizDTO;
+import com.example.budgettracker.dto.TransaktionUebersichtDTO;
 import com.example.budgettracker.model.TransaktionAusgabe;
 import com.example.budgettracker.model.TransaktionEinnahme;
 import com.example.budgettracker.model.TransaktionNotiz;
@@ -20,27 +17,31 @@ public interface TransaktionMapper {
 
     TransaktionMapper INSTANCE = Mappers.getMapper( TransaktionMapper.class );
 
-    @Mapping(target = "transaktionsArt", source = "transaktionsArt")
-    TransaktionEinnahme toTransaktionEinnahmeEntity(TransaktionEinnahmeRequestDTO einnahmeDto);
-    @Mapping(target = "transaktionsArt", source = "transaktionsArt")
-    TransaktionEinnahmeResponseDTO toTransaktionEinnahmeResponseDTO(TransaktionEinnahme transaktionEinnahme);
+    TransaktionEinnahme toTransaktionEinnahmeEntity(TransaktionEinnahmeDTO einnahmeDto);
 
-    @Mapping(target = "transaktionsArt", source = "transaktionsArt")
-    @Mapping(target = "betragAusgabe", source = "betragAusgabe")
-    @Mapping(target = "benutzerdefinierteKategorie", source = "benutzerdefinierteKategorie")
-    TransaktionAusgabe toTransaktionAusgabeEntity(TransaktionAusgabeRequestDTO ausgabeDTO);
-    @Mapping(target = "transaktionsArt", source = "transaktionsArt")
-    @Mapping(target = "betragAusgabe", source = "betragAusgabe")
-    @Mapping(target = "benutzerdefinierteKategorie", source = "benutzerdefinierteKategorie")
-    TransaktionAusgabeResponseDTO toTransaktionAusgabeResponseDTO(TransaktionAusgabe transaktionAusgabe);
+    TransaktionEinnahmeDTO toTransaktionEinnahmeResponseDTO(TransaktionEinnahme transaktionEinnahme);
 
-    @Mapping(target = "transaktionsArt", source = "transaktionsArt")
-    TransaktionNotiz toTransaktionNotizEntity(TransaktionNotizRequestDTO notizDTO);
-    @Mapping(target = "transaktionsArt", source = "transaktionsArt")
-    TransaktionNotizResponseDTO toTransaktionNotizResponseDTO(TransaktionNotiz notiz);
+    @Mapping(source = "transaktionsArt", target = "transaktionsArt")
+    @Mapping(source = "jahrTransaktion", target = "jahrTransaktion")
+    @Mapping(source = "monatTransaktion", target = "monatTransaktion")
+    @Mapping(source = "kategorie", target = "kategorie")
+    @Mapping(source = "benutzerdefinierteKategorie", target = "benutzerdefinierteKategorie")
+    @Mapping(source = "betragAusgabe", target = "betragAusgabe")
+    @Mapping(source = "istSchulden", target = "istSchulden")
+    TransaktionAusgabe toTransaktionAusgabeEntity(TransaktionAusgabeDTO ausgabeDTO);
 
-    @Mapping(target = "einnahmen", source = "einnahmen")
-    @Mapping(target = "ausgaben", source = "ausgaben")
-    @Mapping(target = "notizen", source = "notizen")
-    TransaktionUebersichtResponseDTO toTransaktionUebersichtResponseDTO(TransaktionUebersicht transaktionUebersicht);
+    @Mapping(source = "transaktionsArt", target = "transaktionsArt")
+    @Mapping(source = "jahrTransaktion", target = "jahrTransaktion")
+    @Mapping(source = "monatTransaktion", target = "monatTransaktion")
+    @Mapping(source = "kategorie", target = "kategorie")
+    @Mapping(source = "benutzerdefinierteKategorie", target = "benutzerdefinierteKategorie")
+    @Mapping(source = "betragAusgabe", target = "betragAusgabe")
+    @Mapping(source = "istSchulden", target = "istSchulden")
+    TransaktionAusgabeDTO toTransaktionAusgabeResponseDTO(TransaktionAusgabe transaktionAusgabe);
+
+    TransaktionNotiz toTransaktionNotizEntity(TransaktionNotizDTO notizDTO);
+
+    TransaktionNotizDTO toTransaktionNotizResponseDTO(TransaktionNotiz notiz);
+
+    TransaktionUebersichtDTO toTransaktionUebersichtResponseDTO(TransaktionUebersicht transaktionUebersicht);
 }

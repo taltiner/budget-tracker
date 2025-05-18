@@ -15,6 +15,7 @@ export const KATEGORIE_AUSGABE: SelectOptions[] = [
   {value: 'kleidung', label: 'Kleidung'},
   {value: 'wohnungHaushalt', label: 'Wohnung/Haushalt'},
   {value: 'sonstiges', label: 'Sonstiges'},
+  {value: 'benutzerdefiniert', label: 'Benutzerdefiniert'}
 ];
 
 export const TRANSAKTION_JAHR: SelectOptions[] = [

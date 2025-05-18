@@ -1,7 +1,6 @@
 package com.example.budgettracker.controller;
 
-import com.example.budgettracker.dto.request.TransaktionAusgabeRequestDTO;
-import com.example.budgettracker.dto.response.TransaktionAusgabeResponseDTO;
+import com.example.budgettracker.dto.TransaktionAusgabeDTO;
 import com.example.budgettracker.mapper.TransaktionMapper;
 import com.example.budgettracker.model.TransaktionAusgabe;
 import com.example.budgettracker.service.TransaktionService;
@@ -27,24 +26,24 @@ public class TransaktionAusgabeController {
     }
 
     @PostMapping
-    public ResponseEntity<TransaktionAusgabeResponseDTO> createAusgabeTransaktion(@RequestBody TransaktionAusgabeRequestDTO ausgabeDTO) {
+    public ResponseEntity<TransaktionAusgabeDTO> createAusgabeTransaktion(@RequestBody TransaktionAusgabeDTO ausgabeDTO) {
         TransaktionAusgabe savedAusgabe = transaktionService.createAusgabeTransaktion(ausgabeDTO);
         return new ResponseEntity<>(transaktionMapper.toTransaktionAusgabeResponseDTO(savedAusgabe), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<List<TransaktionAusgabeResponseDTO>> updateAusgabeTransaktion(@RequestBody List<TransaktionAusgabeRequestDTO> ausgabenDTO) {
+    public ResponseEntity<List<TransaktionAusgabeDTO>> updateAusgabeTransaktion(@RequestBody List<TransaktionAusgabeDTO> ausgabenDTO) {
         List<TransaktionAusgabe> updatedAusgaben = transaktionService.updateAusgabeTransaktion(ausgabenDTO);
-        List<TransaktionAusgabeResponseDTO> updatedAusgabenDTO = updatedAusgaben.stream()
+        List<TransaktionAusgabeDTO> updatedAusgabenDTO = updatedAusgaben.stream()
                 .map(updatedAusgabe -> transaktionMapper.toTransaktionAusgabeResponseDTO(updatedAusgabe))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(updatedAusgabenDTO, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<TransaktionAusgabeResponseDTO>> getAllTransaktionAusgaben() {
+    public ResponseEntity<List<TransaktionAusgabeDTO>> getAllTransaktionAusgaben() {
         List<TransaktionAusgabe> alleAusgaben = transaktionService.getAllTransaktionAusgaben();
-        List<TransaktionAusgabeResponseDTO> alleAusgabenResponseDTO = alleAusgaben.stream()
+        List<TransaktionAusgabeDTO> alleAusgabenResponseDTO = alleAusgaben.stream()
                 .map(ausgabe -> transaktionMapper.toTransaktionAusgabeResponseDTO(ausgabe))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(alleAusgabenResponseDTO, HttpStatus.OK);

@@ -1,7 +1,5 @@
 package com.example.budgettracker.controller;
 
-import com.example.budgettracker.model.Transaktion;
-import com.example.budgettracker.model.TransaktionUebersicht;
 import com.example.budgettracker.model.TransaktionUebersichtTransformiert;
 import com.example.budgettracker.service.TransaktionService;
 import org.springframework.beans.factory.annotation.Autowired;

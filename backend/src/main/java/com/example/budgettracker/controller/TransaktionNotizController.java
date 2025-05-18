@@ -1,7 +1,6 @@
 package com.example.budgettracker.controller;
 
-import com.example.budgettracker.dto.request.TransaktionNotizRequestDTO;
-import com.example.budgettracker.dto.response.TransaktionNotizResponseDTO;
+import com.example.budgettracker.dto.TransaktionNotizDTO;
 import com.example.budgettracker.mapper.TransaktionMapper;
 import com.example.budgettracker.model.TransaktionNotiz;
 import com.example.budgettracker.service.TransaktionService;
@@ -27,20 +26,20 @@ public class TransaktionNotizController {
     }
 
     @PostMapping
-    public ResponseEntity<TransaktionNotizResponseDTO> createTransaktionNotiz(@RequestBody TransaktionNotizRequestDTO notizDTO) {
+    public ResponseEntity<TransaktionNotizDTO> createTransaktionNotiz(@RequestBody TransaktionNotizDTO notizDTO) {
         TransaktionNotiz savedNotiz = transaktionService.createNotizTransaktion(notizDTO);
         return new ResponseEntity<>(transaktionMapper.toTransaktionNotizResponseDTO(savedNotiz), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<TransaktionNotizResponseDTO> updateTransaktionNotiz(@RequestBody TransaktionNotizRequestDTO notizDTO) {
+    public ResponseEntity<TransaktionNotizDTO> updateTransaktionNotiz(@RequestBody TransaktionNotizDTO notizDTO) {
         TransaktionNotiz updatedNotiz = transaktionService.createNotizTransaktion(notizDTO);
         return new ResponseEntity<>(transaktionMapper.toTransaktionNotizResponseDTO(updatedNotiz), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<TransaktionNotizResponseDTO>> getAllTransaktionNotizen() {
+    public ResponseEntity<List<TransaktionNotizDTO>> getAllTransaktionNotizen() {
         List<TransaktionNotiz> alleNotizen = transaktionService.getAllTransaktionNotizen();
-        List<TransaktionNotizResponseDTO> notizResponseDTO = alleNotizen.stream()
+        List<TransaktionNotizDTO> notizResponseDTO = alleNotizen.stream()
                 .map(notiz -> transaktionMapper.toTransaktionNotizResponseDTO(notiz))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(notizResponseDTO, HttpStatus.OK);

@@ -26,11 +26,12 @@ class TransaktionEinnahmeRepositoryTest {
     @Test
     void sollteEinnahmeSpeichern() {
         // given
-        TransaktionEinnahme einnahme = new TransaktionEinnahme(
-                EingabeArt.EINNAHME,
-                "2024",
-                "januar",
-                new Geldbetrag("2500", "€"));
+        TransaktionEinnahme einnahme = TransaktionEinnahme.builder()
+                .transaktionsArt(EingabeArt.EINNAHME)
+                .jahrTransaktion("2024")
+                .monatTransaktion("januar")
+                .betragEinnahme(new Geldbetrag("2500", "€"))
+                .build();
 
         // when
         TransaktionEinnahme result = underTest.save(einnahme);
@@ -45,11 +46,12 @@ class TransaktionEinnahmeRepositoryTest {
     @Test
     void update() {
         // given
-        TransaktionEinnahme einnahme = new TransaktionEinnahme(
-                EingabeArt.EINNAHME,
-                "2024",
-                "januar",
-                new Geldbetrag("2500", "€"));
+        TransaktionEinnahme einnahme = TransaktionEinnahme.builder()
+                .transaktionsArt(EingabeArt.EINNAHME)
+                .jahrTransaktion("2024")
+                .monatTransaktion("januar")
+                .betragEinnahme(new Geldbetrag("2500", "€"))
+                .build();
 
         underTest.save(einnahme);
 
@@ -68,17 +70,19 @@ class TransaktionEinnahmeRepositoryTest {
     @Test
     void delete() {
         // given
-        TransaktionEinnahme einnahme1 = new TransaktionEinnahme(
-                EingabeArt.EINNAHME,
-                "2024",
-                "januar",
-                new Geldbetrag("1500", "€"));
+        TransaktionEinnahme einnahme1 = TransaktionEinnahme.builder()
+                .transaktionsArt(EingabeArt.EINNAHME)
+                .jahrTransaktion("2024")
+                .monatTransaktion("januar")
+                .betragEinnahme(new Geldbetrag("1500", "€"))
+                .build();
 
-        TransaktionEinnahme einnahme2 = new TransaktionEinnahme(
-                EingabeArt.EINNAHME,
-                "2024",
-                "februar",
-                new Geldbetrag("1200", "€"));
+        TransaktionEinnahme einnahme2 = TransaktionEinnahme.builder()
+                .transaktionsArt(EingabeArt.EINNAHME)
+                .jahrTransaktion("2024")
+                .monatTransaktion("februar")
+                .betragEinnahme(new Geldbetrag("1200", "€"))
+                .build();
 
         underTest.save(einnahme1);
         underTest.save(einnahme2);
@@ -95,17 +99,19 @@ class TransaktionEinnahmeRepositoryTest {
     @Test
     void findAll() {
         // given
-        TransaktionEinnahme einnahme1 = new TransaktionEinnahme(
-                EingabeArt.EINNAHME,
-                "2024",
-                "januar",
-                new Geldbetrag("3500", "€"));
+        TransaktionEinnahme einnahme1 = TransaktionEinnahme.builder()
+                .transaktionsArt(EingabeArt.EINNAHME)
+                .jahrTransaktion("2024")
+                .monatTransaktion("januar")
+                .betragEinnahme(new Geldbetrag("3500", "€"))
+                .build();
 
-        TransaktionEinnahme einnahme2 = new TransaktionEinnahme(
-                EingabeArt.EINNAHME,
-                "2024",
-                "februar",
-                new Geldbetrag("3200", "€"));
+        TransaktionEinnahme einnahme2 = TransaktionEinnahme.builder()
+                .transaktionsArt(EingabeArt.EINNAHME)
+                .jahrTransaktion("2024")
+                .monatTransaktion("februar")
+                .betragEinnahme(new Geldbetrag("3200", "€"))
+                .build();
 
         underTest.save(einnahme1);
         underTest.save(einnahme2);
@@ -120,17 +126,19 @@ class TransaktionEinnahmeRepositoryTest {
     @Test
     void deleteAll() {
         // given
-        TransaktionEinnahme einnahme1 = new TransaktionEinnahme(
-                EingabeArt.EINNAHME,
-                "2024",
-                "januar",
-                new Geldbetrag("2500", "€"));
+        TransaktionEinnahme einnahme1 = TransaktionEinnahme.builder()
+                .transaktionsArt(EingabeArt.EINNAHME)
+                .jahrTransaktion("2024")
+                .monatTransaktion("januar")
+                .betragEinnahme(new Geldbetrag("2500", "€"))
+                .build();
 
-        TransaktionEinnahme einnahme2 = new TransaktionEinnahme(
-                EingabeArt.EINNAHME,
-                "2024",
-                "februar",
-                new Geldbetrag("1800", "€"));
+        TransaktionEinnahme einnahme2 = TransaktionEinnahme.builder()
+                .transaktionsArt(EingabeArt.EINNAHME)
+                .jahrTransaktion("2024")
+                .monatTransaktion("februar")
+                .betragEinnahme(new Geldbetrag("1800", "€"))
+                .build();
 
         underTest.save(einnahme1);
         underTest.save(einnahme2);

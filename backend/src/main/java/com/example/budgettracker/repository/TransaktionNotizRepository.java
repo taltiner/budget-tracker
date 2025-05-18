@@ -88,12 +88,13 @@ public class TransaktionNotizRepository {
             String monatTransaktion = rs.getString("MONAT_TRANSAKTION");
             String notiz = rs.getString("NOTIZ");
 
-            TransaktionNotiz notizSaved = new TransaktionNotiz(
-                transaktionsArt,
-                jahrTransaktion,
-                monatTransaktion,
-                notiz
-            );
+            TransaktionNotiz notizSaved = TransaktionNotiz.builder()
+                    .transaktionsArt(transaktionsArt)
+                    .jahrTransaktion(jahrTransaktion)
+                    .monatTransaktion(monatTransaktion)
+                    .notiz(notiz)
+                    .build();
+
             notizSaved.setId(id);
             return notizSaved;
         });

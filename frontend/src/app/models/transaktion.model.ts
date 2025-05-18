@@ -22,6 +22,7 @@ export interface TransaktionAusgabe extends Transaktion {
   kategorie: string,
   benutzerdefinierteKategorie: string,
   betragAusgabe: Geldbetrag,
+  istSchulden?: boolean;
 }
 
 export interface TransaktionNotiz extends Transaktion {

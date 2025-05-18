@@ -77,14 +77,23 @@
                     <mat-option *ngFor="let kategorie of kategorieOptions"
                                 [value]="kategorie.value"
                                 (onSelectionChange)="onKategorieChange(i)">{{kategorie.label}}</mat-option>
-                    <mat-option value="benutzerdefiniert">Benutzerdefiniert</mat-option>
                   </mat-select>
                 </mat-form-field>
 
-                <mat-form-field *ngIf="abschnitt.get('kategorie')?.value === 'benutzerdefiniert'">
-                  <mat-label>Gib eine neue Kategorie ein</mat-label>
-                  <input matInput formControlName="benutzerdefinierteKategorie">
-                </mat-form-field>
+                <ng-container *ngIf="abschnitt.get('kategorie')?.value === 'benutzerdefiniert'">
+                  <mat-form-field>
+                    <mat-label>Gib eine neue Kategorie ein</mat-label>
+                    <input matInput formControlName="benutzerdefinierteKategorie">
+                  </mat-form-field>
+
+                  <mat-checkbox
+                    class="transaktion__ausgabe--schulden"
+                    formControlName="istSchulden"
+                    [checked]="abschnitt.get('istSchulden')"
+                    (change)="onSchuldCheckboxChanged($event.checked)">
+                    Als Schulden markieren
+                  </mat-checkbox>
+                </ng-container>
               </fieldset>
 
               <fieldset>
@@ -102,7 +111,6 @@
 
           </div>
         </div>
-
 
         <button mat-stroked-button class="transaktion__button--hinzufuegen"
                 (click)="onAusgabeHinzufuegen()">Weitere Ausgabe hinzufügen</button>

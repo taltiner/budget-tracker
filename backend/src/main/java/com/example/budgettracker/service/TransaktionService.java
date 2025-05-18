@@ -1,10 +1,8 @@
 package com.example.budgettracker.service;
 
-import com.example.budgettracker.dto.request.TransaktionAusgabeRequestDTO;
-import com.example.budgettracker.dto.request.TransaktionEinnahmeRequestDTO;
-import com.example.budgettracker.dto.request.TransaktionNotizRequestDTO;
-import com.example.budgettracker.exception.TransaktionNichtGefundenException;
-import com.example.budgettracker.exception.TransaktionVerarbeitenFehlgeschlagenException;
+import com.example.budgettracker.dto.TransaktionAusgabeDTO;
+import com.example.budgettracker.dto.TransaktionEinnahmeDTO;
+import com.example.budgettracker.dto.TransaktionNotizDTO;
 import com.example.budgettracker.mapper.TransaktionMapper;
 import com.example.budgettracker.model.*;
 import com.example.budgettracker.repository.*;
@@ -34,11 +32,11 @@ public class TransaktionService {
         this.transaktionMapper = transaktionMapper;
     }
 
-    public TransaktionEinnahme createEinnahmeTransaktion(TransaktionEinnahmeRequestDTO einnahmeRequestDTO) {
+    public TransaktionEinnahme createEinnahmeTransaktion(TransaktionEinnahmeDTO einnahmeRequestDTO) {
         return transaktionEinnahmeRepository.save(transaktionMapper.toTransaktionEinnahmeEntity(einnahmeRequestDTO));
     }
 
-    public TransaktionEinnahme updateEinnahmeTransaktion(TransaktionEinnahmeRequestDTO einnahmeRequestDTO) {
+    public TransaktionEinnahme updateEinnahmeTransaktion(TransaktionEinnahmeDTO einnahmeRequestDTO) {
         return transaktionEinnahmeRepository.update(transaktionMapper.toTransaktionEinnahmeEntity(einnahmeRequestDTO));
     }
 
@@ -50,11 +48,11 @@ public class TransaktionService {
         transaktionEinnahmeRepository.deleteAll();
     }
 
-    public TransaktionAusgabe createAusgabeTransaktion(TransaktionAusgabeRequestDTO ausgabeRequestDTO) {
+    public TransaktionAusgabe createAusgabeTransaktion(TransaktionAusgabeDTO ausgabeRequestDTO) {
         return transaktionAusgabeRepository.save(transaktionMapper.toTransaktionAusgabeEntity(ausgabeRequestDTO));
     }
 
-    public List<TransaktionAusgabe> updateAusgabeTransaktion(List<TransaktionAusgabeRequestDTO> ausgabeRequestDTO) {
+    public List<TransaktionAusgabe> updateAusgabeTransaktion(List<TransaktionAusgabeDTO> ausgabeRequestDTO) {
         List<TransaktionAusgabe> ausgaben = ausgabeRequestDTO.stream()
                 .map(ausgabe -> transaktionMapper.toTransaktionAusgabeEntity(ausgabe))
                 .collect(Collectors.toList());
@@ -70,11 +68,11 @@ public class TransaktionService {
         transaktionAusgabeRepository.deleteAll();
     }
 
-    public TransaktionNotiz createNotizTransaktion(TransaktionNotizRequestDTO notizDTO) {
+    public TransaktionNotiz createNotizTransaktion(TransaktionNotizDTO notizDTO) {
         return transaktionNotizRepository.save(transaktionMapper.toTransaktionNotizEntity(notizDTO));
     }
 
-    public TransaktionNotiz updateNotizTransaktion(TransaktionNotizRequestDTO notizDTO) {
+    public TransaktionNotiz updateNotizTransaktion(TransaktionNotizDTO notizDTO) {
         return transaktionNotizRepository.update(transaktionMapper.toTransaktionNotizEntity(notizDTO));
     }
 

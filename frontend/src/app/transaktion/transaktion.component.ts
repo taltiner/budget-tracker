@@ -13,6 +13,7 @@ import {
 import {TransaktionService} from "../service/transaktion.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {MatCheckboxChange} from "@angular/material/checkbox";
 
 @Component({
     selector: 'app-transaktion',
@@ -110,6 +111,7 @@ export class TransaktionComponent implements OnInit {
       if(ausgabe.benutzerdefinierteKategorie !== '' && ausgabe.benutzerdefinierteKategorie !== null) {
         ausgabeAbschnitt.get('kategorie')?.setValue('benutzerdefiniert');
         ausgabeAbschnitt.get('benutzerdefinierteKategorie')?.setValue(ausgabe.benutzerdefinierteKategorie);
+        ausgabeAbschnitt.get('istSchulden')?.setValue(ausgabe.istSchulden);
       } else {
         ausgabeAbschnitt.get('kategorie')?.setValue(ausgabe.kategorie);
         ausgabeAbschnitt.get('benutzerdefinierteKategorie')?.setValue(ausgabe.benutzerdefinierteKategorie);
@@ -155,6 +157,7 @@ export class TransaktionComponent implements OnInit {
 
   onKategorieChange(index: number) {
     const ausgabeGroup = this.ausgabeAbschnitte.controls[index];
+    console.log('ausgabeGroup', ausgabeGroup);
     if(ausgabeGroup.get('kategorie')?.value !== 'benutzerdefiniert') {
       ausgabeGroup.get('benutzerdefiniert')?.reset();
     }
@@ -214,6 +217,10 @@ export class TransaktionComponent implements OnInit {
 
   onAusgabeLoeschen(index: number) {
     this.ausgabeAbschnitte.removeAt(index);
+  }
+
+  onSchuldCheckboxChanged(checked: boolean) {
+
   }
 
   private handleValidators(artValue: string) {
@@ -277,6 +284,7 @@ export class TransaktionComponent implements OnInit {
     const kategorie = abschnitt.get('kategorie')?.value;
     const benutzerdefinierteKategorie = abschnitt.get('benutzerdefinierteKategorie')?.value;
     const betragAusgabe = abschnitt.get('betragAusgabe')?.value.replace(',', '.');
+    const istSchulden = abschnitt.get('istSchulden')?.value;
 
     const payload: TransaktionAusgabe = {
       jahrTransaktion: this.jahrTransaktion,
@@ -284,6 +292,7 @@ export class TransaktionComponent implements OnInit {
       transaktionsArt: this.transaktionsArt,
       kategorie: kategorie,
       benutzerdefinierteKategorie: benutzerdefinierteKategorie,
+      istSchulden: istSchulden,
       betragAusgabe: {hoehe: betragAusgabe, waehrung: '€'},
     }
 
@@ -308,6 +317,7 @@ export class TransaktionComponent implements OnInit {
       'jahr': new FormControl(this.jahr, Validators.required),
       'monat': new FormControl(this.monat, Validators.required),
       'betragAusgabe': new FormControl('', Validators.required),
+      'istSchulden': new FormControl(false)
     });
   }
 

@@ -26,12 +26,12 @@ class TransaktionNotizRepositoryTest {
     void save() {
         // given
         String notizText = "Das ist eine Notiz";
-        TransaktionNotiz notiz = new TransaktionNotiz(
-                EingabeArt.NOTIZ,
-                "2025",
-                "januar",
-                notizText
-        );
+        TransaktionNotiz notiz = TransaktionNotiz.builder()
+                .transaktionsArt(EingabeArt.NOTIZ)
+                .jahrTransaktion("2025")
+                .monatTransaktion("januar")
+                .notiz(notizText)
+                .build();
 
         // when
         TransaktionNotiz result = underTest.save(notiz);
@@ -47,12 +47,12 @@ class TransaktionNotizRepositoryTest {
     void update() {
         // given
         String notizText = "Das ist eine Notiz";
-        TransaktionNotiz notiz = new TransaktionNotiz(
-                EingabeArt.NOTIZ,
-                "2025",
-                "januar",
-                notizText
-        );
+        TransaktionNotiz notiz = TransaktionNotiz.builder()
+                .transaktionsArt(EingabeArt.NOTIZ)
+                .jahrTransaktion("2025")
+                .monatTransaktion("januar")
+                .notiz(notizText)
+                .build();
 
         // when
         underTest.save(notiz);
@@ -69,18 +69,20 @@ class TransaktionNotizRepositoryTest {
     @Test
     void delete() {
         // given
-        TransaktionNotiz notiz1 = new TransaktionNotiz(
-                EingabeArt.NOTIZ,
-                "2025",
-                "januar",
-                "Test 1"
-        );
-        TransaktionNotiz notiz2 = new TransaktionNotiz(
-                EingabeArt.NOTIZ,
-                "2025",
-                "april",
-                "Test 2"
-        );
+        TransaktionNotiz notiz1 = TransaktionNotiz.builder()
+                .transaktionsArt(EingabeArt.NOTIZ)
+                .jahrTransaktion("2025")
+                .monatTransaktion("januar")
+                .notiz("Test 1")
+                .build();
+
+        TransaktionNotiz notiz2 = TransaktionNotiz.builder()
+                .transaktionsArt(EingabeArt.NOTIZ)
+                .jahrTransaktion("2025")
+                .monatTransaktion("april")
+                .notiz("Test 2")
+                .build();
+
         underTest.save(notiz1);
         underTest.save(notiz2);
 
@@ -99,18 +101,20 @@ class TransaktionNotizRepositoryTest {
     @Test
     void findAll() {
         // given
-        TransaktionNotiz notiz1 = new TransaktionNotiz(
-                EingabeArt.NOTIZ,
-                "2025",
-                "januar",
-                "Test 1"
-        );
-        TransaktionNotiz notiz2 = new TransaktionNotiz(
-                EingabeArt.NOTIZ,
-                "2025",
-                "april",
-                "Test 2"
-        );
+        TransaktionNotiz notiz1 = TransaktionNotiz.builder()
+                .transaktionsArt(EingabeArt.NOTIZ)
+                .jahrTransaktion("2025")
+                .monatTransaktion("januar")
+                .notiz("Test 1")
+                .build();
+
+        TransaktionNotiz notiz2 = TransaktionNotiz.builder()
+                .transaktionsArt(EingabeArt.NOTIZ)
+                .jahrTransaktion("2025")
+                .monatTransaktion("april")
+                .notiz("Test 2")
+                .build();
+
         underTest.save(notiz1);
         underTest.save(notiz2);
 
@@ -124,18 +128,19 @@ class TransaktionNotizRepositoryTest {
     @Test
     void deleteAll() {
         // given
-        TransaktionNotiz notiz1 = new TransaktionNotiz(
-                EingabeArt.NOTIZ,
-                "2025",
-                "januar",
-                "Test 1"
-        );
-        TransaktionNotiz notiz2 = new TransaktionNotiz(
-                EingabeArt.NOTIZ,
-                "2025",
-                "april",
-                "Test 2"
-        );
+        TransaktionNotiz notiz1 = TransaktionNotiz.builder()
+                .transaktionsArt(EingabeArt.NOTIZ)
+                .jahrTransaktion("2025")
+                .monatTransaktion("januar")
+                .notiz("Test 1")
+                .build();
+
+        TransaktionNotiz notiz2 = TransaktionNotiz.builder()
+                .transaktionsArt(EingabeArt.NOTIZ)
+                .jahrTransaktion("2025")
+                .monatTransaktion("april")
+                .notiz("Test 2")
+                .build();
         underTest.save(notiz1);
         underTest.save(notiz2);
 

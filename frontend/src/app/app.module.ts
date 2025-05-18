@@ -28,6 +28,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import {UebersichtDiagrammComponent} from "./transaktion-uebersicht/uebersicht-diagramm/uebersicht-diagramm.component";
 import {MatCheckbox} from "@angular/material/checkbox";
+import {SchuldenComponent} from "./transaktion-uebersicht/schulden/schulden.component";
 
 const appRoutes: Routes = [
   { path: '', component: TransaktionUebersichtComponent},
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
     AppComponent,
     TransaktionComponent,
     TransaktionUebersichtComponent,
-    UebersichtDiagrammComponent
+    UebersichtDiagrammComponent,
+    SchuldenComponent
     ],
   bootstrap: [AppComponent],
     imports: [

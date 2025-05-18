@@ -7,7 +7,6 @@ import com.example.budgettracker.model.Geldbetrag;
 import com.example.budgettracker.model.TransaktionEinnahme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -94,12 +93,13 @@ public class TransaktionEinnahmeRepository {
             String waehrung = rs.getString("WAEHRUNG");
             Geldbetrag betragEinnahme = new Geldbetrag(hoehe, waehrung);
 
-            TransaktionEinnahme einnahme = new TransaktionEinnahme(
-                    transaktionsArt,
-                    rs.getString("JAHR_TRANSAKTION"),
-                    rs.getString("MONAT_TRANSAKTION"),
-                    betragEinnahme
-            );
+            TransaktionEinnahme einnahme = TransaktionEinnahme.builder()
+                    .transaktionsArt(transaktionsArt)
+                    .jahrTransaktion(rs.getString("JAHR_TRANSAKTION"))
+                    .monatTransaktion(rs.getString("MONAT_TRANSAKTION"))
+                    .betragEinnahme(betragEinnahme)
+                    .build();
+
             einnahme.setId(id);  // ID korrekt setzen
             return einnahme;
         });

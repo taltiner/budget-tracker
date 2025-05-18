@@ -1,7 +1,6 @@
 package com.example.budgettracker.controller;
 
-import com.example.budgettracker.dto.response.TransaktionAusgabeResponseDTO;
-import com.example.budgettracker.dto.response.TransaktionUebersichtResponseDTO;
+import com.example.budgettracker.dto.TransaktionUebersichtDTO;
 import com.example.budgettracker.mapper.TransaktionMapper;
 import com.example.budgettracker.model.TransaktionUebersicht;
 import com.example.budgettracker.service.TransaktionService;
@@ -27,13 +26,13 @@ public class TransaktionUebersichtController {
     }
 
     @GetMapping
-    public ResponseEntity<TransaktionUebersichtResponseDTO> getTransaktion(@RequestParam String monat, @RequestParam String jahr) {
+    public ResponseEntity<TransaktionUebersichtDTO> getTransaktion(@RequestParam String monat, @RequestParam String jahr) {
         TransaktionUebersicht transaktion = transaktionService.getTransaktion(monat, jahr);
         return new ResponseEntity<>(transaktionMapper.toTransaktionUebersichtResponseDTO(transaktion), HttpStatus.OK);
     }
 
     @GetMapping("/alle")
-    public ResponseEntity<TransaktionUebersichtResponseDTO> getAllTransaktionen() {
+    public ResponseEntity<TransaktionUebersichtDTO> getAllTransaktionen() {
         TransaktionUebersicht uebersicht = transaktionService.getAllTransaktionen();
         return new ResponseEntity<>(transaktionMapper.toTransaktionUebersichtResponseDTO(uebersicht), HttpStatus.OK);
     }

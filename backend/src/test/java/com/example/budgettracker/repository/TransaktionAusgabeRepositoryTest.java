@@ -27,14 +27,14 @@ class TransaktionAusgabeRepositoryTest {
     @Test
     void save() {
         // given
-        TransaktionAusgabe ausgabe = new TransaktionAusgabe(
-                EingabeArt.AUSGABE,
-                "miete",
-                "",
-                new Geldbetrag("750", "€"),
-                "2025",
-                "januar"
-        );
+        TransaktionAusgabe ausgabe = TransaktionAusgabe.builder()
+                .transaktionsArt(EingabeArt.AUSGABE)
+                .jahrTransaktion("2025")
+                .monatTransaktion("januar")
+                .kategorie("miete")
+                .betragAusgabe(new Geldbetrag("750", "€"))
+                .istSchulden(false)
+                .build();
 
         // when
         TransaktionAusgabe result = underTest.save(ausgabe);
@@ -42,7 +42,7 @@ class TransaktionAusgabeRepositoryTest {
         // then
         assertEquals(EingabeArt.AUSGABE, result.getTransaktionsArt());
         assertEquals("miete", result.getKategorie());
-        assertEquals("", result.getBenutzerdefinierteKategorie());
+        assertEquals(null, result.getBenutzerdefinierteKategorie());
         assertEquals("750", result.getBetragAusgabe().getHoehe());
         assertEquals("2025", result.getJahrTransaktion());
         assertEquals("januar", result.getMonatTransaktion());
@@ -51,22 +51,23 @@ class TransaktionAusgabeRepositoryTest {
     @Test
     void update() {
         // given
-        TransaktionAusgabe ausgabe1 = new TransaktionAusgabe(
-                EingabeArt.AUSGABE,
-                "miete",
-                "",
-                new Geldbetrag("800", "€"),
-                "2025",
-                "januar"
-        );
-        TransaktionAusgabe ausgabe2 = new TransaktionAusgabe(
-                EingabeArt.AUSGABE,
-                "strom",
-                "",
-                new Geldbetrag("60", "€"),
-                "2025",
-                "januar"
-        );
+        TransaktionAusgabe ausgabe1 = TransaktionAusgabe.builder()
+                .transaktionsArt(EingabeArt.AUSGABE)
+                .jahrTransaktion("2025")
+                .monatTransaktion("januar")
+                .kategorie("miete")
+                .betragAusgabe(new Geldbetrag("800", "€"))
+                .istSchulden(false)
+                .build();
+
+        TransaktionAusgabe ausgabe2 = TransaktionAusgabe.builder()
+                .transaktionsArt(EingabeArt.AUSGABE)
+                .jahrTransaktion("2025")
+                .monatTransaktion("januar")
+                .kategorie("strom")
+                .betragAusgabe(new Geldbetrag("60", "€"))
+                .istSchulden(false)
+                .build();
 
         // when
         underTest.save(ausgabe1);
@@ -82,7 +83,7 @@ class TransaktionAusgabeRepositoryTest {
         assertEquals(2, result.size());
         assertEquals("880", result.get(0).getBetragAusgabe().getHoehe());
         assertEquals("strom", result.get(1).getKategorie());
-        assertEquals("", result.get(1).getBenutzerdefinierteKategorie());
+        assertEquals(null, result.get(1).getBenutzerdefinierteKategorie());
         assertEquals("60", result.get(1).getBetragAusgabe().getHoehe());
         assertEquals("2025", result.get(1).getJahrTransaktion());
         assertEquals("januar", result.get(1).getMonatTransaktion());
@@ -91,22 +92,23 @@ class TransaktionAusgabeRepositoryTest {
     @Test
     void delete() {
         // given
-        TransaktionAusgabe ausgabe1 = new TransaktionAusgabe(
-                EingabeArt.AUSGABE,
-                "lebensmittel",
-                "",
-                new Geldbetrag("300", "€"),
-                "2025",
-                "februar"
-        );
-        TransaktionAusgabe ausgabe2 = new TransaktionAusgabe(
-                EingabeArt.AUSGABE,
-                "internet",
-                "",
-                new Geldbetrag("30", "€"),
-                "2025",
-                "april"
-        );
+        TransaktionAusgabe ausgabe1 = TransaktionAusgabe.builder()
+                .transaktionsArt(EingabeArt.AUSGABE)
+                .jahrTransaktion("2025")
+                .monatTransaktion("februar")
+                .kategorie("lebensmittel")
+                .betragAusgabe(new Geldbetrag("300", "€"))
+                .istSchulden(false)
+                .build();
+
+        TransaktionAusgabe ausgabe2 = TransaktionAusgabe.builder()
+                .transaktionsArt(EingabeArt.AUSGABE)
+                .jahrTransaktion("2025")
+                .monatTransaktion("april")
+                .kategorie("internet")
+                .betragAusgabe(new Geldbetrag("30", "€"))
+                .istSchulden(false)
+                .build();
 
         // when
         underTest.save(ausgabe1);
@@ -122,22 +124,23 @@ class TransaktionAusgabeRepositoryTest {
     @Test
     void findAll() {
         // given
-        TransaktionAusgabe ausgabe1 = new TransaktionAusgabe(
-                EingabeArt.AUSGABE,
-                "lebensmittel",
-                "",
-                new Geldbetrag("300", "€"),
-                "2025",
-                "februar"
-        );
-        TransaktionAusgabe ausgabe2 = new TransaktionAusgabe(
-                EingabeArt.AUSGABE,
-                "internet",
-                "",
-                new Geldbetrag("30", "€"),
-                "2025",
-                "april"
-        );
+        TransaktionAusgabe ausgabe1 = TransaktionAusgabe.builder()
+                .transaktionsArt(EingabeArt.AUSGABE)
+                .jahrTransaktion("2025")
+                .monatTransaktion("februar")
+                .kategorie("lebensmittel")
+                .betragAusgabe(new Geldbetrag("300", "€"))
+                .istSchulden(false)
+                .build();
+
+        TransaktionAusgabe ausgabe2 = TransaktionAusgabe.builder()
+                .transaktionsArt(EingabeArt.AUSGABE)
+                .jahrTransaktion("2025")
+                .monatTransaktion("april")
+                .kategorie("internet")
+                .betragAusgabe(new Geldbetrag("30", "€"))
+                .istSchulden(false)
+                .build();
 
         // when
         underTest.save(ausgabe1);
@@ -151,22 +154,23 @@ class TransaktionAusgabeRepositoryTest {
     @Test
     void deleteAll() {
         // given
-        TransaktionAusgabe ausgabe1 = new TransaktionAusgabe(
-                EingabeArt.AUSGABE,
-                "lebensmittel",
-                "",
-                new Geldbetrag("300", "€"),
-                "2025",
-                "februar"
-        );
-        TransaktionAusgabe ausgabe2 = new TransaktionAusgabe(
-                EingabeArt.AUSGABE,
-                "internet",
-                "",
-                new Geldbetrag("30", "€"),
-                "2025",
-                "april"
-        );
+        TransaktionAusgabe ausgabe1 = TransaktionAusgabe.builder()
+                .transaktionsArt(EingabeArt.AUSGABE)
+                .jahrTransaktion("2025")
+                .monatTransaktion("februar")
+                .kategorie("lebensmittel")
+                .betragAusgabe(new Geldbetrag("300", "€"))
+                .istSchulden(false)
+                .build();
+
+        TransaktionAusgabe ausgabe2 = TransaktionAusgabe.builder()
+                .transaktionsArt(EingabeArt.AUSGABE)
+                .jahrTransaktion("2025")
+                .monatTransaktion("april")
+                .kategorie("internet")
+                .betragAusgabe(new Geldbetrag("30", "€"))
+                .istSchulden(false)
+                .build();
 
         // when
         underTest.save(ausgabe1);

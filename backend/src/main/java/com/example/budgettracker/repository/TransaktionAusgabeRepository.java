@@ -26,8 +26,8 @@ public class TransaktionAusgabeRepository {
     }
 
     public TransaktionAusgabe save(TransaktionAusgabe ausgabe) {
-        String sql = "INSERT INTO TRANSAKTION_AUSGABE (TRANSAKTIONS_ART, KATEGORIE, BENUTZERDEFINIERTE_KATEGORIE, HOEHE, WAEHRUNG, JAHR_TRANSAKTION, MONAT_TRANSAKTION) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO TRANSAKTION_AUSGABE (TRANSAKTIONS_ART, KATEGORIE, BENUTZERDEFINIERTE_KATEGORIE, HOEHE, WAEHRUNG, JAHR_TRANSAKTION, MONAT_TRANSAKTION, IST_SCHULDEN) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
@@ -40,6 +40,8 @@ public class TransaktionAusgabeRepository {
                 ps.setString(5, ausgabe.getBetragAusgabe().getWaehrung());
                 ps.setString(6, ausgabe.getJahrTransaktion());
                 ps.setString(7, ausgabe.getMonatTransaktion());
+                ps.setBoolean(8, ausgabe.isIstSchulden());
+
 
                 return ps;
             }, keyHolder);
@@ -99,14 +101,15 @@ public class TransaktionAusgabeRepository {
             String jahrTransaktion = rs.getString("JAHR_TRANSAKTION");
             String monatTransaktion = rs.getString("MONAT_TRANSAKTION");
 
-            TransaktionAusgabe ausgabe = new TransaktionAusgabe(
-                transaktionsArt,
-                kategorie,
-                benutzerdefinierteKategorie,
-                betragAusgabe,
-                jahrTransaktion,
-                monatTransaktion
-            );
+            TransaktionAusgabe ausgabe = TransaktionAusgabe.builder()
+                    .transaktionsArt(transaktionsArt)
+                    .jahrTransaktion(jahrTransaktion)
+                    .monatTransaktion(monatTransaktion)
+                    .kategorie(kategorie)
+                    .benutzerdefinierteKategorie(benutzerdefinierteKategorie)
+                    .betragAusgabe(betragAusgabe)
+                    .build();
+
             ausgabe.setId(id);
             return ausgabe;
         });
