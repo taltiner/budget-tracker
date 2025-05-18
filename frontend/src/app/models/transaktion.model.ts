@@ -4,7 +4,8 @@ import {Geldbetrag, GeldbetragNumerisch} from "./geldbetrag.model";
 export enum EingabeArt {
   Einnahme = 'einnahme',
   Ausgabe = 'ausgabe',
-  Notiz = 'notiz'
+  Notiz = 'notiz',
+  Schulden = 'schulden'
 }
 
 export interface Transaktion {

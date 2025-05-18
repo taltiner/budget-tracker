@@ -13,6 +13,7 @@ import {
 import {TransaktionService} from "../service/transaktion.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {Schulden} from "../models/schulden.model";
 
 @Component({
     selector: 'app-transaktion',
@@ -35,6 +36,7 @@ export class TransaktionComponent implements OnInit {
   jahr: string = '';
   monat: string = '';
   transaktion: TransaktionUebersicht = initialTransaktionUebersicht;
+  schulden: Schulden[] = [];
   isBearbeitenAktiv: boolean = false;
 
   transaktionForm = new FormGroup({
@@ -45,11 +47,17 @@ export class TransaktionComponent implements OnInit {
     'notiz': new FormControl(''),
 
     'ausgabeAbschnitte': new FormArray([this.createAusgabeFormGroup()]),
+    'schuldenAbschnitte': new FormArray([this.createSchuldenFormGroup()]),
   });
 
   ngOnInit() {
     if(this.route.snapshot.routeConfig?.path === 'bearbeiten') {
       this.isBearbeitenAktiv = true;
+
+      this.transaktionService.getSchulden()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(schulden => this.schulden = schulden);
+
       this.route.queryParams.subscribe(params => {
         let monat: string = params['monat'];
         const jahr: string  = params['jahr'];
@@ -83,6 +91,10 @@ export class TransaktionComponent implements OnInit {
         this.initNotizForm();
         break;
 
+      case EingabeArt.Schulden:
+        this.initSchuldenForm();
+        break;
+
       default:
         return;
     }
@@ -104,9 +116,11 @@ export class TransaktionComponent implements OnInit {
     this.transaktionForm.controls.monat.patchValue(this.transaktion.ausgaben[0].monatTransaktion);
     this.transaktion.ausgaben.forEach((ausgabe, index) => {
       const ausgabeAbschnitt = this.createAusgabeFormGroup();
+
       ausgabeAbschnitt.get('jahr')?.setValue(ausgabe.jahrTransaktion);
       ausgabeAbschnitt.get('monat')?.setValue(ausgabe.monatTransaktion);
       ausgabeAbschnitt.get('betragAusgabe')?.setValue(ausgabe.betragAusgabe.hoehe);
+
       if(ausgabe.benutzerdefinierteKategorie !== '' && ausgabe.benutzerdefinierteKategorie !== null) {
         ausgabeAbschnitt.get('kategorie')?.setValue('benutzerdefiniert');
         ausgabeAbschnitt.get('benutzerdefinierteKategorie')?.setValue(ausgabe.benutzerdefinierteKategorie);
@@ -115,8 +129,20 @@ export class TransaktionComponent implements OnInit {
         ausgabeAbschnitt.get('kategorie')?.setValue(ausgabe.kategorie);
         ausgabeAbschnitt.get('benutzerdefinierteKategorie')?.setValue(ausgabe.benutzerdefinierteKategorie);
       }
+
       this.transaktionForm.controls.ausgabeAbschnitte.setControl(index, ausgabeAbschnitt);
     });
+  }
+
+  private initSchuldenForm() {
+    this.schulden.forEach((schulden, index) => {
+      const schuldenAbschnitt = this.createSchuldenFormGroup();
+
+      schuldenAbschnitt.get('schuldenBezeichnung')?.setValue(schulden.schuldenBezeichnung);
+      schuldenAbschnitt.get('schuldenHoehe')?.setValue(schulden.schuldenHoehe.hoehe);
+
+      this.transaktionForm.controls.schuldenAbschnitte.setControl(index, schuldenAbschnitt);
+    })
   }
 
   private initNotizForm() {
@@ -143,6 +169,9 @@ export class TransaktionComponent implements OnInit {
   }
   get ausgabeAbschnitte() {
     return this.transaktionForm.get('ausgabeAbschnitte') as FormArray ?? [];
+  }
+  get schuldenAbschnitte() {
+    return this.transaktionForm.get('schuldenAbschnitte') as FormArray ?? [];
   }
 
   onTransaktonArtChange(art: MatRadioChange) {
@@ -183,23 +212,50 @@ export class TransaktionComponent implements OnInit {
 
   onSpeichern() {
     if(this.transaktionForm.invalid) {
-      console.log('invalid ', this.transaktionForm);
+        Object.keys(this.transaktionForm.controls).forEach(field => {
+          const control = this.transaktionForm.get(field);
+          if (control && control.invalid) {
+            console.log(`Feld "${field}" ist ungültig. Fehler:`, this.transaktionForm.getRawValue());
+            console.log('SchuldenAbschnitte valid?', this.transaktionForm.controls.schuldenAbschnitte.valid);
+            console.log('ausgabeabschnitte valid?', this.transaktionForm.controls.ausgabeAbschnitte.valid);
+          }
+        });
       return;
     }
 
-    if(this.transaktionsArt && this.transaktionsArt === 'einnahme') {
-      const payloadEinnahme = this.createPayloadEinnahme();
-      this.isBearbeitenAktiv ? this.transaktionService.updateEinnahmeTransaktion(payloadEinnahme)
-        : this.transaktionService.createEinnahmeTransaktion(payloadEinnahme);
+    switch(this.transaktionsArt) {
+      case EingabeArt.Einnahme:
+        const payloadEinnahme = this.createPayloadEinnahme();
 
-    } else if(this.transaktionsArt && this.transaktionsArt === 'ausgabe') {
-      const payloadAusgaben: TransaktionAusgabe[] = this.prepareForPayloadAusgabe();
-      this.isBearbeitenAktiv ? this.transaktionService.updateAusgabenTransaktion(payloadAusgaben)
-        : this.transaktionService.createAusgabenTransaktion(payloadAusgaben);
+        this.isBearbeitenAktiv
+          ? this.transaktionService.updateEinnahmeTransaktion(payloadEinnahme)
+          : this.transaktionService.createEinnahmeTransaktion(payloadEinnahme);
+        break;
 
-    } else {
-      const payloadNotiz = this.createPayloadNotiz();
-      this.transaktionService.createNotizTransaktion(payloadNotiz);
+      case EingabeArt.Ausgabe:
+        const payloadAusgaben: TransaktionAusgabe[] = this.prepareForPayloadAusgabe();
+
+        this.isBearbeitenAktiv
+          ? this.transaktionService.updateAusgabenTransaktion(payloadAusgaben)
+          : this.transaktionService.createAusgabenTransaktion(payloadAusgaben);
+        break;
+
+      case EingabeArt.Notiz:
+        const payloadNotiz = this.createPayloadNotiz();
+
+        this.transaktionService.createNotizTransaktion(payloadNotiz);
+        break;
+
+      case EingabeArt.Schulden:
+        const payloadSchulden: Schulden[] = this.createPayloadSchulden();
+
+        this.isBearbeitenAktiv
+          ? this.transaktionService.updateSchulden(payloadSchulden)
+          : this.transaktionService.createSchulden(payloadSchulden);
+        break;
+
+      default:
+        return;
     }
 
     this.router.navigate(['/'], { queryParams: {} });
@@ -218,8 +274,13 @@ export class TransaktionComponent implements OnInit {
     this.ausgabeAbschnitte.removeAt(index);
   }
 
-  onSchuldCheckboxChanged(checked: boolean) {
+  onSchuldenLoeschen(index: number) {
+    this.schuldenAbschnitte.removeAt(index);
+  }
 
+  onSchuldenHinzufuegen() {
+    const schuldenAbschnitte = this.transaktionForm.get('schuldenAbschnitte') as FormArray;
+    schuldenAbschnitte.push(this.createSchuldenFormGroup());
   }
 
   private handleValidators(artValue: string) {
@@ -227,17 +288,24 @@ export class TransaktionComponent implements OnInit {
     let felderToSet: string[] = [];
 
     if(artValue === 'einnahme') {
+      this.clearSchuldenValidators();
       this.clearAusgabeValidators();
-      felderToSet = ['jahr', 'monat'];
+      felderToSet = ['jahr', 'monat', 'betragEinnahme'];
 
     } else if(artValue === 'ausgabe') {
+      this.clearSchuldenValidators();
       felderToReset = ['betragEinnahme'];
       felderToSet = ['jahr', 'monat', 'kategorie', 'betragAusgabe'];
 
-    } else {
+    } else if(artValue === 'noitz') {
       felderToReset = ['betragEinnahme', 'jahr', 'monat'];
       this.clearAusgabeValidators();
+      this.clearSchuldenValidators();
       felderToSet = ['notiz', 'jahr', 'monat'];
+    } else if(artValue === 'schulden') {
+      felderToReset = ['betragEinnahme', 'jahr', 'monat', 'notiz'];
+      this.clearAusgabeValidators();
+      felderToSet = ['schuldenBezeichnung', 'schuldenHoehe'];
     }
 
     felderToReset.forEach(feld => { this.clearValidators(feld) });
@@ -251,6 +319,7 @@ export class TransaktionComponent implements OnInit {
 
   private clearAusgabeValidators() {
     this.transaktionForm.controls.ausgabeAbschnitte.controls.forEach(abschnitt => {
+      console.log('ausgabeAbschnitt', abschnitt)
       abschnitt.get('kategorie')?.clearValidators();
       abschnitt.get('betragAusgabe')?.clearValidators();
       abschnitt.get('monat')?.clearValidators();
@@ -260,6 +329,18 @@ export class TransaktionComponent implements OnInit {
       abschnitt.get('monat')?.updateValueAndValidity();
       abschnitt.get('jahr')?.updateValueAndValidity();
     });
+    this.transaktionForm.controls.schuldenAbschnitte.updateValueAndValidity();
+  }
+
+  private clearSchuldenValidators() {
+    this.transaktionForm.controls.schuldenAbschnitte.controls.forEach(abschnitt => {
+      console.log('abschnitt', abschnitt)
+      abschnitt.get('schuldenBezeichnung')?.clearValidators();
+      abschnitt.get('schuldenHoehe')?.clearValidators();
+      abschnitt.get('schuldenBezeichnung')?.updateValueAndValidity();
+      abschnitt.get('schuldenHoehe')?.updateValueAndValidity();
+    });
+    this.transaktionForm.controls.schuldenAbschnitte.updateValueAndValidity();
   }
 
   private setValidatorsRequired(feld: string) {
@@ -290,7 +371,7 @@ export class TransaktionComponent implements OnInit {
       kategorie: kategorie,
       benutzerdefinierteKategorie: benutzerdefinierteKategorie,
       istSchulden: istSchulden,
-      betragAusgabe: {hoehe: betragAusgabe, waehrung: '€'},
+      betragAusgabe: {hoehe: betragAusgabe, waehrung: '€'}
     }
   }
 
@@ -304,6 +385,22 @@ export class TransaktionComponent implements OnInit {
     }
   }
 
+  private createPayloadSchulden(): Schulden[] {
+    const payloadSchulden: Schulden[] = [];
+
+    this.schuldenAbschnitte.controls.forEach(abschnitt => {
+      const bezeichnung = abschnitt.get('schuldenBezeichnung')?.value;
+      const schuldenHoehe = abschnitt.get('schuldenHoehe')?.value.replace(',', '.');
+
+      payloadSchulden.push({
+        schuldenBezeichnung: bezeichnung,
+        schuldenHoehe:  {hoehe: schuldenHoehe, waehrung: '€'}
+      });
+    })
+
+    return payloadSchulden;
+  }
+
   private createAusgabeFormGroup():FormGroup {
     return new FormGroup({
       'kategorie': new FormControl('', Validators.required),
@@ -312,6 +409,13 @@ export class TransaktionComponent implements OnInit {
       'monat': new FormControl(this.monat, Validators.required),
       'betragAusgabe': new FormControl('', Validators.required),
       'istSchulden': new FormControl(false)
+    });
+  }
+
+  private createSchuldenFormGroup(): FormGroup {
+    return new FormGroup({
+      'schuldenBezeichnung': new FormControl('', Validators.required),
+      'schuldenHoehe': new FormControl('', Validators.required)
     });
   }
 

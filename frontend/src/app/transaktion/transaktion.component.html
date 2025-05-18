@@ -14,6 +14,7 @@
           <mat-radio-button value="{{EingabeArt.Einnahme}}">Einnahme</mat-radio-button>
           <mat-radio-button value="{{EingabeArt.Ausgabe}}">Ausgabe</mat-radio-button>
           <mat-radio-button value="{{EingabeArt.Notiz}}">Notiz</mat-radio-button>
+          <mat-radio-button value="{{EingabeArt.Schulden}}">Schulden</mat-radio-button>
         </mat-radio-group>
       </fieldset>
 
@@ -89,8 +90,7 @@
                   <mat-checkbox
                     class="transaktion__ausgabe--schulden"
                     formControlName="istSchulden"
-                    [checked]="abschnitt.get('istSchulden')"
-                    (change)="onSchuldCheckboxChanged($event.checked)">
+                    [checked]="abschnitt.get('istSchulden')">
                     Als Schulden markieren
                   </mat-checkbox>
                 </ng-container>
@@ -115,6 +115,39 @@
         <button mat-stroked-button class="transaktion__button--hinzufuegen"
                 (click)="onAusgabeHinzufuegen()">Weitere Ausgabe hinzufügen</button>
 
+      </ng-container>
+
+      <ng-container *ngIf="transaktionsArt === EingabeArt.Schulden">
+        <div formArrayName="schuldenAbschnitte">
+          <div *ngFor="let abschnitt of schuldenAbschnitte.controls, let i = index"
+               [formGroupName]="i" class="transaktion__abschnitt transaktion__ausgabe">
+
+            <div class="transaktion__ausgabe--inputs">
+              <fieldset>
+                <legend>Bezeichnung</legend>
+                <mat-form-field>
+                  <mat-label>Bezeichnung</mat-label>
+                  <input matInput formControlName="schuldenBezeichnung">
+                </mat-form-field>
+              </fieldset>
+
+              <fieldset>
+                <legend>Schulden Betrag</legend>
+                <mat-form-field>
+                  <mat-label>Schulden Betrag</mat-label>
+                  <input matInput formControlName="schuldenHoehe">
+                </mat-form-field>
+              </fieldset>
+            </div>
+
+            <div class="transaktion__ausgabe--loeschen" *ngIf="i > 0">
+              <mat-icon (click)="onSchuldenLoeschen(i)">close</mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <button mat-stroked-button class="transaktion__button--hinzufuegen"
+                (click)="onSchuldenHinzufuegen()">Weitere Schulden hinzufügen</button>
       </ng-container>
 
     </mat-card-content>

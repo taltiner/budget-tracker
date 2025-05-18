@@ -1,14 +1,28 @@
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {
   TransaktionAusgabe,
-  TransaktionEinnahme, TransaktionNotiz,
+  TransaktionEinnahme,
+  TransaktionNotiz,
   TransaktionUebersicht,
   TransaktionUebersichtTransformiert
 } from "../models/transaktion.model";
-import {BehaviorSubject, catchError, concatMap, EMPTY, filter, from, map, Observable, of, switchMap, take, throwError} from "rxjs";
+import {
+  BehaviorSubject,
+  catchError,
+  concatMap,
+  EMPTY,
+  filter,
+  from,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+  throwError
+} from "rxjs";
 import {Injectable} from "@angular/core";
 import {ToggleType} from "../models/toggle.model";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {Schulden} from "../models/schulden.model";
 
 @Injectable({
   providedIn: 'root'
@@ -238,6 +252,54 @@ export class TransaktionService {
         throw error;
       })
     )
+  }
+
+  getSchulden(): Observable<Schulden[]> {
+    return this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl=>
+        this.http.get<Schulden[]>(`${apiUrl}/schulden`).pipe(
+          catchError(error => {
+            console.error('Fehler beim Laden aller Schulden', error);
+            throw error;
+          })
+        )
+      )
+    );
+  }
+
+  createSchulden(schulden: Schulden[]): void {
+    this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl =>
+        this.http.post<Schulden[]>(`${apiUrl}/schulden`, schulden)
+      ),
+      catchError(error => {
+        console.error('Fehler beim Erzeugen der Schulden', error);
+        return throwError(() => error);
+      })
+    ).subscribe(() => {
+      console.log('Schulden erfolgreich gespeichert');
+    });
+  }
+
+  updateSchulden(schulden: Schulden[]): void {
+    this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl =>
+        this.http.put<Schulden[]>(`${apiUrl}/schulden`, schulden)
+
+      ),
+      catchError(error => {
+        console.error('Fehler beim Erzeugen der Transaktion', error);
+        return throwError(() => error);
+      })
+    ).subscribe(() => {
+      console.log('Transaktionen erfolgreich gespeichert');
+    });
   }
 
   getToggles(): Observable<ToggleType[]> {
