@@ -1,5 +1,6 @@
 package com.example.budgettracker.service;
 
+import com.example.budgettracker.dto.SchuldenDTO;
 import com.example.budgettracker.dto.TransaktionAusgabeDTO;
 import com.example.budgettracker.dto.TransaktionEinnahmeDTO;
 import com.example.budgettracker.dto.TransaktionNotizDTO;
@@ -18,6 +19,7 @@ public class TransaktionService {
     private final TransaktionEinnahmeRepository transaktionEinnahmeRepository;
     private final TransaktionAusgabeRepository transaktionAusgabeRepository;
     private final TransaktionNotizRepository transaktionNotizRepository;
+    private final SchuldenRepository schuldenRepository;
     private final TransaktionMapper transaktionMapper;
 
     @Autowired
@@ -25,10 +27,12 @@ public class TransaktionService {
             TransaktionEinnahmeRepository transaktionEinnahmeRepository,
             TransaktionAusgabeRepository transaktionAusgabeRepository,
             TransaktionNotizRepository transaktionNotizRepository,
+            SchuldenRepository schuldenRepository,
             TransaktionMapper transaktionMapper) {
         this.transaktionEinnahmeRepository = transaktionEinnahmeRepository;
         this.transaktionAusgabeRepository = transaktionAusgabeRepository;
         this.transaktionNotizRepository = transaktionNotizRepository;
+        this.schuldenRepository = schuldenRepository;
         this.transaktionMapper = transaktionMapper;
     }
 
@@ -104,6 +108,12 @@ public class TransaktionService {
         transaktionEinnahmeRepository.delete(monat, jahr);
         transaktionAusgabeRepository.delete(monat, jahr);
         transaktionNotizRepository.delete(monat, jahr);
+    }
+
+    public List<Schulden> createSchuldenEintrag(List<SchuldenDTO> schulden) {
+        return schulden.stream()
+                .map(schuld -> schuldenRepository.save(transaktionMapper.toSchuldenEntity(schuld)))
+                .collect(Collectors.toList());
     }
 
     public List<TransaktionUebersichtTransformiert> getFilteredTransaktionen(String selectedJahr) {

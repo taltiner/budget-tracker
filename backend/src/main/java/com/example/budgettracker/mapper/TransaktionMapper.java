@@ -1,13 +1,7 @@
 package com.example.budgettracker.mapper;
 
-import com.example.budgettracker.dto.TransaktionAusgabeDTO;
-import com.example.budgettracker.dto.TransaktionEinnahmeDTO;
-import com.example.budgettracker.dto.TransaktionNotizDTO;
-import com.example.budgettracker.dto.TransaktionUebersichtDTO;
-import com.example.budgettracker.model.TransaktionAusgabe;
-import com.example.budgettracker.model.TransaktionEinnahme;
-import com.example.budgettracker.model.TransaktionNotiz;
-import com.example.budgettracker.model.TransaktionUebersicht;
+import com.example.budgettracker.dto.*;
+import com.example.budgettracker.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -44,4 +38,8 @@ public interface TransaktionMapper {
     TransaktionNotizDTO toTransaktionNotizResponseDTO(TransaktionNotiz notiz);
 
     TransaktionUebersichtDTO toTransaktionUebersichtResponseDTO(TransaktionUebersicht transaktionUebersicht);
+
+    SchuldenDTO toSchuldenDTO(Schulden schulden);
+
+    Schulden toSchuldenEntity(SchuldenDTO schuldenDTO);
 }

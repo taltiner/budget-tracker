@@ -16,9 +16,7 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/transaktionen/ausgaben")
 public class TransaktionAusgabeController {
 
-    @Autowired
     private final TransaktionService transaktionService;
-    @Autowired
     private final TransaktionMapper transaktionMapper;
     public TransaktionAusgabeController(TransaktionService transaktionService, TransaktionMapper transaktionMapper) {
         this.transaktionService = transaktionService;
@@ -37,7 +35,7 @@ public class TransaktionAusgabeController {
         List<TransaktionAusgabeDTO> updatedAusgabenDTO = updatedAusgaben.stream()
                 .map(updatedAusgabe -> transaktionMapper.toTransaktionAusgabeResponseDTO(updatedAusgabe))
                 .collect(Collectors.toList());
-        return new ResponseEntity<>(updatedAusgabenDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(updatedAusgabenDTO, HttpStatus.OK);
     }
 
     @GetMapping
