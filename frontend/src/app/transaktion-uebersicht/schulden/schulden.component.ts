@@ -16,6 +16,7 @@ export class SchuldenComponent {
   private schuldenMap = new Map<string, number>;
   private schulden: Schulden[] = [];
   private isSchuldenGeladen: boolean = false;
+  private zinssatz: number = 6.01;
 
   @Input()
   set transaktionen(value: TransaktionUebersicht){
@@ -81,7 +82,12 @@ export class SchuldenComponent {
       let kategorie = data.kategorie;
       if(this.schuldenMap.has(kategorie)) {
         let betrag: number = Number(data.betragAusgabe.hoehe) + this.schuldenMap.get(kategorie)!.valueOf();
-        this.schuldenMap.set(kategorie, Math.round(betrag * 100)/100);
+        if(kategorie === 'kfw') {
+          betrag = betrag * (100 - this.zinssatz) / 100;
+          this.schuldenMap.set(kategorie, Math.round(betrag * 100)/100);
+        } else {
+          this.schuldenMap.set(kategorie, Math.round(betrag * 100)/100);
+        }
       } else {
         let betrag = Math.round(Number(data.betragAusgabe.hoehe) * 100) / 100;
         this.schuldenMap.set(kategorie, betrag);
