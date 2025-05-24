@@ -8,9 +8,7 @@ import com.example.budgettracker.service.TransaktionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,12 +27,23 @@ public class SchuldenController {
     }
 
     @PostMapping
-    public ResponseEntity<List<SchuldenDTO>> createSchuldenEintrag(@RequestBody List<SchuldenDTO> schuldenDTO) {
-        List<Schulden> savedSchulden = this.transaktionService.createSchuldenEintrag(schuldenDTO);
+    public ResponseEntity<List<SchuldenDTO>> createSchuldenEintraege(@RequestBody List<SchuldenDTO> schuldenDTOS) {
+        List<SchuldenDTO> savedSchuldenDTOS = this.transaktionService.createSchuldenEintraege(schuldenDTOS);
 
-        List<SchuldenDTO> savedSchuldenDTO = savedSchulden.stream()
-                .map(savedSchuld -> transaktionMapper.toSchuldenDTO(savedSchuld))
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(savedSchuldenDTO, HttpStatus.OK);
+        return new ResponseEntity<>(savedSchuldenDTOS, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<List<SchuldenDTO>> updateSchuldenEintraege(@RequestBody List<SchuldenDTO> schuldenDTOS) {
+        List<SchuldenDTO> updatedSchuldenDTOS = this.transaktionService.updateSchuldenEintraege(schuldenDTOS);
+
+        return new ResponseEntity<>(updatedSchuldenDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SchuldenDTO>> getSchuldenEintraege() {
+        List<SchuldenDTO> schuldenDTOS = this.transaktionService.getSchuldenEintraege();
+
+        return new ResponseEntity<>(schuldenDTOS, HttpStatus.OK);
     }
 }

@@ -1,7 +1,8 @@
 package com.example.budgettracker.repository;
 
+import com.example.budgettracker.exception.TransaktionLoeschenFehlgeschlagenException;
 import com.example.budgettracker.exception.TransaktionVerarbeitenFehlgeschlagenException;
-import com.example.budgettracker.model.Schulden;
+import com.example.budgettracker.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class SchuldenRepository {
@@ -46,5 +48,51 @@ public class SchuldenRepository {
         }
 
         return schulden;
+    }
+
+
+    public List<Schulden> update(List<Schulden> schulden) {
+        return schulden.stream()
+                .map(schuld -> {
+                    delete(schuld);
+
+                    return save(schuld);
+                })
+                .collect(Collectors.toList());
+    }
+
+    public void delete(Schulden schulden) {
+        String schuldenBezeichnung = schulden.getSchuldenBezeichnung();
+
+        String sql = "DELETE FROM SCHULDEN WHERE SCHULDEN_BEZEICHNUNG = ?";
+        try {
+            int geloeschteZeilen = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ps.setString(1, schuldenBezeichnung);
+                return ps;
+            });
+        } catch(Exception e) {
+            throw new TransaktionLoeschenFehlgeschlagenException(String.format("Die Schuld mit der Bezeichnung: %s konnte nicht gefunden werden. Es wurden keine Schulden gelöscht.", schuldenBezeichnung), e);
+        }
+    }
+
+    public List<Schulden> findAll() {
+       String sql = "SELECT * FROM SCHULDEN";
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Long id = rs.getLong("ID");
+            String schuldenBezeichnung = rs.getString("SCHULDEN_BEZEICHNUNG");
+            String hoehe = rs.getString("HOEHE");
+            String waehrung = rs.getString("WAEHRUNG");
+            Geldbetrag schuldenHoehe = new Geldbetrag(hoehe, waehrung);
+
+            Schulden schulden = Schulden.builder()
+                    .schuldenBezeichnung(schuldenBezeichnung)
+                    .schuldenHoehe(schuldenHoehe)
+                    .build();
+
+            schulden.setId(id);  // ID korrekt setzen
+            return schulden;
+        });
     }
 }

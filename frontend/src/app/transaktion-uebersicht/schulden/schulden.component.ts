@@ -2,6 +2,8 @@ import {ChangeDetectorRef, Component, DestroyRef, Input} from '@angular/core';
 import {ChartData, ChartOptions, ChartType} from "chart.js";
 import {TransaktionService} from "../../service/transaktion.service";
 import {TransaktionAusgabe, TransaktionUebersicht,} from "../../models/transaktion.model";
+import {Schulden} from "../../models/schulden.model";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-schulden',
@@ -12,13 +14,19 @@ import {TransaktionAusgabe, TransaktionUebersicht,} from "../../models/transakti
 export class SchuldenComponent {
   private _data: TransaktionAusgabe[] = [];
   private schuldenMap = new Map<string, number>;
+  private schulden: Schulden[] = [];
+  private isSchuldenGeladen: boolean = false;
 
   @Input()
   set transaktionen(value: TransaktionUebersicht){
     this._data = value.ausgaben.filter(ausgabe => ausgabe.istSchulden);
     console.log('data', this._data);
-    this.erzeugeSchuldenMap();
-    this.erzeugeSchuldenGraphikData();
+    this.getSchulden();
+
+    if(this.isSchuldenGeladen) {
+      this.erzeugeSchuldenMap();
+      this.erzeugeSchuldenGraphikData();
+    }
   }
 
 
@@ -57,6 +65,17 @@ export class SchuldenComponent {
     ],
   };
 
+  private getSchulden() {
+    this.transaktionService.getSchulden()
+      .pipe(take(1))
+      .subscribe(
+      schulden => {
+        console.log('schulden', schulden);
+        this.schulden = schulden;
+        this.isSchuldenGeladen = true;
+      }
+    )
+  }
 
   private erzeugeSchuldenMap() {
     this._data.forEach(data => {
@@ -78,7 +97,7 @@ export class SchuldenComponent {
     const bezahlterBetrag: number[] = [];
 
     this.schuldenMap.forEach((value, key) => {
-      const betrag = this.getUrsrpuenglichenBetrag();
+      const betrag = this.getUrsrpuenglichenBetrag(key);
       const label = key.charAt(0).toUpperCase() + key.slice(1);
 
       labels.push(label);
@@ -104,8 +123,17 @@ export class SchuldenComponent {
     };
   }
 
-  private getUrsrpuenglichenBetrag(): number {
-    return 5000;
+  private getUrsrpuenglichenBetrag(bezeichnung: string): number {
+    let schuldenHoehe: number = 0;
+    this.schulden.forEach((schuld) => {
+
+      if (schuld.schuldenBezeichnung.toLowerCase() === bezeichnung.toLowerCase()) {
+
+        schuldenHoehe =  Math.round(Number(schuld.schuldenHoehe.hoehe) * 100) / 100;
+      }
+    });
+
+    return schuldenHoehe;
   }
 
 }

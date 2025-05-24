@@ -110,10 +110,31 @@ public class TransaktionService {
         transaktionNotizRepository.delete(monat, jahr);
     }
 
-    public List<Schulden> createSchuldenEintrag(List<SchuldenDTO> schulden) {
-        return schulden.stream()
+    public List<SchuldenDTO> createSchuldenEintraege(List<SchuldenDTO> schuldenDTOS) {
+        List<Schulden> savedSchulden = schuldenDTOS.stream()
                 .map(schuld -> schuldenRepository.save(transaktionMapper.toSchuldenEntity(schuld)))
                 .collect(Collectors.toList());
+
+        return savedSchulden.stream()
+                .map(savedSchuld -> transaktionMapper.toSchuldenDTO(savedSchuld))
+                .collect(Collectors.toList());
+    }
+
+    public List<SchuldenDTO> updateSchuldenEintraege(List<SchuldenDTO> schuldenDTOS) {
+        List<Schulden> updatedSchulden = schuldenRepository.update(schuldenDTOS.stream()
+                .map(schuldDTO -> transaktionMapper.toSchuldenEntity(schuldDTO))
+                .collect(Collectors.toList())
+        );
+
+        return updatedSchulden.stream()
+                .map(schuld -> transaktionMapper.toSchuldenDTO(schuld))
+                .collect(Collectors.toList());
+    }
+
+    public List<SchuldenDTO> getSchuldenEintraege() {
+        List<Schulden> schulden = schuldenRepository.findAll();
+
+        return schulden.stream().map(schuld -> transaktionMapper.toSchuldenDTO(schuld)).collect(Collectors.toList());
     }
 
     public List<TransaktionUebersichtTransformiert> getFilteredTransaktionen(String selectedJahr) {
