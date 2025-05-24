@@ -52,9 +52,10 @@ public class SchuldenRepository {
 
 
     public List<Schulden> update(List<Schulden> schulden) {
+        deleteAll();
+
         return schulden.stream()
                 .map(schuld -> {
-                    delete(schuld);
 
                     return save(schuld);
                 })
@@ -74,6 +75,11 @@ public class SchuldenRepository {
         } catch(Exception e) {
             throw new TransaktionLoeschenFehlgeschlagenException(String.format("Die Schuld mit der Bezeichnung: %s konnte nicht gefunden werden. Es wurden keine Schulden gelöscht.", schuldenBezeichnung), e);
         }
+    }
+
+    public void deleteAll() {
+        String sql = "DELETE FROM SCHULDEN";
+        jdbcTemplate.update(sql);
     }
 
     public List<Schulden> findAll() {

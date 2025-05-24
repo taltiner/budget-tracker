@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, DestroyRef, Input} from '@angular/core';
+import {Component, DestroyRef, Input} from '@angular/core';
 import {ChartData, ChartOptions, ChartType} from "chart.js";
 import {TransaktionService} from "../../service/transaktion.service";
 import {TransaktionAusgabe, TransaktionUebersicht,} from "../../models/transaktion.model";
@@ -31,8 +31,7 @@ export class SchuldenComponent {
 
 
   constructor(private transaktionService: TransaktionService,
-              private destroyRef: DestroyRef,
-              private cdr: ChangeDetectorRef) {}
+              private destroyRef: DestroyRef) {}
 
   public barChartOptions: ChartOptions = {
     responsive: true,
@@ -121,6 +120,19 @@ export class SchuldenComponent {
         }
       ]
     };
+
+    if(this.schulden.length > this.schuldenMap.size) {
+      const nichtGetilgteSchulden = this.schulden.filter(schuld =>
+       !this.schuldenMap.has(schuld.schuldenBezeichnung.toLowerCase())
+      );
+
+      nichtGetilgteSchulden.forEach(schuld => {
+        const betrag = Math.round(Number(schuld.schuldenHoehe.hoehe) * 100) / 100;
+        this.barChartLabels.push(schuld.schuldenBezeichnung);
+        this.barChartData.datasets[0].data.push(betrag);
+      })
+    }
+
   }
 
   private getUrsrpuenglichenBetrag(bezeichnung: string): number {

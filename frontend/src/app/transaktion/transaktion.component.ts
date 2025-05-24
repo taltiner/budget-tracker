@@ -14,6 +14,7 @@ import {TransaktionService} from "../service/transaktion.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Schulden} from "../models/schulden.model";
+import {take} from "rxjs";
 
 @Component({
     selector: 'app-transaktion',
@@ -54,10 +55,6 @@ export class TransaktionComponent implements OnInit {
     if(this.route.snapshot.routeConfig?.path === 'bearbeiten') {
       this.isBearbeitenAktiv = true;
 
-      this.transaktionService.getSchulden()
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(schulden => this.schulden = schulden);
-
       this.route.queryParams.subscribe(params => {
         let monat: string = params['monat'];
         const jahr: string  = params['jahr'];
@@ -73,7 +70,6 @@ export class TransaktionComponent implements OnInit {
     if(this.transaktionsArt) {
       this.handleValidators(this.transaktionsArt?.toString());
     }
-
   }
 
   private initForm() {
@@ -91,14 +87,9 @@ export class TransaktionComponent implements OnInit {
         this.initNotizForm();
         break;
 
-      case EingabeArt.Schulden:
-        this.initSchuldenForm();
-        break;
-
       default:
         return;
     }
-
   }
 
   private initEingabeForm() {
@@ -135,14 +126,20 @@ export class TransaktionComponent implements OnInit {
   }
 
   private initSchuldenForm() {
-    this.schulden.forEach((schulden, index) => {
-      const schuldenAbschnitt = this.createSchuldenFormGroup();
+    this.transaktionService.getSchulden()
+      .pipe(take(1))
+      .subscribe(schulden => {
+        this.schulden = schulden;
 
-      schuldenAbschnitt.get('schuldenBezeichnung')?.setValue(schulden.schuldenBezeichnung);
-      schuldenAbschnitt.get('schuldenHoehe')?.setValue(schulden.schuldenHoehe.hoehe);
+        this.schulden.forEach((schulden, index) => {
+          const schuldenAbschnitt = this.createSchuldenFormGroup();
 
-      this.transaktionForm.controls.schuldenAbschnitte.setControl(index, schuldenAbschnitt);
-    })
+          schuldenAbschnitt.get('schuldenBezeichnung')?.setValue(schulden.schuldenBezeichnung);
+          schuldenAbschnitt.get('schuldenHoehe')?.setValue(schulden.schuldenHoehe.hoehe);
+
+          this.transaktionForm.controls.schuldenAbschnitte.setControl(index, schuldenAbschnitt);
+        })
+      });
   }
 
   private initNotizForm() {
@@ -181,6 +178,10 @@ export class TransaktionComponent implements OnInit {
     const artValue = art.value;
     this.transaktionForm.get('transaktionsArt')?.setValue(artValue);
     this.handleValidators(artValue);
+
+    if(artValue === EingabeArt.Schulden) {
+      this.initSchuldenForm();
+    }
   }
 
   onKategorieChange(index: number) {
@@ -249,7 +250,7 @@ export class TransaktionComponent implements OnInit {
       case EingabeArt.Schulden:
         const payloadSchulden: Schulden[] = this.createPayloadSchulden();
 
-        this.isBearbeitenAktiv
+        this.schulden.length > 0
           ? this.transaktionService.updateSchulden(payloadSchulden)
           : this.transaktionService.createSchulden(payloadSchulden);
         break;
