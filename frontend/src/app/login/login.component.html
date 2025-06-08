@@ -1,0 +1,50 @@
+<form [formGroup]="loginForm" class="example-form">
+  <mat-card class="login">
+    <mat-card-header class="login__title">
+      <mat-card-title>
+        <h2>Transaktion Erfassen</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+      <fieldset class="login__abschnitt">
+        <legend>Email</legend>
+        <mat-form-field>
+          <mat-label>E-Mail-Adresse</mat-label>
+          <input matInput formControlName="email">
+        </mat-form-field>
+
+        <ng-container *ngIf="loginForm.get('email')?.touched">
+          <div class="login__error" *ngIf="loginForm.get('email')?.hasError('required')">
+            E-Mail ist erforderlich.
+          </div>
+          <div class="login__error" *ngIf="loginForm.get('email')?.hasError('invalidEmail')">
+            E-Mail Struktur falsch.
+          </div>
+        </ng-container>
+
+      </fieldset>
+
+      <fieldset class="login__abschnitt">
+        <legend>Passwort</legend>
+        <mat-form-field>
+          <mat-label>Passwort</mat-label>
+          <input matInput formControlName="password">
+        </mat-form-field>
+
+        <ng-container *ngIf="loginForm.get('password')?.touched">
+          <div class="login__error" *ngIf="loginForm.get('password')?.hasError('required')">
+            Passwort ist erforderlich.
+          </div>
+        </ng-container>
+      </fieldset>
+
+      <button mat-stroked-button class="login__button--anmelden"
+              (click)="onAnmelden()">Anmelden</button>
+
+      <button mat-stroked-button class="login__button--konto"
+              (click)="onKontoErstellen()">Neues Konto erstellen</button>
+
+    </mat-card-content>
+  </mat-card>
+</form>

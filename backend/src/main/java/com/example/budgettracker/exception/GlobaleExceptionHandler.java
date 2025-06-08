@@ -22,4 +22,9 @@ public class GlobaleExceptionHandler {
     public ResponseEntity<String> handleTransaktionLoeschenFehlgeschlagenException(TransaktionLoeschenFehlgeschlagenException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
+
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<String> handleUserNotFoundException(UserException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
 }

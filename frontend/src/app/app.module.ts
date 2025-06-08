@@ -16,7 +16,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButton} from "@angular/material/button";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatSelect} from "@angular/material/select";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {TransaktionService} from "./service/transaktion.service";
 import {TransaktionUebersichtComponent} from "./transaktion-uebersicht/transaktion-uebersicht.component";
 import {MatTable} from "@angular/material/table";
@@ -29,11 +29,17 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import {UebersichtDiagrammComponent} from "./transaktion-uebersicht/uebersicht-diagramm/uebersicht-diagramm.component";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {SchuldenComponent} from "./transaktion-uebersicht/schulden/schulden.component";
+import {LoginComponent} from "./login/login.component";
+import {AuthInterceptor} from "./service/auth-interceptor.service";
+import {RegisterComponent} from "./register/register.component";
 
 const appRoutes: Routes = [
   { path: '', component: TransaktionUebersichtComponent},
   { path: 'neu', component: TransaktionComponent },
   { path: 'bearbeiten', component: TransaktionComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: '**', redirectTo: 'login'}
 ];
 
 @NgModule({
@@ -42,7 +48,9 @@ const appRoutes: Routes = [
     TransaktionComponent,
     TransaktionUebersichtComponent,
     UebersichtDiagrammComponent,
-    SchuldenComponent
+    SchuldenComponent,
+    LoginComponent,
+    RegisterComponent
     ],
   bootstrap: [AppComponent],
     imports: [
@@ -81,6 +89,11 @@ const appRoutes: Routes = [
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
     provideCharts(withDefaultRegisterables()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ] })
 export class AppModule {
 

@@ -1,6 +1,7 @@
 package com.example.budgettracker.repository;
 
 import com.example.budgettracker.exception.TransaktionVerarbeitenFehlgeschlagenException;
+import com.example.budgettracker.exception.UserException;
 import com.example.budgettracker.model.Rolle;
 import com.example.budgettracker.model.User;
 import org.slf4j.Logger;
@@ -50,7 +51,7 @@ public class UserRepository {
     }
 
     public User save(User user) {
-        String sql = "INSERT INTO USER (VORNAME, NACHNAME, EMAIL, ROLLE, PASSWORD) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO _USER (VORNAME, NACHNAME, EMAIL, ROLLE, PASSWORD) VALUES (?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
@@ -66,7 +67,7 @@ public class UserRepository {
             }, keyHolder);
         } catch(Exception e) {
             log.error("Fehler beim Anlegen des Users: {}", user, e);
-            throw new TransaktionVerarbeitenFehlgeschlagenException(e);
+            throw new UserException(String.format("Fehler beim Anlegen des Users: ", user));
         }
 
 

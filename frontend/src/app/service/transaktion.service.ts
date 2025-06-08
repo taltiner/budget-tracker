@@ -23,6 +23,9 @@ import {
 import {Injectable} from "@angular/core";
 import {ToggleType} from "../models/toggle.model";
 import {Schulden} from "../models/schulden.model";
+import {Router} from "@angular/router";
+import {Login} from "../models/login.model";
+import {Registrierung} from "../models/registrierung.model";
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +44,8 @@ export class TransaktionService {
   apiUrl$ = this.apiUrlSubject.asObservable();
   backendRunning$ = this.backendRunningSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
     this.checkBackendStatus();
   }
 
@@ -213,8 +217,11 @@ export class TransaktionService {
       switchMap(apiUrl=>
         this.http.get<TransaktionUebersicht>(`${apiUrl}/alle`).pipe(
           catchError(error => {
+            if(error.status === 403) {
+              this.router.navigate(['/login'], { queryParams: {} });
+            }
             console.error('Fehler beim Laden aller Transaktionen', error);
-            throw error;
+            return throwError(() => error);
           })
         )
       )
@@ -317,4 +324,35 @@ export class TransaktionService {
     );
   }
 
+  login(login: Login): void {
+    this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl=>
+        this.http.post<Login>('http://localhost:8080/auth/login', login)
+      ),
+      catchError(error => {
+        console.error('Login war nicht erfolgreich', error);
+        return throwError(() => error);
+      })
+    ).subscribe(() => {
+      console.log('Login war erfolgreich:', login);
+    });
+  }
+
+  register(register: Registrierung): void {
+    this.apiUrl$.pipe(
+      filter((url): url is string => url !== null),
+      take(1),
+      switchMap(apiUrl=>
+        this.http.post<Login>('http://localhost:8080/auth/register', register)
+      ),
+      catchError(error => {
+        console.error('Registrierung war nicht erfolgreich', error);
+        return throwError(() => error);
+      })
+    ).subscribe(() => {
+      console.log('Registrierung war erfolgreich:', register);
+    });
+  }
 }
