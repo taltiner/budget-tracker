@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {TransaktionService} from "../service/transaktion.service";
-import {Login} from "../models/login.model";
 import {Router} from "@angular/router";
 
 @Component({

@@ -2,6 +2,8 @@ package com.example.budgettracker.config;
 
 import com.example.budgettracker.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +21,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class CorsConfig {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private static final Logger log = LoggerFactory.getLogger(CorsConfig.class);
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -38,12 +41,15 @@ public class CorsConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
+        log.error("userDetailsService JAaaaaaaa");
         return username -> userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Nutzer mit der Email: %s wurde nicht gefunden.", username)));
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
+        log.error("authenticationProvider JAaaaaaaa");
+
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -52,11 +58,15 @@ public class CorsConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
+        log.error("authenticationManager JAaaaaaaa");
+
         return config.getAuthenticationManager();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        log.error("passwordEncoder JAaaaaaaa");
+
         return new BCryptPasswordEncoder();
     }
 }

@@ -1,73 +1,79 @@
 <form [formGroup]="registerForm" class="example-form">
-  <mat-card>
-    <mat-card-header>
+  <mat-card class="register">
+    <mat-card-header class="register__titel">
       <mat-card-title>
-        Erstelle ein neues Konto
+        <h2>Erstelle ein neues Konto</h2>
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
 
-      <fieldset class="register__abschnitt">
-        <legend>Vorname</legend>
-        <mat-form-field>
-          <mat-label>Vorname</mat-label>
-          <input matInput formControlName="vorname">
-        </mat-form-field>
+      <div class="register-wrapper">
+        <fieldset class="register__abschnitt">
+          <mat-form-field>
+            <mat-label>Vorname</mat-label>
+            <input matInput formControlName="vorname">
+          </mat-form-field>
 
-        <ng-container *ngIf="registerForm.get('vorname')?.touched">
-          <div class="register__error" *ngIf="registerForm.get('vorname')?.hasError('required')">
-            Vorname ist erforderlich.
-          </div>
-        </ng-container>
+          <ng-container *ngIf="registerForm.get('vorname')?.touched">
+            <div class="register__error" *ngIf="registerForm.get('vorname')?.hasError('required')">
+              Vorname ist erforderlich.
+            </div>
+          </ng-container>
+        </fieldset>
 
-      </fieldset>
+        <fieldset class="register__abschnitt">
+          <mat-form-field>
+            <mat-label>Nachname</mat-label>
+            <input matInput formControlName="nachname">
+          </mat-form-field>
 
-      <fieldset class="register__abschnitt">
-        <legend>Nachname</legend>
-        <mat-form-field>
-          <mat-label>Nachname</mat-label>
-          <input matInput formControlName="nachname">
-        </mat-form-field>
+          <ng-container *ngIf="registerForm.get('nachname')?.touched">
+            <div class="register__error" *ngIf="registerForm.get('nachname')?.hasError('required')">
+              Nachname ist erforderlich.
+            </div>
+          </ng-container>
+        </fieldset>
+      </div>
 
-        <ng-container *ngIf="registerForm.get('nachname')?.touched">
-          <div class="register__error" *ngIf="registerForm.get('nachname')?.hasError('required')">
-            Nachname ist erforderlich.
-          </div>
-        </ng-container>
 
-      </fieldset>
+      <div class="register-wrapper">
+        <fieldset class="register__abschnitt">
+          <mat-form-field>
+            <mat-label>E-Mail-Adresse</mat-label>
+            <input matInput formControlName="email">
+          </mat-form-field>
 
-      <fieldset class="register__abschnitt">
-        <legend>Email</legend>
-        <mat-form-field>
-          <mat-label>E-Mail-Adresse</mat-label>
-          <input matInput formControlName="email">
-        </mat-form-field>
+          <ng-container *ngIf="registerForm.get('email')?.touched">
+            <div class="register__error" *ngIf="registerForm.get('email')?.hasError('required')">
+              E-Mail ist erforderlich.
+            </div>
+          </ng-container>
 
-        <ng-container *ngIf="registerForm.get('email')?.touched">
-          <div class="register__error" *ngIf="registerForm.get('email')?.hasError('required')">
-            E-Mail ist erforderlich.
-          </div>
-        </ng-container>
+        </fieldset>
 
-      </fieldset>
+        <fieldset class="register__abschnitt">
+          <mat-form-field>
+            <mat-label>Passwort</mat-label>
+            <input matInput formControlName="password">
+          </mat-form-field>
 
-      <fieldset class="register__abschnitt">
-        <legend>Passwort</legend>
-        <mat-form-field>
-          <mat-label>Passwort</mat-label>
-          <input matInput formControlName="password">
-        </mat-form-field>
+          <ng-container *ngIf="registerForm.get('password')?.touched">
+            <div class="register__error" *ngIf="registerForm.get('password')?.hasError('required')">
+              Passwort ist erforderlich.
+            </div>
+          </ng-container>
+        </fieldset>
+      </div>
 
-        <ng-container *ngIf="registerForm.get('password')?.touched">
-          <div class="register__error" *ngIf="registerForm.get('password')?.hasError('required')">
-            Passwort ist erforderlich.
-          </div>
-        </ng-container>
-      </fieldset>
+      <div class="button-wrapper">
+        <button mat-stroked-button class="register__button"
+                (click)="onRegistrieren()">Registrieren</button>
+      </div>
 
-      <button mat-stroked-button class="register__button"
-              (click)="onRegistrieren()">Registrieren</button>
+      <div class="register__hinweismeldung">
+        <p><a href="/login">Du hast bereits ein Konto?</a></p>
+      </div>
+
 
     </mat-card-content>
   </mat-card>

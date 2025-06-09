@@ -27,19 +27,22 @@ public class UserRepository {
     }
 
     public Optional<User> findByEmail(String email) {
-        String sql = "SELECT * FROM _user WHERE EMAIL = ?";
+        log.error("SQL SQL SQL");
+        String sql = "SELECT * FROM _USER WHERE EMAIL = ?";
 
         List<User> users = jdbcTemplate.query(sql, new Object[]{email}, (rs, rowNum) -> {
             Long id = rs.getLong("ID");
             String vorname = rs.getString("VORNAME");
             String nachname = rs.getString("NACHNAME");
             String emailUser = rs.getString("EMAIL");
+            String password = rs.getString("PASSWORD");
             String rolle = rs.getString("ROLLE");
 
             User user = User.builder()
                     .vorname(vorname)
                     .nachname(nachname)
                     .email(emailUser)
+                    .password(password)
                     .rolle(Rolle.valueOf(rolle))
                     .build();
 

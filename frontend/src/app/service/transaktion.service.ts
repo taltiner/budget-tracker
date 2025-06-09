@@ -329,14 +329,15 @@ export class TransaktionService {
       filter((url): url is string => url !== null),
       take(1),
       switchMap(apiUrl=>
-        this.http.post<Login>('http://localhost:8080/auth/login', login)
+        this.http.post<{ token: string }>('http://localhost:8080/auth/login', login)
       ),
       catchError(error => {
         console.error('Login war nicht erfolgreich', error);
         return throwError(() => error);
       })
-    ).subscribe(() => {
-      console.log('Login war erfolgreich:', login);
+    ).subscribe((response) => {
+      sessionStorage.setItem('authToken',response.token);
+      this.router.navigate(['']);
     });
   }
 
@@ -352,7 +353,7 @@ export class TransaktionService {
         return throwError(() => error);
       })
     ).subscribe(() => {
-      console.log('Registrierung war erfolgreich:', register);
+      this.router.navigate(['/login']);
     });
   }
 }

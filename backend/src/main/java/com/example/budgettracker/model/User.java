@@ -50,4 +50,9 @@ public class User implements UserDetails {
         return true;
     }
 
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
 }

@@ -2,13 +2,22 @@
   background-color: #ffffff;
   margin-bottom: 20px;
 
+  &__titel {
+    color: #0077b6;
+  }
+
   &__abschnitt {
-    border: 1px solid #d6d6d6; /* Subtle border */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid #d6d6d6;
     border-radius: 8px;
     transition: border-color 0.3s;
     padding: 15px;
     margin-bottom: 30px;
     overflow: hidden;
+
     &:hover {
       border-color: #90caf9;
     }
@@ -34,6 +43,24 @@
     }
   }
 
+}
+
+mat-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+mat-card-header,
+mat-card-content,
+{
+  margin-bottom: 20px;
+}
+
+mat-card-header {
+  color: darkblue;
 }
 
 .example-form {
