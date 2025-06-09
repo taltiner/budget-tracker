@@ -133,3 +133,16 @@
 
 }
 
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #0077b6;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  overflow: hidden;
+
+  button {
+    background-color: #E63946;
+    color: white;
+  }
+}

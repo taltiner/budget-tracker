@@ -137,6 +137,11 @@ export class TransaktionUebersichtComponent implements OnInit {
     }
   }
 
+  onAusloggen() {
+    sessionStorage.removeItem('authToken');
+    this.router.navigate(['/login'], {})
+  }
+
   private checkBackendStatus() {
     this.transaktionService.backendRunning$
     .pipe(takeUntilDestroyed(this.destroyRef))
