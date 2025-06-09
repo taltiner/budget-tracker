@@ -45,6 +45,9 @@
       <button mat-stroked-button class="login__button--konto"
               (click)="onKontoErstellen()">Neues Konto erstellen</button>
 
+      <div *ngIf="loginErrorMessage" class="login__fehlermeldung">
+        {{loginErrorMessage}}
+      </div>
     </mat-card-content>
   </mat-card>
 </form>

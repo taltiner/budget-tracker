@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {TransaktionService} from "../service/transaktion.service";
 import {Router} from "@angular/router";
@@ -14,6 +14,8 @@ export class LoginComponent {
   constructor(private transaktionService: TransaktionService,
               private router: Router) {}
 
+  loginErrorMessage: string = '';
+
   loginForm = new FormGroup({
     'email': new FormControl('', [Validators.required, this.emailValidator()]),
     'password': new FormControl('', Validators.required)
@@ -28,7 +30,23 @@ export class LoginComponent {
       return;
     }
     const loginPayload = this.createLoginPayload();
-    this.transaktionService.login(loginPayload);
+
+    this.transaktionService.login(loginPayload).subscribe({
+      next: (response) => {
+        if(response && typeof  response === 'object') {
+
+          sessionStorage.setItem('authToken', response.token);
+          this.router.navigate(['']);
+
+        } else {
+          this.loginErrorMessage = response;
+        }
+      },
+      error: (error) => {
+        console.error('Login war nicht erfolgreich', error);
+        this.loginErrorMessage = error;
+      },
+    });
   }
 
   onKontoErstellen() {

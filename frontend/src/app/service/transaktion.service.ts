@@ -324,21 +324,19 @@ export class TransaktionService {
     );
   }
 
-  login(login: Login): void {
-    this.apiUrl$.pipe(
-      filter((url): url is string => url !== null),
-      take(1),
-      switchMap(apiUrl=>
-        this.http.post<{ token: string }>('http://localhost:8080/auth/login', login)
-      ),
-      catchError(error => {
-        console.error('Login war nicht erfolgreich', error);
-        return throwError(() => error);
+  login(login: Login): Observable<{ token: string } | string> {
+    return this.http.post<{ token: string }>('http://localhost:8080/auth/login', login).pipe(
+      catchError((error) => {
+
+        let errorMessage = 'Es gab ein Problem beim Login. Bitte versuche es später.';
+
+        if (error.status === 401 || error.status === 403) {
+          errorMessage = 'Falsche E-Mail oder Passwort. Bitte versuche es erneut.';
+        }
+
+        return throwError(() => errorMessage);
       })
-    ).subscribe((response) => {
-      sessionStorage.setItem('authToken',response.token);
-      this.router.navigate(['']);
-    });
+    );
   }
 
   register(register: Registrierung): void {
