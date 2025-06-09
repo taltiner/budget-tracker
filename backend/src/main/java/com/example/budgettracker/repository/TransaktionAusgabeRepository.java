@@ -5,11 +5,13 @@ import com.example.budgettracker.exception.TransaktionVerarbeitenFehlgeschlagenE
 import com.example.budgettracker.model.EingabeArt;
 import com.example.budgettracker.model.Geldbetrag;
 import com.example.budgettracker.model.TransaktionAusgabe;
+import com.example.budgettracker.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -26,8 +28,10 @@ public class TransaktionAusgabeRepository {
     }
 
     public TransaktionAusgabe save(TransaktionAusgabe ausgabe) {
-        String sql = "INSERT INTO TRANSAKTION_AUSGABE (TRANSAKTIONS_ART, KATEGORIE, BENUTZERDEFINIERTE_KATEGORIE, HOEHE, WAEHRUNG, JAHR_TRANSAKTION, MONAT_TRANSAKTION, IST_SCHULDEN) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String sql = "INSERT INTO TRANSAKTION_AUSGABE (TRANSAKTIONS_ART, KATEGORIE, BENUTZERDEFINIERTE_KATEGORIE, HOEHE, WAEHRUNG, JAHR_TRANSAKTION, MONAT_TRANSAKTION, IST_SCHULDEN, USER_ID) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
@@ -41,6 +45,7 @@ public class TransaktionAusgabeRepository {
                 ps.setString(6, ausgabe.getJahrTransaktion());
                 ps.setString(7, ausgabe.getMonatTransaktion());
                 ps.setBoolean(8, ausgabe.isIstSchulden());
+                ps.setLong(9, user.getId());
 
 
                 return ps;
@@ -66,13 +71,16 @@ public class TransaktionAusgabeRepository {
     }
 
     public void delete(String monat, String jahr) {
-        String sql = "DELETE FROM TRANSAKTION_AUSGABE WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ?";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String sql = "DELETE FROM TRANSAKTION_AUSGABE WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ? AND USER_ID = ?";
 
         try {
             int geloeschteZeilen = jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(sql);
                 ps.setString(1, monat);
                 ps.setString(2, jahr);
+                ps.setLong(3, user.getId());
                 return ps;
             });
         } catch(Exception e) {
@@ -83,7 +91,10 @@ public class TransaktionAusgabeRepository {
 
 
     public List<TransaktionAusgabe> findAll() {
-        String sql = "SELECT * FROM TRANSAKTION_AUSGABE";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = user.getId();
+
+        String sql = "SELECT * FROM TRANSAKTION_AUSGABE WHERE USER_ID = ?";
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Long id = rs.getLong("ID");
@@ -114,11 +125,15 @@ public class TransaktionAusgabeRepository {
 
             ausgabe.setId(id);
             return ausgabe;
-        });
+        }, userId);
     }
 
+
     public void deleteAll() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = user.getId();
+
         String sql = "DELETE FROM TRANSAKTION_AUSGABE";
-        jdbcTemplate.update(sql);
+        jdbcTemplate.update(sql, userId);
     }
 }

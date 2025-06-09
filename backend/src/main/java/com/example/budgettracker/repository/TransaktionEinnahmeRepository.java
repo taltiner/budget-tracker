@@ -5,11 +5,13 @@ import com.example.budgettracker.exception.TransaktionVerarbeitenFehlgeschlagenE
 import com.example.budgettracker.model.EingabeArt;
 import com.example.budgettracker.model.Geldbetrag;
 import com.example.budgettracker.model.TransaktionEinnahme;
+import com.example.budgettracker.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -27,8 +29,10 @@ public class TransaktionEinnahmeRepository {
     }
 
     public TransaktionEinnahme save(TransaktionEinnahme einnahme) {
-        String sql = "INSERT INTO TRANSAKTION_EINNAHME (TRANSAKTIONS_ART, JAHR_TRANSAKTION, MONAT_TRANSAKTION, HOEHE, WAEHRUNG) " +
-                     "VALUES (?, ?, ?, ?, ?)";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String sql = "INSERT INTO TRANSAKTION_EINNAHME (TRANSAKTIONS_ART, JAHR_TRANSAKTION, MONAT_TRANSAKTION, HOEHE, WAEHRUNG, USER_ID) " +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
@@ -39,6 +43,7 @@ public class TransaktionEinnahmeRepository {
                 ps.setString(3, einnahme.getMonatTransaktion());
                 ps.setString(4, einnahme.getBetragEinnahme().getHoehe());
                 ps.setString(5, einnahme.getBetragEinnahme().getWaehrung());
+                ps.setLong(6, user.getId());
                 return ps;
             }, keyHolder);
         } catch(Exception e) {
@@ -62,13 +67,16 @@ public class TransaktionEinnahmeRepository {
     }
 
     public void delete(String monat, String jahr) {
-        String sql = "DELETE FROM TRANSAKTION_EINNAHME WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ?";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String sql = "DELETE FROM TRANSAKTION_EINNAHME WHERE MONAT_TRANSAKTION = ? AND JAHR_TRANSAKTION = ? AND USER_ID = ?";
 
         try {
             int geloeschteZeilen = jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(sql);
                 ps.setString(1, monat);
                 ps.setString(2, jahr);
+                ps.setLong(3, user.getId());
                 return ps;
             });
         } catch(Exception e) {
@@ -78,9 +86,12 @@ public class TransaktionEinnahmeRepository {
     }
 
     public List<TransaktionEinnahme> findAll() {
-        String sql = "SELECT * FROM TRANSAKTION_EINNAHME";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = user.getId();
 
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        String sql = "SELECT * FROM TRANSAKTION_EINNAHME WHERE USER_ID = ?";
+
+        return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
             Long id = rs.getLong("ID");
             String transaktionsArtString = rs.getString("TRANSAKTIONS_ART");
             EingabeArt transaktionsArt = null;
@@ -100,14 +111,16 @@ public class TransaktionEinnahmeRepository {
                     .betragEinnahme(betragEinnahme)
                     .build();
 
-            einnahme.setId(id);  // ID korrekt setzen
+            einnahme.setId(id);
             return einnahme;
         });
     }
 
-
     public void deleteAll() {
-        String sql = "DELETE FROM TRANSAKTION_EINNAHME";
-        jdbcTemplate.update(sql);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = user.getId();
+
+        String sql = "DELETE FROM TRANSAKTION_EINNAHME WHERE USER_ID = ?";
+        jdbcTemplate.update(sql, userId);
     }
 }

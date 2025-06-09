@@ -13,6 +13,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Schulden {
     @Id
     private Long id;
+    private Long userId;
     private String schuldenBezeichnung;
     private Geldbetrag schuldenHoehe;
 }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -25,7 +26,9 @@ public class SchuldenRepository {
     }
 
     public Schulden save(Schulden schulden) {
-        String sql = "INSERT INTO SCHULDEN (SCHULDEN_BEZEICHNUNG, HOEHE, WAEHRUNG) VALUES(?, ?, ?)";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String sql = "INSERT INTO SCHULDEN (SCHULDEN_BEZEICHNUNG, HOEHE, WAEHRUNG, USER_ID) VALUES(?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
@@ -34,6 +37,7 @@ public class SchuldenRepository {
                 ps.setString(1, schulden.getSchuldenBezeichnung());
                 ps.setString(2, schulden.getSchuldenHoehe().getHoehe());
                 ps.setString(3, schulden.getSchuldenHoehe().getWaehrung());
+                ps.setLong(4, user.getId());
 
                 return ps;
             }, keyHolder);
@@ -78,12 +82,18 @@ public class SchuldenRepository {
     }
 
     public void deleteAll() {
-        String sql = "DELETE FROM SCHULDEN";
-        jdbcTemplate.update(sql);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = user.getId();
+
+        String sql = "DELETE FROM SCHULDEN WHERE USER_ID = ?";
+        jdbcTemplate.update(sql, userId);
     }
 
     public List<Schulden> findAll() {
-       String sql = "SELECT * FROM SCHULDEN";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = user.getId();
+
+        String sql = "SELECT * FROM SCHULDEN WHERE USER_ID = ?";
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Long id = rs.getLong("ID");
@@ -97,8 +107,9 @@ public class SchuldenRepository {
                     .schuldenHoehe(schuldenHoehe)
                     .build();
 
-            schulden.setId(id);  // ID korrekt setzen
+            schulden.setId(id);
             return schulden;
-        });
+        }, userId);
     }
+
 }

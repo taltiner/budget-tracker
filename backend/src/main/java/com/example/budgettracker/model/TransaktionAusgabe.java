@@ -15,6 +15,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class TransaktionAusgabe extends Transaktion {
     @Id
     private Long id;
+    private Long userId;
     private String kategorie;
     private String benutzerdefinierteKategorie;
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)

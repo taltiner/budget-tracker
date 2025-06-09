@@ -14,5 +14,6 @@ import org.springframework.data.relational.core.mapping.Table;
 public class TransaktionNotiz extends Transaktion {
     @Id
     private Long id;
+    private Long userId;
     private String notiz;
 }

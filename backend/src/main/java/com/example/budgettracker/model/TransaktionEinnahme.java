@@ -15,6 +15,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class TransaktionEinnahme extends Transaktion {
     @Id
     private Long id;
+    private Long userId;
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
     private Geldbetrag betragEinnahme;
 }
