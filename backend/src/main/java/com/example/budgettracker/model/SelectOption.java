@@ -28,6 +28,7 @@ public class SelectOption {
             KATEGORIE_AUSGABE.add(new SelectOption("kleidung", "Kleidung"));
             KATEGORIE_AUSGABE.add(new SelectOption("wohnungHaushalt", "Wohnung/Haushalt"));
             KATEGORIE_AUSGABE.add(new SelectOption("sonstiges", "Sonstiges"));
+            KATEGORIE_AUSGABE.add(new SelectOption("urlaub", "Urlaub"));
         }
 
         public static String getKategorieLabel(String value) {

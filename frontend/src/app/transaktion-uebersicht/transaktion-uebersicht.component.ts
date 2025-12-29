@@ -55,10 +55,14 @@ export class TransaktionUebersichtComponent implements OnInit {
 
   get displayedColumns() {
     let columns: string[] = ['monat', 'einnahmen', ...this.kategorienSet, 'gesamtausgaben', 'saldo', 'notiz'];
-    if(this.toggles.includes(ToggleType.CRUD_TRANSAKTION)) {
+    if (this.toggles.includes(ToggleType.CRUD_TRANSAKTION)) {
       columns.unshift('auswahl')
     }
     return columns;
+  }
+
+  get alleAusgewaehlt(): boolean {
+    return this.kategorieOptions.length > 0 && this.selectedKategorie.length === this.kategorieOptions.length;
   }
 
   onJahrChange(selectedJahr: string) {
@@ -72,12 +76,22 @@ export class TransaktionUebersichtComponent implements OnInit {
   }
 
   onKategorieChange(event: MatCheckboxChange, kategorie: string) {
-    if(event.checked) {
+    if (event.checked) {
       if (!this.selectedKategorie.includes(kategorie)) {
         this.selectedKategorie.push(kategorie);
       }
     } else {
       this.selectedKategorie = this.selectedKategorie.filter(item => item !== kategorie);
+    }
+    this.transaktionService.kategorieSubject.next([...this.selectedKategorie]);
+  }
+
+  onAlleAuswaehlen(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.selectedKategorie = this.kategorieOptions.map(k => k.value);
+
+    } else {
+       this.selectedKategorie = [];
     }
     this.transaktionService.kategorieSubject.next([...this.selectedKategorie]);
   }
@@ -114,7 +128,7 @@ export class TransaktionUebersichtComponent implements OnInit {
   }
 
   onFilter() {
-    if(this.isBackendRunning) {
+    if (this.isBackendRunning) {
       this.transaktionService.filterTransaktion(this.selectedJahr)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(filteredTransaktionen => {
@@ -130,7 +144,7 @@ export class TransaktionUebersichtComponent implements OnInit {
 
   onEintragChecked(isChecked: boolean, transaktion: TransaktionUebersichtTransformiert) {
     const monat = transaktion.monatTransaktion;
-    if(!this.selectedEintraege.includes(monat)) {
+    if (!this.selectedEintraege.includes(monat)) {
       this.selectedEintraege.push(monat);
     } else {
       this.selectedEintraege = this.selectedEintraege.filter(monatEintrag => monatEintrag !== monat);
@@ -188,7 +202,7 @@ export class TransaktionUebersichtComponent implements OnInit {
     });
 
     transaktionenGefiltert.forEach((transaktion: TransaktionEinnahme | TransaktionAusgabe | TransaktionNotiz) => {
-      if(transaktion.monatTransaktion !== undefined) {
+      if (transaktion.monatTransaktion !== undefined) {
         transaktion.monatTransaktion = getMonatLabel(transaktion.monatTransaktion.toLowerCase());
       }
     });
@@ -305,4 +319,5 @@ export class TransaktionUebersichtComponent implements OnInit {
   protected readonly Darstellung = Darstellung;
   protected readonly kategorieOptions = KATEGORIE_AUSGABE;
   protected readonly ToggleType = ToggleType;
+
 }

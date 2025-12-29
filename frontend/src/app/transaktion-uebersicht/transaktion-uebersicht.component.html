@@ -130,7 +130,8 @@
             <section>
               <span>
                 <mat-checkbox
-                >
+                  (change)="onAlleAuswaehlen($event)"
+                  [checked]="alleAusgewaehlt">
                   Alle
                 </mat-checkbox>
               </span>
@@ -139,7 +140,8 @@
                   <ng-container *ngFor="let kategorie of kategorieOptions">
                     <li>
                       <mat-checkbox
-                        (change)="onKategorieChange($event, kategorie.value)">
+                        (change)="onKategorieChange($event, kategorie.value)"
+                        [checked]="selectedKategorie.includes(kategorie.value)">
                         {{kategorie.label}}
                       </mat-checkbox>
                     </li>

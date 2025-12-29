@@ -22,8 +22,8 @@ export class LoginComponent {
   })
 
   onAnmelden() {
-    console.log('form', this.loginForm)
     this.markFormFieldsAsTouched();
+    sessionStorage.removeItem('authToken');
 
     if(this.loginForm.invalid){
       console.log('Form invalid', this.loginForm);
@@ -36,7 +36,7 @@ export class LoginComponent {
         if(response && typeof  response === 'object') {
 
           sessionStorage.setItem('authToken', response.token);
-          this.router.navigate(['']);
+          this.router.navigateByUrl('/uebersicht');
 
         } else {
           this.loginErrorMessage = response;
